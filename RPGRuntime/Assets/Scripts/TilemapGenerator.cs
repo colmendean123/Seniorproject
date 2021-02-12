@@ -14,8 +14,8 @@ public class TilemapGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ExternalLoader.init();
-        tiles = ExternalLoader.getMap(ExternalLoader.getMapName()+"tile.txt");
+        GameManager.Init();
+        tiles = GameManager.GetMap(GameManager.GetMapName()+"tile.txt");
         size = defsize;
         ParseString(tiles);
     }
