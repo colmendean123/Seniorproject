@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,7 +43,7 @@ namespace RPGI.World
 			{
 				throw new ArgumentException("Dungeon may not be smaller than 3 x 3");
 			}
-			ArrayList unique = generateUniques();
+			List<Items> unique = generateUniques();
 			foreach (Items item in unique)
 			{
 				Boolean placed = false;
@@ -69,7 +70,7 @@ namespace RPGI.World
 			{
 				throw new ArgumentException("Too many monsters for this dungeon");
 			}
-			ArrayList mon = generateMonsterList(monsters);
+			List<Monster> mon = generateMonsterList(monsters);
 			foreach (Monster m in mon)
 			{
 				Boolean placed = false;
@@ -137,9 +138,9 @@ namespace RPGI.World
 			}
 		}
 
-		private ArrayList generateMonsterList(int num)
+		private List<Monster> generateMonsterList(int num)
 		{
-			ArrayList group = new ArrayList();
+			List<Monster> group = new List<Monster>();
 			for (int i = 0; i < num; i++)
 			{
 				group.Add(generateMonster());
@@ -148,9 +149,9 @@ namespace RPGI.World
 			return group;
 		}
 
-		private ArrayList generateUniques()
+		private List<Items> generateUniques()
 		{
-			ArrayList items = new ArrayList();
+			List<Items> items = new List<Items>();
 			items.Add(Items.Entrance);
 			items.Add(Items.Exit);
 			items.Add(Items.PillarOfAbstraction);

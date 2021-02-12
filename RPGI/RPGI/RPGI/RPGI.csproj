@@ -119,6 +119,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Tokenizer\ParserBase.cs" />
+    <Compile Include="Tokenizer\Tokenizer.cs" />
     <Compile Include="World\abilities\AttackPool.cs" />
     <Compile Include="World\abilities\BasicAttack.cs" />
     <Compile Include="World\abilities\BasicHeal.cs" />

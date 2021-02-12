@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace RPGI.World
 		private String top;
 		private String mid;
 		private String bot;
-		private ArrayList items;
+		private List<Items> items;
 		private Monster m;
 		private Items uniqueItem;
 		private double healPotChance;
@@ -25,7 +26,7 @@ namespace RPGI.World
 			top = "* * *";
 			mid = "* E *";
 			bot = "* * *";
-			items = new ArrayList();
+			items = new List<Items>();
 			m = null;
 			uniqueItem = Items.Nothing;
 			healPotChance = .2;
@@ -60,7 +61,7 @@ namespace RPGI.World
 			return items.Count > 0;
 		}
 
-		public ArrayList getItems()
+		public List<Items> getItems()
 		{
 			return this.items;
 		}

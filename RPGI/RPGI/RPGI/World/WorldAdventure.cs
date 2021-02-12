@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Collections.Generic;
 
 namespace RPGI.World
 {
@@ -47,7 +48,7 @@ namespace RPGI.World
 
 						if (curRoom.hasItems())
 						{
-							ArrayList curRoomItems = curRoom.getItems();
+							List<Items> curRoomItems = curRoom.getItems();
 							foreach (Items i in curRoomItems)
 							{
 								Console.WriteLine(AttackPool.getInstanceOf().getItem(i).trigger(theCharacter));
@@ -152,7 +153,7 @@ namespace RPGI.World
 				case 8:
 					try
 					{
-						ArrayList saves = loadSerializedFile();
+						List<Object> saves = loadSerializedFile();
 						theWorld.setWorld((World)saves[0]);
 						curRoom.setRoom((Room)saves[1]);
 						theCharacter.setCharacter((Character)saves[2]);
@@ -319,8 +320,8 @@ namespace RPGI.World
 		}
 
 		//needs work/////////////////////////////////////////////////////////////////
-	private static ArrayList loadSerializedFile() {
-			ArrayList itemsToLoad = new ArrayList();
+	private static List<Object> loadSerializedFile() {
+			List<Object> itemsToLoad = new List<Object>();
 			try
 			{
 				//File saveFile = new File("./saveGame");
@@ -338,7 +339,7 @@ namespace RPGI.World
 
 		private static void saveState(World World, Room currentRoom, Character Character)
 		{
-			ArrayList itemsToSave = new ArrayList();
+			List<Object> itemsToSave = new List<Object>();
 			itemsToSave.Add(World);
 			itemsToSave.Add(currentRoom);
 			itemsToSave.Add(Character);
@@ -351,8 +352,8 @@ namespace RPGI.World
 					Console.WriteLine("Adventure saved!");
                 }
             }
-			/////////////////////////////////////////////////////////////////////////
-	}
+		}
+		/////////////////////////////////////////////////////////////////////////
 
-}
+	}
 }
