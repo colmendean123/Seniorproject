@@ -25,6 +25,12 @@ public static class GameManager
             objects[i].GetComponent<SpriteScript>().LoadSprite();
         }
         DialogueCommands.Say(GameObject.Find("man"), "Testing");
+        CameraTarget(GameObject.Find("man"));
+        Print("The player is standing!");
+        Print("This is the second line!");
+        Print("This is the third line!");
+        Print("4!");
+        Print("5!");
     }
 
     public static string GetPath(){
@@ -56,5 +62,12 @@ public static class GameManager
         return null;          
      }
 
+    //changing camera target
+    public static void CameraTarget(GameObject target){
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraScript>().target = target;
+    }
 
+    public static void Print(string ln){
+        GameObject.FindGameObjectWithTag("Console").GetComponent<HUDScript>().Print(ln);
+    }
 }

@@ -36,9 +36,11 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\CameraScript.cs" />
      <Compile Include="Assets\Scripts\DialogueCommands.cs" />
      <Compile Include="Assets\Scripts\DialogueScript.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\HUDScript.cs" />
      <Compile Include="Assets\Scripts\MapMovement.cs" />
      <Compile Include="Assets\Scripts\SpriteScript.cs" />
      <Compile Include="Assets\Scripts\TilemapGenerator.cs" />
