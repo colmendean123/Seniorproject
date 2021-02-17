@@ -1,0 +1,5 @@
+name = Ness
+hp = 1
+defense = 3
+attack = 2
+Faction = 4
