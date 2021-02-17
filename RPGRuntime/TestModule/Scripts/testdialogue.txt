@@ -1,0 +1,5 @@
+LOCK man
+man SAY "Hey, I'm the man."
+man SAY "I can say about 3 sentences."
+man SAY "AAAAAAAAAAAAA"
+UNLOCK man

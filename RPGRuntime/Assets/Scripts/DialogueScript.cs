@@ -26,4 +26,8 @@ public class DialogueScript : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
+    void OnDestroy(){
+        GameObject.FindGameObjectWithTag("Manager").GetComponent<CommandRouter>().Nextstep();
+    }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using TMPro;
+using Scripting;
 
 public static class GameManager
 {
@@ -14,17 +15,10 @@ public static class GameManager
     {
         path = Application.dataPath + "\\..\\" + moduleName;
         
-        string[] directories = Directory.GetDirectories(path);
-        GameObject dirtest = GameObject.Find("Text");
-        for(int i = 0; i < directories.Length; ++i){
-            Debug.Log(directories[i]);
-            dirtest.GetComponent<TextMeshProUGUI>().text += "\n"+directories[i];
-        }
         GameObject[] objects = GameObject.FindGameObjectsWithTag("Object");
         for(int i = 0; i < objects.Length; ++i){
             objects[i].GetComponent<SpriteScript>().LoadSprite();
         }
-        DialogueCommands.Say(GameObject.Find("man"), "Testing");
         CameraTarget(GameObject.Find("man"));
         Print("The player is standing!");
         Print("This is the second line!");
@@ -34,6 +28,8 @@ public static class GameManager
     }
 
     public static string GetPath(){
+        if(path == null)
+            path = Application.dataPath + "\\..\\" + moduleName;
         return path;
     }
 
@@ -41,8 +37,12 @@ public static class GameManager
         return mapName;
     }
 
+    public static string[] getFile(string folder, string filename){
+        return System.IO.File.ReadAllLines(GetPath() + "\\" + folder + "\\" + filename);
+    }
+
     public static string GetMap(string mapName){
-        return System.IO.File.ReadAllText(path + "\\Maps\\" + mapName);
+        return System.IO.File.ReadAllText(GetPath() + "\\Maps\\" + mapName);
     }
 
     //Loading for sprites

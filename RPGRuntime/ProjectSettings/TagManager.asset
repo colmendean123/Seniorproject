@@ -7,6 +7,8 @@ TagManager:
   - Object
   - Canvas
   - Console
+  - Script
+  - Manager
   layers:
   - Default
   - TransparentFX
