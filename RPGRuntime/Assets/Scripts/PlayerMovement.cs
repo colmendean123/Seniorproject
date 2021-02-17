@@ -9,9 +9,9 @@ public class PlayerMovement : RPGObject
     int posy = 0;
     bool movementreset = true;
     // Start is called before the first frame update
-    void Start()
+   new void Start()
     {
-        
+        base.Start();
     }
 
 

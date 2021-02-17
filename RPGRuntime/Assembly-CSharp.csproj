@@ -63,6 +63,7 @@
      <Compile Include="Assets\Scripts\RPGObject.cs" />
      <Compile Include="Assets\Scripts\Scripting\CommandRouter.cs" />
      <Compile Include="Assets\Scripts\Scripting\DialogueCommands.cs" />
+     <Compile Include="Assets\Scripts\Scripting\Exceptions.cs" />
      <Compile Include="Assets\Scripts\Scripting\Tokenizer.cs" />
      <Compile Include="Assets\Scripts\SpriteScript.cs" />
      <Compile Include="Assets\Scripts\TilemapGenerator.cs" />
