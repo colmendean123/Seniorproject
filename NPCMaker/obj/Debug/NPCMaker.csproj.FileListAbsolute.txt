@@ -1,0 +1,17 @@
+C:\Users\colme\source\repos\NPCMaker\NPCMaker\bin\Debug\NPCMaker.exe.config
+C:\Users\colme\source\repos\NPCMaker\NPCMaker\bin\Debug\NPCMaker.exe
+C:\Users\colme\source\repos\NPCMaker\NPCMaker\bin\Debug\NPCMaker.pdb
+C:\Users\colme\source\repos\NPCMaker\NPCMaker\obj\Debug\NPCMaker.csprojAssemblyReference.cache
+C:\Users\colme\source\repos\NPCMaker\NPCMaker\obj\Debug\MainWindow.g.cs
+C:\Users\colme\source\repos\NPCMaker\NPCMaker\obj\Debug\App.g.cs
+C:\Users\colme\source\repos\NPCMaker\NPCMaker\obj\Debug\NPCMaker_MarkupCompile.cache
+C:\Users\colme\source\repos\NPCMaker\NPCMaker\obj\Debug\NPCMaker_MarkupCompile.lref
+C:\Users\colme\source\repos\NPCMaker\NPCMaker\obj\Debug\MainWindow.baml
+C:\Users\colme\source\repos\NPCMaker\NPCMaker\obj\Debug\NPCMaker.g.resources
+C:\Users\colme\source\repos\NPCMaker\NPCMaker\obj\Debug\NPCMaker.Properties.Resources.resources
+C:\Users\colme\source\repos\NPCMaker\NPCMaker\obj\Debug\NPCMaker.csproj.GenerateResource.cache
+C:\Users\colme\source\repos\NPCMaker\NPCMaker\obj\Debug\NPCMaker.csproj.CoreCompileInputs.cache
+C:\Users\colme\source\repos\NPCMaker\NPCMaker\obj\Debug\NPCMaker.exe
+C:\Users\colme\source\repos\NPCMaker\NPCMaker\obj\Debug\NPCMaker.pdb
+C:\Users\colme\source\repos\NPCMaker\NPCMaker\obj\Debug\Maker.g.cs
+C:\Users\colme\source\repos\NPCMaker\NPCMaker\obj\Debug\Maker.baml
