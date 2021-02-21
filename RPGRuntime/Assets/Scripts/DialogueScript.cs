@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -27,6 +27,7 @@ public class DialogueScript : MonoBehaviour
         }
     }
 
+    //Make the dialogue script proceed to the next script
     void OnDestroy(){
         GameObject.FindGameObjectWithTag("Manager").GetComponent<CommandRouter>().Nextstep();
     }

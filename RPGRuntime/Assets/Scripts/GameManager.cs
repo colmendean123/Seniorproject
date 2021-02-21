@@ -14,33 +14,29 @@ public static class GameManager
     public static void Init()
     {
         path = Application.dataPath + "\\..\\" + moduleName;
-        
+        GameObject.Find("MapManager").GetComponent<CommandRouter>().Begin();
         GameObject[] objects = GameObject.FindGameObjectsWithTag("Object");
-        for(int i = 0; i < objects.Length; ++i){
-            objects[i].GetComponent<SpriteScript>().LoadSprite();
-        }
         CameraTarget(GameObject.Find("man"));
-        Print("The player is standing!");
-        Print("This is the second line!");
-        Print("This is the third line!");
-        Print("4!");
-        Print("5!");
     }
 
+    //get the system module path
     public static string GetPath(){
         if(path == null)
             path = Application.dataPath + "\\..\\" + moduleName;
         return path;
     }
 
+    //get the name of the current map
     public static string GetMapName(){
         return mapName;
     }
 
-    public static string[] getFile(string folder, string filename){
+    //loads an external text file as a batch of lines
+    public static string[] LoadFile(string folder, string filename){
         return System.IO.File.ReadAllLines(GetPath() + "\\" + folder + "\\" + filename);
     }
 
+    //get a file from the module's map folder
     public static string GetMap(string mapName){
         return System.IO.File.ReadAllText(GetPath() + "\\Maps\\" + mapName);
     }
@@ -67,6 +63,7 @@ public static class GameManager
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraScript>().target = target;
     }
 
+    //Print to the console from the gamemanager
     public static void Print(string ln){
         GameObject.FindGameObjectWithTag("Console").GetComponent<HUDScript>().Print(ln);
     }

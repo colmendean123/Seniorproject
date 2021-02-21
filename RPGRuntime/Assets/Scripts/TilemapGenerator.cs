@@ -20,6 +20,7 @@ public class TilemapGenerator : MonoBehaviour
         ParseString(tiles);
     }
 
+    //parse the tileset into line-by-line chunks
     private void ParseString(string str){
         string[] parse = str.Split('\n');
         string[] bin = new string[parse.Length];
@@ -29,12 +30,13 @@ public class TilemapGenerator : MonoBehaviour
             for(int j = 0; j < con.Length; ++j){
                 bin[i] += con[j].Trim();
             }
-            Debug.Log(bin[i]);
         }
         LoadTiles(bin);
     }
 
+
     private void LoadTiles(string[] map){
+        //map out the objects that place the black collision tiles into the game
         float posx = 0f;
         float posy = 0f;
         int posxint = 0;
@@ -67,7 +69,7 @@ public class TilemapGenerator : MonoBehaviour
     }
 
     public static bool CheckCollision(int x, int y){
-        if(x < 0 || y < 0 || x > lenx-1 || y > leny)
+        if(x < 0 || y < 0 || x > lenx-1 || y > leny-1)
             return true;
         return walls[x, y];
     }

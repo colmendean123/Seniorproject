@@ -12,8 +12,8 @@ public class CameraScript : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
+    // Update is called once per frame. Get the target and move the camera there.
+    void FixedUpdate()
     {
         GameObject trans = this.gameObject;
         trans.transform.position = new Vector3(target.transform.position.x, target.transform.position.y, -10);

@@ -7,6 +7,8 @@ namespace Scripting{
 	{
 		private List<String> tokens;
 		private List<String> strings;
+		//list of arguments
+		private List<String> args;
 		private int next;
 
 		//seperate commandtext into an arraylist, removing any blanks, just like a real parser.
@@ -14,7 +16,7 @@ namespace Scripting{
 		{
 			this.next = 0;
 			tokens = new List<String>();
-
+			args = new List<string>();
 			String[] stringgetter = commandText.Split('"');
 			for(int i = 0; i < stringgetter.Length; i++)
 			{
@@ -61,15 +63,12 @@ namespace Scripting{
 			return tokens.Count;
 		}
 
-		/*make it easy to call exception throws like invalid token. Return this at the bottom of every parse function.
-		public A_Command invalidToken() throws RuntimeException
-		{
-			throw new RuntimeException("Error! invalid token! ");
+		public string GetArg(int index){
+			return args[index];
 		}
-		public A_Command invalidToken(String message) throws RuntimeException
-		{
-			throw new RuntimeException(message);
+
+		public void AddArg(string arg){
+			args.Add(arg);
 		}
-		*/
     }
 }
