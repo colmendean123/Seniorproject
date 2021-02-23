@@ -22,7 +22,8 @@ namespace Scripting{
             return Mathf.RoundToInt((float)x / (float)y);
         }
 
-        private string[] _operators = { "-", "+", "/", "*"};
+
+        private static string[] _operators = { "-", "+", "/", "*"};
         private static System.Func<int, int, int>[] _operations = {
             (a1, a2) => Subtract(a1, a2),
             (a1, a2) => Add(a1, a2),
@@ -30,7 +31,29 @@ namespace Scripting{
             (a1, a2) => Multiply(a2, a2),
         };
 
-        public int Eval(string expression)
+             private static System.Func<int, int, bool>[] equaloperations = {
+            (a1, a2) => a1 == a2,
+            (a1, a2) => a1 > a2,
+            (a1, a2) => a1 < a2,
+            (a1, a2) => a1 <= a2,
+            (a1, a2) => a1 >= a2,
+        };
+
+        private static string[] _equaloperators = {"==", ">", "<", "<=", ">="};
+
+        public static bool Equals(int x, int y, string op){
+            op = op.Trim();
+            bool check = false;
+            foreach(string s in _equaloperators){
+                if(s.Equals(op))
+                    check = true;
+            }
+            if(check)
+                return equaloperations[System.Array.IndexOf(_equaloperators, op)](x, y);
+            return false;
+        }
+
+        public static int Eval(string expression)
         {
             List<string> tokens = GetTokens(expression);
             Stack<int> operandStack = new Stack<int>();
@@ -71,7 +94,7 @@ namespace Scripting{
             return operandStack.Pop();
         }
             
-        private string GetSubExpression(List<string> tokens, ref int index)
+        private static string GetSubExpression(List<string> tokens, ref int index)
         {
             StringBuilder subExpr = new StringBuilder();
             int parenlevels = 1;
@@ -99,7 +122,7 @@ namespace Scripting{
             return subExpr.ToString();
         }
 
-        private List<string> GetTokens(string expression)
+        private static List<string> GetTokens(string expression)
         {
         string operators = "()^*/+-";
         List<string> tokens = new List<string>();

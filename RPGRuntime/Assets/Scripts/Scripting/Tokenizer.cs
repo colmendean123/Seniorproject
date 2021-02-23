@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,8 +21,11 @@ namespace Scripting{
 			for(int i = 0; i < stringgetter.Length; i++)
 			{
 				//for every other split "" we take a string. Otherwise we take a token.
-				if(i % 2 == 1)
-					tokens.Add(stringgetter[i].Trim());
+				if(i % 2 == 1){
+					string parsed = stringgetter[i].Trim();
+					parsed = (ParseVars(parsed));
+					tokens.Add(parsed);
+				}
 				else{
 					//trim this so no blank spaces get added to tokens.
 					String[] tokengetter = stringgetter[i].Trim().Split(' ');
@@ -36,6 +39,40 @@ namespace Scripting{
 			}
 
 		}
+
+		public String ParseVars(string line){
+			string parsed = "";
+			//split on spaces
+			string[] parseinfo = line.Split(' ');
+			for(int i = 0; i < parseinfo.Length; ++i){
+				//if the parsed var starts with $
+				if(parseinfo[i].Contains("$")){
+					if(!parseinfo[i].Substring(0,1).Equals("\\")){
+						//var length is 2 to compensate for the $ and the . that won't be counted
+						int varlen = 2;
+						//makes the varlength not break on the first non-character
+						bool first = false;
+						foreach(char c in parseinfo[i].Substring(1)){
+							if(char.IsLetter(c)){
+								varlen++;
+							}else{
+								if(first == false)
+									first = true;
+								else
+									break;
+							}
+						}
+						//replace the $var.varname with the actual parsed var
+						parseinfo[i] = GameManager.ParseVar(parseinfo[i].Substring(0, varlen)) + parseinfo[i].Substring(varlen);
+					}
+					else
+						parseinfo[i] = parseinfo[i].Substring(1);
+				}
+				parsed += parseinfo[i] + " ";
+			}
+			return parsed;
+		}
+		
 
 		// Returns the String contained in tokens that the index next is currently pointing to, then advances next 1
 		public String GetNext()

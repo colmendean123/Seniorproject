@@ -10,6 +10,7 @@ public static class GameManager
     private static string moduleName = "TestModule";
     private static string mapName = "default";
     private static string path;
+
     // Start is called before the first frame update
     public static void Init()
     {
@@ -66,5 +67,39 @@ public static class GameManager
     //Print to the console from the gamemanager
     public static void Print(string ln){
         GameObject.FindGameObjectWithTag("Console").GetComponent<HUDScript>().Print(ln);
+    }
+
+//Variable parsing and checking
+    public static string ParseVar(string command){
+        string[] targandvar = command.Split('.');
+        targandvar[0] = targandvar[0].Substring(1);
+        targandvar[1] = targandvar[1].ToUpper();
+        Debug.Log(targandvar[0] + ", " + targandvar[1]);
+        if(IsString(targandvar[0], targandvar[1])){
+            Debug.Log(GameObject.Find(targandvar[0]).GetComponent<RPGObject>().GetString(targandvar[1]));
+            return GameObject.Find(targandvar[0]).GetComponent<RPGObject>().GetString(targandvar[1]);
+        }else if(IsInt(targandvar[0], targandvar[1])){
+            
+            return GameObject.Find(targandvar[0]).GetComponent<RPGObject>().GetInt(targandvar[1]).ToString();
+        }
+        else{
+            GameManager.Print("Error! Variable not found!");
+            return null;
+        }
+    }
+
+        //check if the target/key combo exists
+    public static bool IsString(string target, string key){
+        if(GameObject.Find(target)!= null){
+            return GameObject.Find(target).GetComponent<RPGObject>().IsString(key);
+        }
+        return false;
+    }
+
+        public static bool IsInt(string target, string key){
+        if(GameObject.Find(target)!= null){
+            return GameObject.Find(target).GetComponent<RPGObject>().IsInt(key);
+        }
+        return false;
     }
 }
