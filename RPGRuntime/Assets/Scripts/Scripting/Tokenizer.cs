@@ -5,10 +5,10 @@ using System.Text;
 namespace Scripting{
     public class Tokenizer
 	{
+		//parsed tokens
 		private List<String> tokens;
-		private List<String> strings;
-		//list of arguments
-		private List<String> args;
+		//unconverted tokens, without any kind of parsing
+		private List<String> unconverted;
 		private int next;
 
 		//seperate commandtext into an arraylist, removing any blanks, just like a real parser.
@@ -16,7 +16,7 @@ namespace Scripting{
 		{
 			this.next = 0;
 			tokens = new List<String>();
-			args = new List<string>();
+			unconverted = new List<string>();
 			String[] stringgetter = commandText.Split('"');
 			for(int i = 0; i < stringgetter.Length; i++)
 			{
@@ -40,6 +40,7 @@ namespace Scripting{
 
 		}
 
+		//parses variables for use in the final
 		public String ParseVars(string line){
 			string parsed = "";
 			//split on spaces
@@ -87,6 +88,10 @@ namespace Scripting{
 			return tokens[currentIndex];
 		}
 
+		public int GetStep(){
+			return next;
+		}
+
 		public String Get(int index)
 		{
 			if (index >= this.tokens.Count)
@@ -99,13 +104,5 @@ namespace Scripting{
 		{
 			return tokens.Count;
 		}
-
-		public string GetArg(int index){
-			return args[index];
-		}
-
-		public void AddArg(string arg){
-			args.Add(arg);
-		}
-    }
+	}
 }

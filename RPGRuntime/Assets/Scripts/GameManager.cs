@@ -74,9 +74,7 @@ public static class GameManager
         string[] targandvar = command.Split('.');
         targandvar[0] = targandvar[0].Substring(1);
         targandvar[1] = targandvar[1].ToUpper();
-        Debug.Log(targandvar[0] + ", " + targandvar[1]);
         if(IsString(targandvar[0], targandvar[1])){
-            Debug.Log(GameObject.Find(targandvar[0]).GetComponent<RPGObject>().GetString(targandvar[1]));
             return GameObject.Find(targandvar[0]).GetComponent<RPGObject>().GetString(targandvar[1]);
         }else if(IsInt(targandvar[0], targandvar[1])){
             

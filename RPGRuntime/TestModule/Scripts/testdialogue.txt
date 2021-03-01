@@ -1,4 +1,5 @@
 LOCK man
 man SAY "Hey, I'm the  ."
-man SAY "I can say about 3 $man.atk????"
+    $this.atk = "$this.atk+4"
+man SAY "I can say about 3 $this.atk????"
 UNLOCK man

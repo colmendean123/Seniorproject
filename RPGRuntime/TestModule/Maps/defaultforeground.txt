@@ -1,0 +1,4 @@
+groundsprite, groundsprite, wallsprite,
+groundsprite, groundsprite, wallsprite,
+groundsprite, groundsprite, wallsprite,
+groundsprite, groundsprite, wallsprite,

@@ -7,8 +7,13 @@ public class RPGObject : MonoBehaviour
 {
     SortedDictionary<string,int> intvars;
     SortedDictionary<string,string> stringvars;
-
+    SortedDictionary<string, string[]> functions;
+    int logicdepth = 0;
+    string[] inputs;
+    int step;
     protected bool locked = false;
+
+
 
     //onstart, load default variables. Then load parameters.
     protected void Start(){
@@ -23,6 +28,8 @@ public class RPGObject : MonoBehaviour
         ChangeString("sprite", "player.png");
         LoadSprite(GetString("image"));
         LoadParameters("player.txt");
+        DoScript("testdialogue.txt");
+
     }
 
     //Load parameters from the object file
@@ -42,11 +49,29 @@ public class RPGObject : MonoBehaviour
         }
 
     }
+    //scripting on a local level
+    public void DoScript(string script){
+        inputs = GameManager.LoadFile("Scripts", script);
+        StartScript(0);
+    }
+
+    public void StartScript(int step){
+        string input = inputs[step];
+        input = input.Replace("$this", "$"+this.gameObject.name);
+        Debug.Log(input);
+        GameObject.FindGameObjectWithTag("Manager").GetComponent<CommandRouter>().Execute(input, gameObject, step, ref logicdepth);
+    }
+
+    public void Nextstep(int step){
+        if(step < inputs.Length){
+            StartScript(step);
+        }
+    }
 
     //lock the player into place
-    public void Lock(bool tf){
+    public void Lock(bool tf, GameObject target, int step){
         this.locked = tf;
-        GameObject.FindGameObjectWithTag("Manager").GetComponent<CommandRouter>().Nextstep();
+        GameObject.FindGameObjectWithTag("Manager").GetComponent<CommandRouter>().Nextstep(target, step);
     }
 
     //Load the sprite from an external sprite path
