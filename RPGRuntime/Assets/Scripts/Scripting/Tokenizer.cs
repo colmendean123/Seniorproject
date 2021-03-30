@@ -10,13 +10,59 @@ namespace Scripting{
 		//unconverted tokens, without any kind of parsing
 		private List<String> unconverted;
 		private int next;
+		public string name;
 
 		//seperate commandtext into an arraylist, removing any blanks, just like a real parser.
-		public Tokenizer(String commandText)
+		public Tokenizer(String commandText, string name, CommandRouter thisrouter)
 		{
+			this.name = name;
 			this.next = 0;
+			//seperates the : from the rest of the statement if there is one.
+			if (commandText[commandText.Length-1] == ':') {
+				if (commandText[commandText.LastIndexOf(':') - 1] != ' ')
+                {
+					commandText = commandText.Replace(':', ' ');
+					commandText += ':';
+                }
+			}
 			tokens = new List<String>();
 			unconverted = new List<string>();
+			//the code for if statements. A real, metaphysical nightmare. Goes through the list of strings, replacing as necessary. concats the remaining together.
+			List<string> strings = new List<string>();
+			if(commandText.ToLower().StartsWith("if")){
+				
+				int outers = 0;
+				int start = 0;
+				int end = 0;
+				for(int i = 0; i < commandText.Length; ++i){
+					//get the outermost parenthesis, and evaluate only inside that. Doesn't allow for nested ANDS or ORS, but could potentially be updated to.
+					if(commandText[i] == '('){
+						if(outers==0){
+							
+							start = i+1;
+							strings.Add(commandText.Substring(end, start-end));
+						}
+						outers += 1;
+					}
+					if(commandText[i] == ')'){
+						outers -= 1;
+						if(outers == 0){
+							end = i;
+							strings.Add(Parentheses(ParseVars(commandText.Substring(start, end-start))));
+						}
+					}
+					
+				}
+				strings.Add(commandText.Substring(end));
+			}
+			if(strings.Count() > 0){
+				commandText = "";
+				foreach(string i in strings){
+					commandText += i;
+				}
+			}
+			commandText = commandText.Replace('(', ' ');
+			commandText = commandText.Replace(')', ' ');
 			String[] stringgetter = commandText.Split('"');
 			for(int i = 0; i < stringgetter.Length; i++)
 			{
@@ -29,16 +75,40 @@ namespace Scripting{
 				else{
 					//trim this so no blank spaces get added to tokens.
 					String[] tokengetter = stringgetter[i].Trim().Split(' ');
-					foreach(String token in tokengetter)
+					if (thisrouter != null)
 					{
-						//add things that register as commands, targets, or variables. we'll sort those later.
-						tokens.Add(token.Trim());
-					}
+						foreach (String token in tokengetter)
+						{
+							string tok = token;
+							//add things that register as commands, targets, or variables. we'll sort those later.
+							if (thisrouter.CheckCommand(token.ToUpper()))
+							{
+								tok = token.ToUpper();
+							}
+							if (tok.Trim() != "")
+							{
+								tokens.Add(tok.Trim());
+							}
+						}
+                    }
+                    else
+                    {
+						foreach(String token in tokengetter)
+                        {
+							string tok = token.Trim();
+							if(tok != "")
+								tokens.Add(tok);
+                        }
+                    }
 				}
 				
 			}
-
 		}
+
+		public string Parentheses(string substring){
+			return VariableMath.Eval(substring).ToString();
+		}
+
 
 		//parses variables for use in the final
 		public String ParseVars(string line){
@@ -63,8 +133,11 @@ namespace Scripting{
 									break;
 							}
 						}
-						//replace the $var.varname with the actual parsed var
-						parseinfo[i] = GameManager.ParseVar(parseinfo[i].Substring(0, varlen)) + parseinfo[i].Substring(varlen);
+						if (first == false)
+							parseinfo[i] = GameManager.ParseVar(parseinfo[i].Substring(1));
+						else
+							//replace the $var.varname with the actual parsed var
+							parseinfo[i] = GameManager.ParseVar(parseinfo[i].Substring(0, varlen)) + parseinfo[i].Substring(varlen);
 					}
 					else
 						parseinfo[i] = parseinfo[i].Substring(1);
@@ -85,7 +158,9 @@ namespace Scripting{
 			if (currentIndex >= this.tokens.Count)
 				return null;
 			this.next++;
-			return tokens[currentIndex];
+			if (tokens[currentIndex] == "$this")
+				return name;
+			return tokens[currentIndex].Trim();
 		}
 
 		public int GetStep(){
@@ -96,6 +171,8 @@ namespace Scripting{
 		{
 			if (index >= this.tokens.Count)
 				throw new SystemException("Error! Invalid token!");
+			if (tokens[index] == "$this")
+				return name;
 			return tokens[index];
 		}
 

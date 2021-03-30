@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Scripting;
 
 public class HUDScript : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class HUDScript : MonoBehaviour
         UpdateHUD();
     }
 
+
     // Update is called once per frame
     void UpdateHUD()
     {
@@ -26,4 +28,10 @@ public class HUDScript : MonoBehaviour
         }
         this.gameObject.GetComponent<TextMeshProUGUI>().text = conc;
     }
+
+    private void Update()
+    {
+       
+    }
+
 }

@@ -1,6 +1,0 @@
-name = Ness
-sprite = player.png
-hp = 1
-defense = 3
-attack = 2
-Faction = 4

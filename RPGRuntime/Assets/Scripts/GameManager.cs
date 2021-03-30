@@ -11,13 +11,13 @@ public static class GameManager
     private static string mapName = "default";
     private static string path;
 
+    private static SortedDictionary<string, int> intvars = new SortedDictionary<string, int>();
+    private static SortedDictionary<string, string> stringvars = new SortedDictionary<string, string>();
     // Start is called before the first frame update
     public static void Init()
     {
         path = Application.dataPath + "\\..\\" + moduleName;
-        GameObject.Find("MapManager").GetComponent<CommandRouter>().Begin();
         GameObject[] objects = GameObject.FindGameObjectsWithTag("Object");
-        CameraTarget(GameObject.Find("man"));
     }
 
     //get the system module path
@@ -69,22 +69,38 @@ public static class GameManager
         GameObject.FindGameObjectWithTag("Console").GetComponent<HUDScript>().Print(ln);
     }
 
+    public static void Clear()
+    {
+        for(int i = 0; i < 5; ++i)
+            GameObject.FindGameObjectWithTag("Console").GetComponent<HUDScript>().Print("");
+    }
+
 //Variable parsing and checking
     public static string ParseVar(string command){
-        string[] targandvar = command.Split('.');
-        targandvar[0] = targandvar[0].Substring(1);
-        targandvar[1] = targandvar[1].ToUpper();
-        if(IsString(targandvar[0], targandvar[1])){
-            return GameObject.Find(targandvar[0]).GetComponent<RPGObject>().GetString(targandvar[1]);
-        }else if(IsInt(targandvar[0], targandvar[1])){
+        string[] spl = command.Split('.');
+        if (spl.Length == 1)
+        {
+            if (IsInt(spl[0]))
+                return GetInt(spl[0]).ToString();
+            if (IsString(spl[0]))
+                return GetString(spl[0]).ToString();
+            GameManager.Print("Error! Variable not found!");
+            return null;
+        }
+        spl[0] = spl[0].Substring(1);
+        spl[1] = spl[1].ToUpper();
+        if(IsString(spl[0], spl[1])){
+            return GameObject.Find(spl[0]).GetComponent<RPGObject>().GetString(spl[1]);
+        }else if(IsInt(spl[0], spl[1])){
             
-            return GameObject.Find(targandvar[0]).GetComponent<RPGObject>().GetInt(targandvar[1]).ToString();
+            return GameObject.Find(spl[0]).GetComponent<RPGObject>().GetInt(spl[1]).ToString();
         }
         else{
             GameManager.Print("Error! Variable not found!");
             return null;
         }
     }
+
 
         //check if the target/key combo exists
     public static bool IsString(string target, string key){
@@ -99,5 +115,69 @@ public static class GameManager
             return GameObject.Find(target).GetComponent<RPGObject>().IsInt(key);
         }
         return false;
+    }
+
+    //dictionary system copied wholesale for universal variables from the rpgobjs to the gamemanager.
+
+    public static bool IsString(string key)
+    {
+        key = key.ToUpper();
+        if (stringvars.ContainsKey(key))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public static bool IsInt(string key)
+    {
+        key = key.ToUpper();
+        if (intvars.ContainsKey(key))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public static void ChangeString(string key, string var)
+    {
+        key = key.ToUpper();
+        if (!stringvars.ContainsKey(key))
+            stringvars.Add(key, var);
+        else
+            stringvars[key] = var;
+    }
+
+    public static void ChangeInt(string key, int var)
+    {
+        key = key.ToUpper();
+        if (!intvars.ContainsKey(key))
+            intvars.Add(key, var);
+        else
+            intvars[key] = var;
+    }
+
+    //Get the keys from the dict by key
+    public static int GetInt(string key)
+    {
+        key = key.ToUpper();
+        if (intvars.ContainsKey(key))
+            return intvars[key];
+        else
+            throw new System.Exception("Error! GameManager does not contain string \"" + key + "\"");
+    }
+
+    public static string GetString(string key)
+    {
+        key = key.ToUpper();
+        if (stringvars.ContainsKey(key))
+            return stringvars[key];
+        else
+            throw new System.Exception("Error! GameManager does not contain string \"" + key + "\"");
+    }
+
+    public static void Debug(string deb)
+    {
+        UnityEngine.Debug.Log(deb);
     }
 }

@@ -5,11 +5,10 @@ using UnityEngine;
 public class PlayerMovement : RPGObject
 {
 
-    int posx = 1;
-    int posy = 0;
     bool movementreset = true;
+
     // Start is called before the first frame update
-   new void Start()
+    new void Start()
     {
         base.Start();
     }
@@ -19,15 +18,16 @@ public class PlayerMovement : RPGObject
         if(TilemapGenerator.CheckCollision(x, y) == false){
             posx = x;
             posy = y;
+            
         }
     }
     // Update is called once per frame
-    void Update()
+    new void Update()
     {
-        
+        base.Update();
         if(!locked)
             Control();
-        transform.position = new Vector2(posx*0.32f, -posy*0.32f);
+        
     }
 
     private void Control(){

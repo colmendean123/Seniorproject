@@ -1,5 +1,11 @@
-LOCK man
-man SAY "Hey, I'm the  ."
-    $this.atk = "$this.atk+4"
-man SAY "I can say about 3 $this.atk????"
-UNLOCK man
+LOCK $this
+NEWRESPONSE
+ADDRESPONSE "I will hurt you!"
+ADDRESPONSE "We should be pals!"
+GETRESPONSE $response
+PRINT "Hey! You chose $response !"
+IF ($response) IS 1:
+	$this SAY "HOLY CRAP, sure!"
+IF ($response) IS 0:
+	$this SAY "Very well! Eat blade!"
+UNLOCK $this

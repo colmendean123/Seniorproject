@@ -23,34 +23,19 @@ namespace Scripting{
         }
 
 
-        private static string[] _operators = { "-", "+", "/", "*"};
+        private static string[] _operators = { "-", "+", "/", "*", "=="};
         private static System.Func<int, int, int>[] _operations = {
             (a1, a2) => Subtract(a1, a2),
             (a1, a2) => Add(a1, a2),
             (a1, a2) => Division(a1, a2),
-            (a1, a2) => Multiply(a2, a2),
+            (a1, a2) => Multiply(a1, a2),
+            (a1, a2) => Equals(a1, a2),
         };
 
-             private static System.Func<int, int, bool>[] equaloperations = {
-            (a1, a2) => a1 == a2,
-            (a1, a2) => a1 > a2,
-            (a1, a2) => a1 < a2,
-            (a1, a2) => a1 <= a2,
-            (a1, a2) => a1 >= a2,
-        };
-
-        private static string[] _equaloperators = {"==", ">", "<", "<=", ">="};
-
-        public static bool Equals(int x, int y, string op){
-            op = op.Trim();
-            bool check = false;
-            foreach(string s in _equaloperators){
-                if(s.Equals(op))
-                    check = true;
-            }
-            if(check)
-                return equaloperations[System.Array.IndexOf(_equaloperators, op)](x, y);
-            return false;
+        public static int Equals(int x, int y){
+            if(x == y)
+                return 1;
+            return 0;
         }
 
         public static int Eval(string expression)

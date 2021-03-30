@@ -12,6 +12,11 @@ public class CameraScript : MonoBehaviour
         
     }
 
+    public void AssignTarget(GameObject targ)
+    {
+        target = targ;
+    }
+
     // Update is called once per frame. Get the target and move the camera there.
     void FixedUpdate()
     {

@@ -10,8 +10,6 @@ public class DialogueScript : MonoBehaviour
     public string text;
     public double speed;
     public GameObject target;
-    //current script step. A bit funky but it works
-    public int step;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +30,6 @@ public class DialogueScript : MonoBehaviour
 
     //Make the dialogue script proceed to the next script
     void OnDestroy(){
-        GameObject.FindGameObjectWithTag("Manager").GetComponent<CommandRouter>().Nextstep(target, step);
+        //GameObject.FindGameObjectWithTag("Manager").GetComponent<CommandRouter>().Nextstep(step);
     }
 }
