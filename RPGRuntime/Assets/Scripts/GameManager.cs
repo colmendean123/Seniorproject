@@ -10,6 +10,8 @@ public static class GameManager
     private static string moduleName = "TestModule";
     private static string mapName = "default";
     private static string path;
+    private static List<GameObject> objectArray;
+    private static List<(int, int)> coordinateArray;
 
     private static SortedDictionary<string, int> intvars = new SortedDictionary<string, int>();
     private static SortedDictionary<string, string> stringvars = new SortedDictionary<string, string>();
@@ -18,6 +20,42 @@ public static class GameManager
     {
         path = Application.dataPath + "\\..\\" + moduleName;
         GameObject[] objects = GameObject.FindGameObjectsWithTag("Object");
+    }
+
+    public static void NewObjectList()
+    {
+        coordinateArray = new List<(int, int)>();
+        objectArray = new List<GameObject>();
+    }
+
+    public static void NewObject(GameObject obj)
+    {
+        objectArray.Add(obj);
+        (int, int) pos = obj.GetComponent<RPGObject>().GetPosition();
+        coordinateArray.Add(pos);
+    }
+
+    //Get the gameobject by ID
+    public static GameObject GetObjectById(int id)
+    {
+        id = id - 1;
+        return objectArray[id];
+    }
+
+    //Get object from the position
+    public static GameObject GetObjectByPosition((int, int) pos)
+    {
+        for(int i = 0; i < objectArray.Count; ++i)
+        {
+            if (pos == coordinateArray[i])
+                return objectArray[i];
+        }
+        return null;
+    }
+
+    public static void ChangeCoordinates(int id, (int, int) pos)
+    {
+        coordinateArray[id] = pos;
     }
 
     //get the system module path

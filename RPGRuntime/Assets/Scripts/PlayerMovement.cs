@@ -14,13 +14,7 @@ public class PlayerMovement : RPGObject
     }
 
 
-    public void Move(int x, int y){
-        if(TilemapGenerator.CheckCollision(x, y) == false){
-            posx = x;
-            posy = y;
-            
-        }
-    }
+
     // Update is called once per frame
     new void Update()
     {

@@ -10,7 +10,7 @@ public class TilemapGenerator : MonoBehaviour
     private static bool[,] walls = new bool[0,0];
     private float size;
     private static int lenx = 0, leny = 0;
-    private static Dictionary<string, int> Objects;
+    int assignid;
     
     // Start is called before the first frame update
     void Start()
@@ -20,13 +20,13 @@ public class TilemapGenerator : MonoBehaviour
     }
 
     
+    //Loads the current map files. Does not replace the map currently loaded
     void LoadCurrentMap()
     {
-        Objects = new Dictionary<string, int>();
         string tiles = GameManager.GetMap(GameManager.GetMapName() + "tile.txt");
         string objects = GameManager.GetMap(GameManager.GetMapName() + "object.txt");
         string arts = GameManager.GetMap(GameManager.GetMapName() + "background.txt");
-        
+        assignid = 0;
         size = defsize;
         ParseObjects(objects);
         ParseCollision(tiles);
@@ -58,19 +58,6 @@ public class TilemapGenerator : MonoBehaviour
         }
     }
 
-    private int AddToObjectDict(string name)
-    {
-        if (Objects.ContainsKey(name))
-        {
-            Objects[name]++;
-            return Objects[name];
-        }
-        else
-        {
-            Objects[name] = 1;
-            return Objects[name];
-        }
-    }
 
     //place objects for placement on the map
     //Format: "Objectname" X: xpos Y: ypos
@@ -79,7 +66,7 @@ public class TilemapGenerator : MonoBehaviour
         Scripting.Tokenizer token = new Scripting.Tokenizer(line, null, null);
         //obj1
         string obj = token.GetNext();
-        int assignid = AddToObjectDict(obj);
+        ++assignid;
         //set up x and y pos
         int xpos, ypos;
         //X:
@@ -114,7 +101,8 @@ public class TilemapGenerator : MonoBehaviour
         {
             inst.AddComponent(typeof(RPGObject));
         }
-        
+        //set correct position
+        inst.GetComponent<RPGObject>().SetPosition(xpos, ypos);
         inst.transform.position += new Vector3(xpos*0.32f, ypos*0.32f, 0f);
         inst.GetComponent<SpriteRenderer>().enabled = true;
         inst.GetComponent<RPGObject>().Initialize(obj);

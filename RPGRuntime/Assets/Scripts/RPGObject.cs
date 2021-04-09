@@ -1,7 +1,6 @@
-﻿using System.Collections;
+﻿using RPGExceptions;
 using System.Collections.Generic;
 using UnityEngine;
-using RPGExceptions;
 
 public class RPGObject : MonoBehaviour
 {
@@ -13,8 +12,8 @@ public class RPGObject : MonoBehaviour
     int step;
     protected bool locked = false;
     new protected bool camera = false;
-    protected int posx = 2;
-    protected int posy = 2;
+    protected int posx;
+    protected int posy;
     private int ID = 1;
 
     public static GameObject FindWithID(string name, int id)
@@ -37,6 +36,19 @@ public class RPGObject : MonoBehaviour
         DoScript("testdialogue.txt");
     }
 
+    //sets position for the game manager
+    public void SetPosition(int x, int y)
+    {
+        posx = x;
+        posy = y;
+    }
+
+    public (int, int) GetPosition()
+    {
+        return (posx, posy);
+    }
+
+    //Set Instance ID
     public void SetID(int i)
     {
         ID = i;
@@ -44,6 +56,40 @@ public class RPGObject : MonoBehaviour
 
     public int GetID() {
         return ID;
+    }
+
+    //Move
+    public void Move(int x, int y)
+    {
+        if (TilemapGenerator.CheckCollision(x, y) == false)
+        {
+            posx = x;
+            posy = y;
+
+        }
+    }
+
+    //Scans for adjacencies and returns the result
+    public List<GameObject> ScanForAdjacency()
+    {
+        List<GameObject> collisions = new List<GameObject>();
+        (int, int) up = (posx, posy - 1);
+        GameObject obj = GameManager.GetObjectByPosition(up);
+        if (obj != null)
+            collisions.Add(obj);
+        (int, int) down = (posx, posy + 1);
+        obj = GameManager.GetObjectByPosition(down);
+        if (obj != null)
+            collisions.Add(obj);
+        (int, int) left = (posx-1, posy);
+        obj = GameManager.GetObjectByPosition(left);
+        if (obj != null)
+            collisions.Add(obj);
+        (int, int) right = (posx + 1, posy);
+        obj = GameManager.GetObjectByPosition(right);
+        if (obj != null)
+            collisions.Add(obj);
+        return collisions;
     }
 
     public void Initialize(string name)
