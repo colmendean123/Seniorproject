@@ -68,6 +68,7 @@
     <Compile Include="Assets\Scripts\DialogueScript.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\HUDScript.cs" />
+    <Compile Include="Assets\Scripts\ObjectAI.cs" />
     <Compile Include="Assets\Scripts\PathingInfo.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\RPGObject.cs" />

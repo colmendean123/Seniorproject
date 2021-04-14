@@ -7,9 +7,13 @@ public class RPGObject : MonoBehaviour
     SortedDictionary<string,int> intvars;
     SortedDictionary<string,string> stringvars;
     SortedDictionary<string, string[]> functions;
+    protected GameObject target;
+    protected List<string[]> attacks;
+    protected List<string> attacknames;
     int logicdepth = 0;
     string[] inputs;
     int step;
+    protected bool turn = false;
     protected bool locked = false;
     new protected bool camera = false;
     protected int posx;
@@ -18,10 +22,9 @@ public class RPGObject : MonoBehaviour
 
     public static GameObject FindWithID(string name, int id)
     {
-        List<GameObject> possibilities = new List<GameObject>();
         foreach(GameObject i in GameObject.FindGameObjectsWithTag("Object"))
         {
-            if (i.name == name)
+            if (i.GetComponent<RPGObject>().GetString("NAME")==name)
             {
                 id--;
                 if (id == 0)
@@ -31,9 +34,40 @@ public class RPGObject : MonoBehaviour
         return null;
     }
 
+    public static GameObject FindWithName(string name)
+    {
+        List<GameObject> possibilities = new List<GameObject>();
+        foreach (GameObject i in GameObject.FindGameObjectsWithTag("Object"))
+        {
+            if (i.GetComponent<RPGObject>().GetString("NAME") == name)
+            {
+                return i;
+            }
+        }
+        return null;
+    }
+
     //onstart, load default variables. Then load parameters.
     protected void Start(){
-        DoScript("testdialogue.txt");
+        AddMove("BasicAttack.txt");
+    }
+
+    public void AddMove(string filename)
+    {
+        string[] loadedattack = GameManager.LoadFile("Moves", filename);
+        attacknames.Add(loadedattack[0].Substring(2));
+        attacks.Add(loadedattack);
+    }
+
+    public void BeginTurn()
+    {
+        turn = true;
+    }
+
+    public void EndTurn()
+    {
+        turn = false;
+        GameManager.NextTurn();
     }
 
     //sets position for the game manager
@@ -73,23 +107,48 @@ public class RPGObject : MonoBehaviour
     public List<GameObject> ScanForAdjacency()
     {
         List<GameObject> collisions = new List<GameObject>();
-        (int, int) up = (posx, posy - 1);
-        GameObject obj = GameManager.GetObjectByPosition(up);
+        GameObject obj = GameManager.GetObjectByPosition(posx, posy - 1);
         if (obj != null)
             collisions.Add(obj);
-        (int, int) down = (posx, posy + 1);
-        obj = GameManager.GetObjectByPosition(down);
+        obj = GameManager.GetObjectByPosition(posx, posy + 1);
         if (obj != null)
             collisions.Add(obj);
-        (int, int) left = (posx-1, posy);
-        obj = GameManager.GetObjectByPosition(left);
+        obj = GameManager.GetObjectByPosition(posx-1, posy);
         if (obj != null)
             collisions.Add(obj);
-        (int, int) right = (posx + 1, posy);
-        obj = GameManager.GetObjectByPosition(right);
+        obj = GameManager.GetObjectByPosition(posx + 1, posy);
         if (obj != null)
             collisions.Add(obj);
         return collisions;
+    }
+
+    public List<GameObject> CheckAdjacent()
+    {
+        List<GameObject> Adjacency = new List<GameObject>();
+        string[,] map = GameObject.FindGameObjectWithTag("Manager").GetComponent<TilemapGenerator>().GetMap();
+        int x = 0;
+        int y = 1;
+        if (map[x, y] != "0" && map[x, y] != "0")
+        {
+            Adjacency.Add(GameObject.Find(map[x, y]));
+        }
+        y = -1;
+        if (map[x, y] != "0" && map[x, y] != "0")
+        {
+            Adjacency.Add(GameObject.Find(map[x, y]));
+        }
+        y = 0;
+        x = -1;
+        if (map[x, y] != "0" && map[x, y] != "0")
+        {
+            Adjacency.Add(GameObject.Find(map[x, y]));
+        }
+        x = 1;
+        if (map[x, y] != "0" && map[x, y] != "0")
+        {
+            Adjacency.Add(GameObject.Find(map[x, y]));
+        }
+        return Adjacency;
     }
 
     public void Initialize(string name)
@@ -98,7 +157,8 @@ public class RPGObject : MonoBehaviour
         intvars = new SortedDictionary<string, int>();
         stringvars = new SortedDictionary<string, string>();
         functions = new SortedDictionary<string, string[]>();
-        Debug.Log("GO");
+        attacks = new List<string[]>();
+        attacknames = new List<string>();
         ChangeInt("HP", 10);
         ChangeInt("DEF", 3);
         ChangeInt("ATTACK", 3);
@@ -106,6 +166,7 @@ public class RPGObject : MonoBehaviour
         ChangeString("sprite", "player.png");
         LoadParameters(name+".txt");
         LoadSprite(GetString("sprite"));
+
     }
     
     //Generatepath finds the smallest possible path between an object and another. Obviously useful for aggro path finding. Could be reformatted to target points instead.
@@ -223,6 +284,8 @@ public class RPGObject : MonoBehaviour
         if (camera)
             GameObject.FindGameObjectWithTag("MainCamera").transform.position = new Vector3(posx * 0.32f, -posy * 0.32f, -10f);
         transform.position = new Vector2(posx * 0.32f, -posy * 0.32f);
+        ChangeInt("X", posx);
+        ChangeInt("Y", posy);
     }
 
     //Load parameters from the object file
@@ -239,7 +302,7 @@ public class RPGObject : MonoBehaviour
             else{
                 ChangeString(key, value);
             }
-            this.gameObject.name = GetString("NAME");
+            this.gameObject.name = GetString("NAME") + ID.ToString();
         }
 
     }

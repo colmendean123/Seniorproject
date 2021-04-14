@@ -10,13 +10,14 @@ public class TilemapGenerator : MonoBehaviour
     private static bool[,] walls = new bool[0,0];
     private float size;
     private static int lenx = 0, leny = 0;
-    int assignid;
+    Dictionary<string, int> assignid;
     
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.Init();
+        
         LoadCurrentMap();
+        GameManager.Init();
     }
 
     
@@ -26,7 +27,6 @@ public class TilemapGenerator : MonoBehaviour
         string tiles = GameManager.GetMap(GameManager.GetMapName() + "tile.txt");
         string objects = GameManager.GetMap(GameManager.GetMapName() + "object.txt");
         string arts = GameManager.GetMap(GameManager.GetMapName() + "background.txt");
-        assignid = 0;
         size = defsize;
         ParseObjects(objects);
         ParseCollision(tiles);
@@ -51,6 +51,7 @@ public class TilemapGenerator : MonoBehaviour
 
     private void ParseObjects(string str)
     {
+        assignid = new Dictionary<string, int>();
         string[] bin = str.Split('\n');
         foreach(string i in bin)
         {
@@ -66,7 +67,15 @@ public class TilemapGenerator : MonoBehaviour
         Scripting.Tokenizer token = new Scripting.Tokenizer(line, null, null);
         //obj1
         string obj = token.GetNext();
-        ++assignid;
+        if (assignid.ContainsKey(obj))
+        {
+            assignid[obj]++;
+        }
+        else
+        {
+            assignid[obj] = 1;
+        }
+        int assign = assignid[obj];
         //set up x and y pos
         int xpos, ypos;
         //X:
@@ -94,24 +103,20 @@ public class TilemapGenerator : MonoBehaviour
                 GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraScript>().AssignTarget(inst);
             }
             else
-                inst.AddComponent(typeof(RPGObject));
+                inst.AddComponent(typeof(ObjectAI));
 
         }
         else
         {
-            inst.AddComponent(typeof(RPGObject));
+            inst.AddComponent(typeof(ObjectAI));
         }
         //set correct position
         inst.GetComponent<RPGObject>().SetPosition(xpos, ypos);
         inst.transform.position += new Vector3(xpos*0.32f, ypos*0.32f, 0f);
         inst.GetComponent<SpriteRenderer>().enabled = true;
+        inst.GetComponent<RPGObject>().SetID(assign);
         inst.GetComponent<RPGObject>().Initialize(obj);
-        inst.GetComponent<RPGObject>().SetID(assignid);
-        Debug.Log(assignid);
-
     }
-
-
 
     private void ParseArt(string str)
     {

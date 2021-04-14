@@ -10,45 +10,80 @@ public static class GameManager
     private static string moduleName = "TestModule";
     private static string mapName = "default";
     private static string path;
-    private static List<GameObject> objectArray;
     private static List<(int, int)> coordinateArray;
+    private static List<GameObject> objects;
+    private static int turn = 0;
 
     private static SortedDictionary<string, int> intvars = new SortedDictionary<string, int>();
     private static SortedDictionary<string, string> stringvars = new SortedDictionary<string, string>();
     // Start is called before the first frame update
     public static void Init()
     {
+        turn = 0;
         path = Application.dataPath + "\\..\\" + moduleName;
-        GameObject[] objects = GameObject.FindGameObjectsWithTag("Object");
+        objects = new List<GameObject>();
+        foreach(GameObject i in GameObject.FindGameObjectsWithTag("Object"))
+        {
+            objects.Add(i);
+        }
+        Debug(objects.Count.ToString());
+        CalculateTurnOrder();
+        NextTurn();
+    }
+
+    //calculates turn order by finding the highest speed and sorting them into a sorted object list. Done once after initialization and once any time speed is changed. (Implement this)
+    public static void CalculateTurnOrder()
+    {
+        List<GameObject> dummy = objects;
+        List<GameObject> sorted = new List<GameObject>();
+        while (dummy.Count != 0) {
+            
+            GameObject maxspeed;
+            maxspeed = dummy[0];
+            foreach (GameObject i in dummy)
+            {
+                if (i.GetComponent<RPGObject>().GetInt("SPEED") > maxspeed.GetComponent<RPGObject>().GetInt("SPEED"))
+                    maxspeed = i;
+            }
+            sorted.Add(maxspeed);
+            dummy.Remove(maxspeed);
+        }
+        objects = sorted;
+    }
+
+    public static void NextTurn()
+    {
+        if (turn > objects.Count-1)
+            turn = 0;
+        objects[turn].GetComponent<RPGObject>().BeginTurn();
+        ++turn;
     }
 
     public static void NewObjectList()
     {
-        coordinateArray = new List<(int, int)>();
-        objectArray = new List<GameObject>();
+        objects = new List<GameObject>();
     }
 
     public static void NewObject(GameObject obj)
     {
-        objectArray.Add(obj);
+        objects.Add(obj);
         (int, int) pos = obj.GetComponent<RPGObject>().GetPosition();
         coordinateArray.Add(pos);
     }
 
     //Get the gameobject by ID
-    public static GameObject GetObjectById(int id)
+    public static GameObject GetObjectById(string name, int id)
     {
-        id = id - 1;
-        return objectArray[id];
+        return GameObject.Find(name + id.ToString());
     }
 
     //Get object from the position
-    public static GameObject GetObjectByPosition((int, int) pos)
+    public static GameObject GetObjectByPosition(int x, int y)
     {
-        for(int i = 0; i < objectArray.Count; ++i)
+        foreach(GameObject i in objects)
         {
-            if (pos == coordinateArray[i])
-                return objectArray[i];
+            if (i.GetComponent<RPGObject>().GetInt("X") == x && i.GetComponent<RPGObject>().GetInt("Y") == y)
+                return i;
         }
         return null;
     }

@@ -82,7 +82,8 @@ public class CommandRouter : MonoBehaviour
             return;
         }
 
-
+        if (inputs.StartsWith("//"))
+            Nextstep();
         token = new Tokenizer(inputs, self.name, this);
         ExecuteStep(token);
     }
@@ -107,7 +108,8 @@ public class CommandRouter : MonoBehaviour
             return;
         }
 
-
+        if (inputs.StartsWith("//"))
+            Nextstep();
         token = new Tokenizer(inputs, self.name, this);
         ExecuteStep(token);
     }
@@ -252,8 +254,16 @@ public class CommandRouter : MonoBehaviour
                 if(command.Equals("-=")){
                     string var = token.GetNext();
                     string[] spl = target.Split('.');    
-                    Set(target, Get(target));
+                    Set(target, (int.Parse(Get(target)) - int.Parse(var)).ToString());
                     
+                    Nextstep();
+                }
+                if (command.Equals("+="))
+                {
+                    string var = token.GetNext();
+                    string[] spl = target.Split('.');
+                    Set(target, (int.Parse(Get(target)) + int.Parse(var)).ToString());
+
                     Nextstep();
                 }
             }
