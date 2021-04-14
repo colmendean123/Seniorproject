@@ -17,12 +17,12 @@ public class DisplayInventory : MonoBehaviour
 
     void Start()
     {
-        createDisplay(); 
+        //createDisplay(); 
     }
 
     void Update()
     {
-        updateDisplay();   
+        //updateDisplay();
     }
 
     public void updateDisplay()
@@ -36,6 +36,8 @@ public class DisplayInventory : MonoBehaviour
                 var obj = Instantiate(inventory.Container[i].item.prefab, Vector3.zero, Quaternion.identity, transform);
                 obj.GetComponent<RectTransform>().localPosition = getPosition(i);
                 obj.GetComponentInChildren<TextMeshProUGUI>().text = inventory.Container[i].amount.ToString("n0");
+                obj.GetComponentInChildren<TextMeshProUGUI>().alignment = TextAlignmentOptions.BottomRight;
+                obj.GetComponentInChildren<TextMeshProUGUI>().fontSizeMax = 8;
                 itemsDisplayed.Add(inventory.Container[i], obj);
             }
 
@@ -49,6 +51,8 @@ public class DisplayInventory : MonoBehaviour
             var obj = Instantiate(inventory.Container[i].item.prefab, Vector3.zero, Quaternion.identity, transform);
             obj.GetComponent<RectTransform>().localPosition = getPosition(i);
             obj.GetComponentInChildren<TextMeshProUGUI>().text = inventory.Container[i].amount.ToString("n0");
+            obj.GetComponentInChildren<TextMeshProUGUI>().alignment = TextAlignmentOptions.BottomRight;
+            obj.GetComponentInChildren<TextMeshProUGUI>().fontSizeMax = 8;
             itemsDisplayed.Add(inventory.Container[i], obj);
         }
     }
