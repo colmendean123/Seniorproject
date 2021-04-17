@@ -1,0 +1,6 @@
+//Basic Attack
+$value = $this.attack - $target.defense
+if ($value) islessthan 1:
+	$value = 1
+$target.hp -= $value
+PRINT "$this.name attacks for $value damage!"
