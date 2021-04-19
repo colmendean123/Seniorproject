@@ -24,10 +24,10 @@ public class Monster : WorldCharacter
 		return this.maxHeal;
 	}
 
-	//public new void subtractHitPoints(int hitPoints)
-	//{
-	//	base.subtractHitPoints(hitPoints);
-	//	//AttackPool.getInstanceOf().getBasicHeal().heal(this);
-	//}
+    public new void subtractHitPoints(int hitPoints)
+    {
+        base.subtractHitPoints(hitPoints);
+        //AttackPool.getInstanceOf().getBasicHeal().heal(this);
+    }
 
 }

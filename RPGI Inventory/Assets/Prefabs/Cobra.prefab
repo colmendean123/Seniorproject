@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4477368331934199204}
   - component: {fileID: 4477368331934199205}
+  - component: {fileID: 847889813766074448}
+  - component: {fileID: 1301754362961852559}
   m_Layer: 0
   m_Name: Cobra
   m_TagString: Untagged
@@ -52,6 +54,35 @@ MonoBehaviour:
   damageMin: 3
   damageMax: 6
   numTurns: 1
+--- !u!65 &847889813766074448
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4477368331934199202}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.1, y: 0.1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1301754362961852559
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4477368331934199202}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &4477368332789531134
 GameObject:
   m_ObjectHideFlags: 0

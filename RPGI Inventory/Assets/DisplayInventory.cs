@@ -17,12 +17,12 @@ public class DisplayInventory : MonoBehaviour
 
     void Start()
     {
-        //createDisplay(); 
+        createDisplay(); 
     }
 
     void Update()
     {
-        //updateDisplay();
+        updateDisplay();
     }
 
     public void updateDisplay()

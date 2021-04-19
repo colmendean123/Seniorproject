@@ -61,50 +61,52 @@ public class WorldCharacter : MonoBehaviour
 	//	return this.weapon;
 	//}
 
-	//public string addHitPoints(int hitPoints)
-	//{
-	//	string res = "";
+	//seperate method to handle adding hit points to the character that needs hitpoints added.
+	public string addHitPoints(int hitPoints)
+    {
+        string res = "";
 
-	//	if (hitPoints <= 0)
-	//		res = ("Hitpoint amount must be positive.");
-	//	else if (hitPoints + this.currentHitPoints >= maxHitPoints)
-	//	{
-	//		this.currentHitPoints = maxHitPoints;
-	//		res = ("You are back to full HP at: " + hitPoints);
-	//	}
-	//	else
-	//	{
-	//		this.currentHitPoints += hitPoints;
-	//		res = ("Remaining Hit Points: " + hitPoints);
+        if (hitPoints <= 0)
+            res = ("Hitpoint amount must be positive.");
+        else if (hitPoints + this.currentHitPoints >= maxHitPoints)
+        {
+            this.currentHitPoints = maxHitPoints;
+            res = ("You are back to full HP at: " + hitPoints);
+        }
+        else
+        {
+            this.currentHitPoints += hitPoints;
+            res = ("Remaining Hit Points: " + hitPoints);
 
-	//	}
+        }
 
-	//	return res;
-	//}
+        return res;
+    }
 
-	//public string subtractHitPoints(int hitPoints)
-	//{
-	//	string res = "";
+    //seperate method to handle subtracting hit points to the character that needs hitpoints taken away.
+    public string subtractHitPoints(int hitPoints)
+    {
+        string res = "";
 
-	//	if (hitPoints < 0)
-	//		res = ("Hitpoint amount must be positive.");
-	//	else if (hitPoints > 0)
-	//	{
-	//		this.currentHitPoints -= hitPoints;
-	//		if (this.currentHitPoints < 0)
-	//			this.currentHitPoints = 0;
-	//		res = (getName() + " takes <" + hitPoints + "> points of damage.");
-	//		res = (getName() + " now has " + getHitPoints() + " hit points remaining.");
-	//	}
+        if (hitPoints < 0)
+            res = ("Hitpoint amount must be positive.");
+        else if (hitPoints > 0)
+        {
+            this.currentHitPoints -= hitPoints;
+            if (this.currentHitPoints < 0)
+                this.currentHitPoints = 0;
+            res += "\n" + (getName() + " takes <" + hitPoints + "> points of damage.");
+            res += "\n" + (getName() + " now has " + getHitPoints() + " hit points remaining.");
+        }
 
-	//	if (this.currentHitPoints == 0)
-	//		res = (name + " has been killed :-(");
+        if (this.currentHitPoints == 0)
+            res += "\n" + (getName() + " has been killed :-(");
 
-	//	return res;
+        return res;
 
-	//}
+    }
 
-	public void setCharacter(WorldCharacter character)
+    public void setCharacter(WorldCharacter character)
 	{
 		this.name = character.name;
 		this.currentHitPoints = character.currentHitPoints;
