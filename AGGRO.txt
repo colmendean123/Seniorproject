@@ -1,1 +1,0 @@
-SELECT object1 AGGRO object2
