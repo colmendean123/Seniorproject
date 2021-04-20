@@ -1,0 +1,15 @@
+﻿<Window x:Class="NPCMaker.dialogue"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NPCMaker"
+        mc:Ignorable="d"
+        Title="dialogue" Height="450" Width="800">
+    <Grid>
+        <Canvas>
+            <TextBox Name="Dialogue" Width="507" Height="242" Canvas.Left="128" Canvas.Top="23"/>
+            <Button Name="submit" Content="Submit" Click="submit_Click" Width="100" Height="30" Canvas.Left="128" Canvas.Top="283"/>
+        </Canvas>
+    </Grid>
+</Window>
