@@ -73,8 +73,10 @@ public class RPGObject : MonoBehaviour
     //sets position for the game manager
     public void SetPosition(int x, int y)
     {
+        TilemapGenerator.walls[posx, posy] = false;
         posx = x;
         posy = y;
+        TilemapGenerator.walls[posx, posy] = true;
     }
 
     public (int, int) GetPosition()
@@ -97,9 +99,10 @@ public class RPGObject : MonoBehaviour
     {
         if (TilemapGenerator.CheckCollision(x, y) == false)
         {
+            TilemapGenerator.walls[posx, posy] = false;
             posx = x;
             posy = y;
-
+            TilemapGenerator.walls[posx, posy] = true;
         }
     }
 
@@ -108,47 +111,18 @@ public class RPGObject : MonoBehaviour
     {
         List<GameObject> collisions = new List<GameObject>();
         GameObject obj = GameManager.GetObjectByPosition(posx, posy - 1);
-        if (obj != null)
+        if (obj != null && obj.name!="Wall")
             collisions.Add(obj);
         obj = GameManager.GetObjectByPosition(posx, posy + 1);
-        if (obj != null)
+        if (obj != null && obj.name != "Wall")
             collisions.Add(obj);
         obj = GameManager.GetObjectByPosition(posx-1, posy);
-        if (obj != null)
+        if (obj != null && obj.name != "Wall")
             collisions.Add(obj);
         obj = GameManager.GetObjectByPosition(posx + 1, posy);
-        if (obj != null)
+        if (obj != null && obj.name != "Wall")
             collisions.Add(obj);
         return collisions;
-    }
-
-    public List<GameObject> CheckAdjacent()
-    {
-        List<GameObject> Adjacency = new List<GameObject>();
-        string[,] map = GameObject.FindGameObjectWithTag("Manager").GetComponent<TilemapGenerator>().GetMap();
-        int x = 0;
-        int y = 1;
-        if (map[x, y] != "0" && map[x, y] != "0")
-        {
-            Adjacency.Add(GameObject.Find(map[x, y]));
-        }
-        y = -1;
-        if (map[x, y] != "0" && map[x, y] != "0")
-        {
-            Adjacency.Add(GameObject.Find(map[x, y]));
-        }
-        y = 0;
-        x = -1;
-        if (map[x, y] != "0" && map[x, y] != "0")
-        {
-            Adjacency.Add(GameObject.Find(map[x, y]));
-        }
-        x = 1;
-        if (map[x, y] != "0" && map[x, y] != "0")
-        {
-            Adjacency.Add(GameObject.Find(map[x, y]));
-        }
-        return Adjacency;
     }
 
     public void Initialize(string name)
@@ -166,7 +140,19 @@ public class RPGObject : MonoBehaviour
         ChangeString("sprite", "player.png");
         LoadParameters(name+".txt");
         LoadSprite(GetString("sprite"));
+        
+    }
 
+    public void Attack(int index, GameObject target)
+    {
+        string[] attack = attacks[index];
+        string[] attackReplace = new string[attack.Length];
+        for(int i = 0; i < attack.Length; ++i)
+        {
+            attackReplace[i] = attack[i].Replace("$this", "$" + this.gameObject.name);
+            attackReplace[i] = attackReplace[i].Replace("$target", "$" + target.name);
+        }
+        DoMove(attackReplace);
     }
     
     //Generatepath finds the smallest possible path between an object and another. Obviously useful for aggro path finding. Could be reformatted to target points instead.
@@ -286,6 +272,12 @@ public class RPGObject : MonoBehaviour
         transform.position = new Vector2(posx * 0.32f, -posy * 0.32f);
         ChangeInt("X", posx);
         ChangeInt("Y", posy);
+        if (GetInt("HP") < 0)
+        {
+            Destroy(this.gameObject);
+            GameManager.Remove(this.gameObject);
+            TilemapGenerator.walls[posx, posy] = false;
+        }
     }
 
     //Load parameters from the object file
@@ -326,6 +318,13 @@ public class RPGObject : MonoBehaviour
         CommandRouter cmd = gameObject.AddComponent<CommandRouter>();
         cmd.Assign(inputs, this.gameObject);
         cmd.ExecuteStep(0);
+    }
+
+    public void DoMove(string[] move)
+    {
+        CommandRouter cmd = gameObject.AddComponent<CommandRouter>();
+        cmd.Assign(move, this.gameObject);
+        cmd.ExecuteStep(1);
     }
 
     public void Nextstep(int step, string[] inputs){

@@ -51,6 +51,11 @@ public static class GameManager
         objects = sorted;
     }
 
+    public static void Remove(GameObject target)
+    {
+        objects.Remove(target);
+    }
+
     public static void NextTurn()
     {
         if (turn > objects.Count-1)

@@ -8,6 +8,13 @@ public static class ParsingCommands {
         //Take the target, take off the $, find that object and evaluate the value of set. Determine int or string from parsing.
         public static void ChangeVar(string target, string set){
             target = target.Substring(1);
+            bool f = false;
+            Debug.Log("SET" + set);
+            if (set.StartsWith("-"))
+            {
+                f = true;
+                set = set.Substring(1);
+            }
             set = VariableMath.Eval(set).ToString();
             string[] spl = target.Split('.');
             int parsed;
@@ -15,6 +22,8 @@ public static class ParsingCommands {
             {
                 if (int.TryParse(set, out parsed))
                 {
+                    if (f == true)
+                        parsed = -parsed;
                     GameManager.ChangeInt(spl[0], parsed);
                 }
                 else
@@ -24,15 +33,19 @@ public static class ParsingCommands {
             string obj = spl[0];
             string var = spl[1];
             RPGObject rpgobj = GameObject.Find(obj).GetComponent<RPGObject>();
-            
-            if(int.TryParse(set, out parsed))
+            if (int.TryParse(set, out parsed))
+            {
+                if (f == true)
+                    parsed = -parsed;
                 rpgobj.ChangeInt(var, parsed);
+            }
             else
                 rpgobj.ChangeString(var, set);
         }
         //get the variable by finding the target, taking off the $, and parsing.
         public static string GetVar(string target){
             target = target.Substring(1);
+            GameManager.Debug(target);
             string[] spl = target.Split('.');
             if(spl.Length == 1)
             {

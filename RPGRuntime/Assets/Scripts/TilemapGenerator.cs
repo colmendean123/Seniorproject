@@ -7,7 +7,7 @@ public class TilemapGenerator : MonoBehaviour
 
     private float defsize = 0.32f;
 
-    private static bool[,] walls = new bool[0,0];
+    public static bool[,] walls = new bool[0,0];
     private float size;
     private static int lenx = 0, leny = 0;
     Dictionary<string, int> assignid;
@@ -28,9 +28,10 @@ public class TilemapGenerator : MonoBehaviour
         string objects = GameManager.GetMap(GameManager.GetMapName() + "object.txt");
         string arts = GameManager.GetMap(GameManager.GetMapName() + "background.txt");
         size = defsize;
-        ParseObjects(objects);
+
         ParseCollision(tiles);
         ParseArt(arts);
+        ParseObjects(objects);
     }
 
     //parse the tileset into line-by-line chunks

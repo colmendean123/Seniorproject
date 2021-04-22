@@ -9,7 +9,7 @@ public class CommandRouter : MonoBehaviour
     "GOTO", "IF", "ELSE", "TRUE", "FALSE", "PRINT", "HEAL",
     "ACTION", "ATTACK", "AGGRO", "FOLLOW", "MOVE", "DESTROY", "GIVE",
     "DEAGGRO", "SAY", "RESPONSE", "PRINT", "QUEST", "COMPLETEQUEST",
-    "OBJECTIVECOMPLETE", "SHOPWINDOW", "SHOPEND", "SHOP", "SELL", "LOCK", "UNLOCK", "=", "IF", "GREATER",
+    "OBJECTIVECOMPLETE", "SHOPWINDOW", "SHOPEND", "SHOP", "SELL", "LOCK", "UNLOCK", "=", "-=", "+=", "IF", "GREATER",
     "THAN", "LESS", "IS", "GETRESPONSE", "NEWRESPONSE", "ADDRESPONSE"};
     private Tokenizer token;
     int logicdepth = 0;
@@ -110,6 +110,7 @@ public class CommandRouter : MonoBehaviour
 
         if (inputs.StartsWith("//"))
             Nextstep();
+        
         token = new Tokenizer(inputs, self.name, this);
         ExecuteStep(token);
     }
@@ -155,8 +156,9 @@ public class CommandRouter : MonoBehaviour
                 //find the comparator through concat
                 string comparator = "";
                 string var1 = token.GetNext();
+                
                 //skip over already determined operators
-                while (var1.Equals("AND") || var1.Equals("OR") || var1.Equals("TRUE") || var1.Equals("FALSE"))
+                while (!var1.Equals(":"))
                 {
                     var1 = token.GetNext();
                 }
@@ -253,9 +255,8 @@ public class CommandRouter : MonoBehaviour
                 }
                 if(command.Equals("-=")){
                     string var = token.GetNext();
-                    string[] spl = target.Split('.');    
+                    string[] spl = target.Split('.');
                     Set(target, (int.Parse(Get(target)) - int.Parse(var)).ToString());
-                    
                     Nextstep();
                 }
                 if (command.Equals("+="))

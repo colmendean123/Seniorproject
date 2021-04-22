@@ -81,7 +81,9 @@ public class PlayerMovement : RPGObject
             {
                 int choice = DialogueCommands.GetResponse();
                 attacking = false;
+                
                 DialogueCommands.Clear();
+                Attack(choice, target);
             }
         }
         if (talking == true)

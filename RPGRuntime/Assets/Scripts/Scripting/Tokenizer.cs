@@ -64,8 +64,10 @@ namespace Scripting{
 			commandText = commandText.Replace('(', ' ');
 			commandText = commandText.Replace(')', ' ');
 			String[] stringgetter = commandText.Split('"');
-			for(int i = 0; i < stringgetter.Length; i++)
+			bool ifswitch = false;
+			for (int i = 0; i < stringgetter.Length; i++)
 			{
+
 				//for every other split "" we take a string. Otherwise we take a token.
 				if(i % 2 == 1){
 					string parsed = stringgetter[i].Trim();
@@ -80,6 +82,8 @@ namespace Scripting{
 						foreach (String token in tokengetter)
 						{
 							string tok = token;
+							if (thisrouter.CheckCommand(token.ToUpper()))
+								ifswitch = true;
 							//add things that register as commands, targets, or variables. we'll sort those later.
 							if (thisrouter.CheckCommand(token.ToUpper()))
 							{
@@ -87,6 +91,10 @@ namespace Scripting{
 							}
 							if (tok.Trim() != "")
 							{
+								if (ifswitch == true && tok.StartsWith("$"))
+								{
+									tok = ParseVars(tok);
+								}
 								tokens.Add(tok.Trim());
 							}
 						}
@@ -96,12 +104,18 @@ namespace Scripting{
 						foreach(String token in tokengetter)
                         {
 							string tok = token.Trim();
-							if(tok != "")
+
+							if (ifswitch == true && tok.StartsWith("$"))
+							{
+								tok = ParseVars(tok);
+							}
+
+							if (tok != "")
 								tokens.Add(tok);
                         }
                     }
 				}
-				
+				ifswitch = false;
 			}
 		}
 
@@ -124,7 +138,7 @@ namespace Scripting{
 						//makes the varlength not break on the first non-character
 						bool first = false;
 						foreach(char c in parseinfo[i].Substring(1)){
-							if(char.IsLetter(c)){
+							if(char.IsLetter(c) || char.IsNumber(c)){
 								varlen++;
 							}else{
 								if(first == false)
