@@ -52,6 +52,8 @@ public class TilemapGenerator : MonoBehaviour
 
     private void ParseObjects(string str)
     {
+        //GameObject scr = GameObject.Find("ScriptRunner");
+        //scr.GetComponent<RPGObject>().Initialize("");
         assignid = new Dictionary<string, int>();
         string[] bin = str.Split('\n');
         foreach(string i in bin)
@@ -88,7 +90,6 @@ public class TilemapGenerator : MonoBehaviour
         //ypos
         int.TryParse(token.GetNext(), out ypos);
 
-        Debug.Log("Name: " + obj + " X: " + xpos.ToString() + " Y: " + ypos.ToString());
         var prefab = Resources.Load("Prefabs/Object") as GameObject;
         var inst = GameObject.Instantiate(prefab, this.transform.position, this.transform.rotation);
         inst.name = obj;

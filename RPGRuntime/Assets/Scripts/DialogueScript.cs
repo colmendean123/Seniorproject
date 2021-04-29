@@ -13,7 +13,7 @@ public class DialogueScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = new Vector3(speaker.transform.position.x +0.0f, transform.position.y+0.25f, transform.position.z);
+        transform.position = new Vector3(speaker.transform.position.x +0.0f, speaker.transform.position.y+0.25f, transform.position.z);
         if(speed == 0)
             speed = 2f;
         this.GetComponent<TextMeshProUGUI>().text = text;

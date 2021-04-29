@@ -10,7 +10,7 @@ public class CommandRouter : MonoBehaviour
     "ACTION", "ATTACK", "AGGRO", "FOLLOW", "MOVE", "DESTROY", "GIVE",
     "DEAGGRO", "SAY", "RESPONSE", "PRINT", "QUEST", "COMPLETEQUEST",
     "OBJECTIVECOMPLETE", "SHOPWINDOW", "SHOPEND", "SHOP", "SELL", "LOCK", "UNLOCK", "=", "-=", "+=", "IF", "GREATER",
-    "THAN", "LESS", "IS", "GETRESPONSE", "NEWRESPONSE", "ADDRESPONSE"};
+    "THAN", "LESS", "IS", "GETRESPONSE", "NEWRESPONSE", "ADDRESPONSE", "RUN"};
     private Tokenizer token;
     int logicdepth = 0;
     private string[] func;
@@ -119,6 +119,26 @@ public class CommandRouter : MonoBehaviour
     public void ExecuteStep(Tokenizer token) {
         string next = token.GetNext();
         if(CheckCommand(next)){
+            if (next.Equals("SAY"))
+            {
+                Say(token, this.gameObject.name, self);
+            }
+            if (next.Equals("RUN"))
+            {
+                Debug.Log("GO");
+                string script = token.GetNext();
+                string target = token.GetNext();
+                GameObject obj = this.gameObject;
+                if(target != null)
+                {
+                    obj = RPGObject.FindWithName(target);
+                }
+                CommandRouter cmd = obj.AddComponent<CommandRouter>();
+                string[] inputs = GameManager.LoadFile("Scripts", script);
+                cmd.Assign(inputs, this.gameObject);
+                cmd.ExecuteStep(0);
+
+            }
             if (next.Equals("GETRESPONSE"))
             {
                 string target = token.GetNext();
@@ -331,7 +351,6 @@ public class CommandRouter : MonoBehaviour
 
     //Run the dialogue commands by parsing and determining which one to do 
     private void Say(Tokenizer token, string target, GameObject self){
-        Debug.Log(target);
         string dialogue = token.GetNext();
         if(token.Size()-1 > 3){
             

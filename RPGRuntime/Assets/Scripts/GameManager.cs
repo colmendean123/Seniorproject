@@ -24,11 +24,18 @@ public static class GameManager
         objects = new List<GameObject>();
         foreach(GameObject i in GameObject.FindGameObjectsWithTag("Object"))
         {
-            objects.Add(i);
+            if(i.name!="ScriptRunner")
+                objects.Add(i);
         }
         Debug(objects.Count.ToString());
         CalculateTurnOrder();
         NextTurn();
+    }
+
+    public static RPGObject ScriptRunner()
+    {
+        return null;
+        //return GameObject.Find("ScriptRunner").GetComponent<RPGObject>();
     }
 
     //calculates turn order by finding the highest speed and sorting them into a sorted object list. Done once after initialization and once any time speed is changed. (Implement this)

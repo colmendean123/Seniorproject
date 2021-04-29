@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\CameraScript.cs" />
     <Compile Include="Assets\Scripts\DialogueScript.cs" />
+    <Compile Include="Assets\Scripts\FunctionParser.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\HUDScript.cs" />
     <Compile Include="Assets\Scripts\ObjectAI.cs" />

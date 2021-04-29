@@ -9,7 +9,6 @@ public static class ParsingCommands {
         public static void ChangeVar(string target, string set){
             target = target.Substring(1);
             bool f = false;
-            Debug.Log("SET" + set);
             if (set.StartsWith("-"))
             {
                 f = true;

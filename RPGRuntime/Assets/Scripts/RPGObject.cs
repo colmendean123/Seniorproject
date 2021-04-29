@@ -19,6 +19,7 @@ public class RPGObject : MonoBehaviour
     protected int posx;
     protected int posy;
     private int ID = 1;
+    FunctionParser function;
 
     public static GameObject FindWithID(string name, int id)
     {
@@ -49,11 +50,14 @@ public class RPGObject : MonoBehaviour
 
     //onstart, load default variables. Then load parameters.
     protected void Start(){
+        if (name == "ScriptRunner")
+            return;
         AddMove("BasicAttack.txt");
     }
 
     public void AddMove(string filename)
     {
+       
         string[] loadedattack = GameManager.LoadFile("Moves", filename);
         attacknames.Add(loadedattack[0].Substring(2));
         attacks.Add(loadedattack);
@@ -61,11 +65,13 @@ public class RPGObject : MonoBehaviour
 
     public void BeginTurn()
     {
+        DoFunction("TURNSTART");
         turn = true;
     }
 
     public void EndTurn()
     {
+        DoFunction("TURNEND");
         turn = false;
         GameManager.NextTurn();
     }
@@ -73,6 +79,8 @@ public class RPGObject : MonoBehaviour
     //sets position for the game manager
     public void SetPosition(int x, int y)
     {
+        if (name == "ScriptRunner")
+            return;
         TilemapGenerator.walls[posx, posy] = false;
         posx = x;
         posy = y;
@@ -136,9 +144,11 @@ public class RPGObject : MonoBehaviour
         ChangeInt("HP", 10);
         ChangeInt("DEF", 3);
         ChangeInt("ATTACK", 3);
+        ChangeInt("SPEED", 1);
         ChangeString("name", gameObject.name);
         ChangeString("sprite", "player.png");
-        LoadParameters(name+".txt");
+        if(name!="")
+            LoadParameters(name+".txt");
         LoadSprite(GetString("sprite"));
         
     }
@@ -274,6 +284,8 @@ public class RPGObject : MonoBehaviour
         ChangeInt("Y", posy);
         if (GetInt("HP") < 0)
         {
+            
+            //GameManager.ScriptRunner().DoExtFunction(GetFunction("ONDESTROY"));
             Destroy(this.gameObject);
             GameManager.Remove(this.gameObject);
             TilemapGenerator.walls[posx, posy] = false;
@@ -282,8 +294,14 @@ public class RPGObject : MonoBehaviour
 
     //Load parameters from the object file
     public void LoadParameters(string name){
-        string[] paramaters = GameManager.LoadFile("Objects", name);
-        foreach(string str in paramaters){
+        int functionstart = 0;
+        FunctionParser funcparser = new FunctionParser();
+        string[] parameters = GameManager.LoadFile("Objects", name);
+        foreach(string str in parameters){
+            if (str.StartsWith("["))
+            {
+                break;
+            }
             //split into key value pair
             string key = str.Split('=')[0].Trim().ToUpper();
             string value = str.Split('=')[1].Trim();
@@ -294,10 +312,37 @@ public class RPGObject : MonoBehaviour
             else{
                 ChangeString(key, value);
             }
-            this.gameObject.name = GetString("NAME") + ID.ToString();
+            ++functionstart;
         }
-
+        for(int i = functionstart; i < parameters.Length; ++i)
+        {
+            if (parameters[i].StartsWith("["))
+            {
+                AddFunction(funcparser.Export());
+                string n = parameters[i].Replace("[", "");
+                n = n.Replace("]", "");
+                n = n.ToUpper();
+                funcparser = new FunctionParser(n);
+                continue;
+            }
+            funcparser.AddLine(parameters[i]);
+        }
+        AddFunction(funcparser.Export());
+        this.gameObject.name = GetString("NAME") + ID.ToString();
+        DoFunction("ONSTART");
     }
+
+    //Add the function
+    public void AddFunction((string, string[]) func)
+    {
+        if (func.Item1 == null)
+            return;
+        string name = func.Item1;
+        name = name.ToUpper();
+        string[] function = func.Item2;
+        functions.Add(name, function);
+    }
+
     //scripting on a local level
     public void DoScript(string script){
         inputs = GameManager.LoadFile("Scripts", script);
@@ -311,9 +356,25 @@ public class RPGObject : MonoBehaviour
         GameObject.FindGameObjectWithTag("Manager").GetComponent<CommandRouter>().Execute(gameObject, ref logicdepth);
     }
 
+    public void DoExtFunction(string[] function)
+    {
+        CommandRouter cmd = gameObject.AddComponent<CommandRouter>();
+        cmd.Assign(function, this.gameObject);
+        cmd.ExecuteStep(0);
+    }
+
+    public string[] GetFunction(string func)
+    {
+        if (!functions.ContainsKey(func))
+            return null;
+        return functions[func];
+    }
+
     public void DoFunction(string func)
     {
-        
+        func = func.ToUpper();
+        if (!functions.ContainsKey(func))
+            return;
         string[] inputs = functions[func];
         CommandRouter cmd = gameObject.AddComponent<CommandRouter>();
         cmd.Assign(inputs, this.gameObject);
@@ -402,10 +463,5 @@ public class RPGObject : MonoBehaviour
             intvars.Add(key, var);
         else
             intvars[key] = var;
-    }
-
-    private void ScanFunctions(string fname)
-    {
-        string[] inp = GameManager.LoadFile("Scripts", fname);
     }
 }
