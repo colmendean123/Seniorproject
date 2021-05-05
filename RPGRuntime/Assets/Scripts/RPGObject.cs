@@ -40,7 +40,7 @@ public class RPGObject : MonoBehaviour
         List<GameObject> possibilities = new List<GameObject>();
         foreach (GameObject i in GameObject.FindGameObjectsWithTag("Object"))
         {
-            if (i.GetComponent<RPGObject>().GetString("NAME") == name)
+            if (i.GetComponent<RPGObject>().GetString("NAME") == name || i.gameObject.name == name)
             {
                 return i;
             }

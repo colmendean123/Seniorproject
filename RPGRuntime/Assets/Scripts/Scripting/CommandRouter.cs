@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Scripting;
+using System;
+using Random = System.Random;
 
 public class CommandRouter : MonoBehaviour
 {
@@ -10,7 +12,7 @@ public class CommandRouter : MonoBehaviour
     "ACTION", "ATTACK", "AGGRO", "FOLLOW", "MOVE", "DESTROY", "GIVE",
     "DEAGGRO", "SAY", "RESPONSE", "PRINT", "QUEST", "COMPLETEQUEST",
     "OBJECTIVECOMPLETE", "SHOPWINDOW", "SHOPEND", "SHOP", "SELL", "LOCK", "UNLOCK", "=", "-=", "+=", "IF", "GREATER",
-    "THAN", "LESS", "IS", "GETRESPONSE", "NEWRESPONSE", "ADDRESPONSE", "RUN"};
+    "THAN", "LESS", "IS", "GETRESPONSE", "NEWRESPONSE", "ADDRESPONSE", "RUN", "RAND"};
     private Tokenizer token;
     int logicdepth = 0;
     private string[] func;
@@ -170,8 +172,24 @@ public class CommandRouter : MonoBehaviour
                 GameObject.Find(next).GetComponent<RPGObject>().Lock(true);
             }
             if (next.Equals("UNLOCK"))
-                
+            {
                 GameObject.Find(token.GetNext()).GetComponent<RPGObject>().Lock(false);
+            }
+            if (next.Equals("RAND"))
+            {
+                int number = 0;
+                int.TryParse(token.GetNext(), out number);
+                Random r = new Random(DateTime.Now.Millisecond);
+                int rint = r.Next(0, 100);
+                Debug.Log("Rint - " + rint.ToString() + " number - " + number.ToString());
+                if(number > rint)
+                {
+                    Debug.Log("Pass");
+                    ++logicdepth;
+                    Nextstep();
+                    return;
+                }
+            }
             if(next.Equals("IF")){
                 //find the comparator through concat
                 string comparator = "";
@@ -227,6 +245,7 @@ public class CommandRouter : MonoBehaviour
                     Nextstep();
                     return;
                 }
+
                 //Get the step of the current token. used for making the new command at the ned
                 int stepstart = token.GetStep();
                 string add = token.GetNext();
