@@ -12,7 +12,7 @@ public class CommandRouter : MonoBehaviour
     "ACTION", "ATTACK", "AGGRO", "FOLLOW", "MOVE", "DESTROY", "GIVE",
     "DEAGGRO", "SAY", "RESPONSE", "PRINT", "QUEST", "COMPLETEQUEST",
     "OBJECTIVECOMPLETE", "SHOPWINDOW", "SHOPEND", "SHOP", "SELL", "LOCK", "UNLOCK", "=", "-=", "+=", "IF", "GREATER",
-    "THAN", "LESS", "IS", "GETRESPONSE", "NEWRESPONSE", "ADDRESPONSE", "RUN", "RAND"};
+    "THAN", "LESS", "IS", "GETRESPONSE", "NEWRESPONSE", "ADDRESPONSE", "RUN", "RAND", "SWITCHMAP"};
     private Tokenizer token;
     int logicdepth = 0;
     private string[] func;
@@ -125,6 +125,11 @@ public class CommandRouter : MonoBehaviour
             {
                 Say(token, this.gameObject.name, self);
             }
+            if (next.Equals("SWITCHMAP"))
+            {
+                string map = token.GetNext();
+                GameManager.LoadMap(map);
+            }
             if (next.Equals("RUN"))
             {
                 Debug.Log("GO");
@@ -184,7 +189,6 @@ public class CommandRouter : MonoBehaviour
                 Debug.Log("Rint - " + rint.ToString() + " number - " + number.ToString());
                 if(number > rint)
                 {
-                    Debug.Log("Pass");
                     ++logicdepth;
                     Nextstep();
                     return;
@@ -284,6 +288,14 @@ public class CommandRouter : MonoBehaviour
                 if(command.Equals("SAY")){
 
                     Say(token, target, self);
+                }
+                if (command.Equals("MOVE"))
+                {
+                    int x, y;
+                    int.TryParse(token.GetNext(), out x);
+                    int.TryParse(token.GetNext(), out y);
+                    GameObject i = RPGObject.FindWithName(target);
+                    i.GetComponent<RPGObject>().SetPosition(x, y);
                 }
                 if(command.Equals("=")){
                     string var = token.GetNext();

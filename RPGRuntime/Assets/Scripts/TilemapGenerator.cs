@@ -22,8 +22,9 @@ public class TilemapGenerator : MonoBehaviour
 
     
     //Loads the current map files. Does not replace the map currently loaded
-    void LoadCurrentMap()
+    public void LoadCurrentMap()
     {
+        GameManager.WipeObjects();
         string tiles = GameManager.GetMap(GameManager.GetMapName() + "tile.txt");
         string objects = GameManager.GetMap(GameManager.GetMapName() + "object.txt");
         string arts = GameManager.GetMap(GameManager.GetMapName() + "background.txt");

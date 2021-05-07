@@ -7,6 +7,7 @@ using Scripting;
 
 public static class GameManager
 {
+    private static int overridex, overridey = 3;
     private static string moduleName = "TestModule";
     private static string mapName = "default";
     private static string path;
@@ -20,7 +21,7 @@ public static class GameManager
     public static void Init()
     {
         turn = 0;
-        path = Application.dataPath + "\\..\\" + moduleName;
+        path = Application.dataPath + "\\..\\modules\\" + moduleName;
         objects = new List<GameObject>();
         foreach(GameObject i in GameObject.FindGameObjectsWithTag("Object"))
         {
@@ -30,6 +31,14 @@ public static class GameManager
         NextTurn();
     }
 
+    public static void WipeObjects()
+    {
+        objects = new List<GameObject>();
+        foreach(GameObject i in GameObject.FindGameObjectsWithTag("Object"))
+        {
+            GameObject.Destroy(i);
+        }
+    }
 
     //calculates turn order by finding the highest speed and sorting them into a sorted object list. Done once after initialization and once any time speed is changed. (Implement this)
     public static void CalculateTurnOrder()
@@ -102,7 +111,7 @@ public static class GameManager
     //get the system module path
     public static string GetPath(){
         if(path == null)
-            path = Application.dataPath + "\\..\\" + moduleName;
+            path = Application.dataPath + "\\..\\modules\\" + moduleName;
         return path;
     }
 
@@ -119,6 +128,13 @@ public static class GameManager
     //get a file from the module's map folder
     public static string GetMap(string mapName){
         return System.IO.File.ReadAllText(GetPath() + "\\Maps\\" + mapName);
+    }
+
+    public static void LoadMap(string mapname)
+    {
+        GameObject mapper = GameObject.FindGameObjectWithTag("Manager");
+        mapName = mapname;
+        mapper.GetComponent<TilemapGenerator>().LoadCurrentMap();
     }
 
     //Loading for sprites

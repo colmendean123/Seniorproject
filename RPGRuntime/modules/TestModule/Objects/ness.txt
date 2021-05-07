@@ -1,0 +1,13 @@
+name = ness
+sprite = player.png
+hp = 1
+defense = 3
+attack = 2
+Faction = 4
+speed = 3
+[TURNSTART]
+SAY "HAHAHA!"
+[ACTION:TALK]
+RUN "nessdialogue"
+[ONDESTROY]
+ness1 MOVE 1 2

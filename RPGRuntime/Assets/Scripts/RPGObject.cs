@@ -50,8 +50,6 @@ public class RPGObject : MonoBehaviour
 
     //onstart, load default variables. Then load parameters.
     protected void Start(){
-        if (name == "ScriptRunner")
-            return;
         AddMove("BasicAttack.txt");
     }
 
@@ -79,8 +77,6 @@ public class RPGObject : MonoBehaviour
     //sets position for the game manager
     public void SetPosition(int x, int y)
     {
-        if (name == "ScriptRunner")
-            return;
         TilemapGenerator.walls[posx, posy] = false;
         posx = x;
         posy = y;
@@ -285,7 +281,7 @@ public class RPGObject : MonoBehaviour
         if (GetInt("HP") < 0)
         {
             
-            //GameManager.ScriptRunner().DoExtFunction(GetFunction("ONDESTROY"));
+            DoFunction("ONDESTROY");
             Destroy(this.gameObject);
             GameManager.Remove(this.gameObject);
             TilemapGenerator.walls[posx, posy] = false;
