@@ -143,7 +143,7 @@ public class TilemapGenerator : MonoBehaviour
         string[,] map = new string[lenx, leny];
         for(int x = 0;  x < walls.GetLength(0); ++x)
         {
-            for (int y = 0; y < walls.GetLength(0); ++y)
+            for (int y = 0; y < walls.GetLength(1); ++y)
             {
                 if (walls[x, y] == false)
                     map[x, y] = "0";

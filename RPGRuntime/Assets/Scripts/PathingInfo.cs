@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class PathingInfo
 {
-    public bool throughobjects;
     public int length;
     public bool success;
     private List<(int, int)> coordinates;
 
     public PathingInfo()
     {
-        throughobjects = false;
         length = 0;
         success = false;
         coordinates = new List<(int, int)>();
@@ -19,11 +17,10 @@ public class PathingInfo
 
     public PathingInfo(int x, int y, PathingInfo prev)
     {
-        throughobjects = prev.throughobjects;
         length = prev.length;
-        success = prev.success;
+        success = false;
         coordinates = prev.coordinates;
-        coordinates.Add((x, y));
+        AddCoordinates(x, y);
     }
 
     public (int, int) GetCoordinates(int index)
@@ -39,6 +36,11 @@ public class PathingInfo
     public int GetY(int index)
     {
         return coordinates[index].Item2;
+    }
+    
+    public void Success()
+    {
+        success = true;
     }
 
     public void AddCoordinates(int x, int y)

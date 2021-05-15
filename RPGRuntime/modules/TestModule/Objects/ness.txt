@@ -5,8 +5,6 @@ defense = 3
 attack = 2
 Faction = 4
 speed = 3
-[TURNSTART]
-SAY "HAHAHA!"
 [ACTION:TALK]
 RUN "nessdialogue"
 [ONDESTROY]
