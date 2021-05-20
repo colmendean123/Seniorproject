@@ -162,7 +162,7 @@ public class RPGObject : MonoBehaviour
     }
     
     //Generatepath finds the smallest possible path between an object and another. Obviously useful for aggro path finding. Could be reformatted to target points instead.
-    public (int, int) GeneratePath(string target)
+    public PathingInfo GeneratePath(string target)
     {
         string[,] map = GameObject.FindGameObjectWithTag("Manager").GetComponent<TilemapGenerator>().GetMap();
         (int, int) dimensions = GameObject.FindGameObjectWithTag("Manager").GetComponent<TilemapGenerator>().GetDimensions();
@@ -174,7 +174,7 @@ public class RPGObject : MonoBehaviour
     }
 
     //iterates 4 times: Once for every direction.
-    public (int, int) PathFind(string[,] map, string target)
+    public PathingInfo PathFind(string[,] map, string target)
     {
         //I'm going to kill myself. An implementation of Djikstra's theory.
         GameObject targ = FindWithName(target);
@@ -250,7 +250,7 @@ public class RPGObject : MonoBehaviour
         Debug.Log(completed.Count);
         //get the completed paths
         if (completed.Count == 0)
-            return (thisx, thisy);
+            return new PathingInfo((thisx, thisy), 100);
         else
         {
             int check = 0;
@@ -260,23 +260,9 @@ public class RPGObject : MonoBehaviour
                 ++check;
             }
             Debug.Log("check: " + completed[check].ToString());
-            return completed[check];
+            return new PathingInfo(completed[check], check);
         }
 
-    }
-
-    public bool PathCheck(PathingInfo path, ref List<PathingInfo> success)
-    {
-        //checks if the path is done. If not, returns true to tell the iterator to continue iterating.
-        if (path == null)
-            return false;
-        if (path.success == true)
-        {
-            Debug.Log("GO");
-            success.Add(path);
-            return false;
-        }
-        return true;
     }
 
     public bool PathTest(string[,] map, int x, int y)
@@ -291,35 +277,6 @@ public class RPGObject : MonoBehaviour
         if (map[x, y] == "1")
             return false;
         return true;
-    }
-
-    PathingInfo CreatePath(PathingInfo prev, string[,] map,  string target, int x, int y)
-    {
-        //All failure conditions:
-        //out of index
-        if (x < 0 || y < 0)
-            return null;
-        if (x > map.GetLength(0)-1 || y > map.GetLength(1)-1)
-            return null;
-        //Wall in the way
-        if (map[x, y] == "1")
-            return null;
-        for(int i = 0; i < prev.length; ++i)
-        {
-            Debug.Log("X1: " + x.ToString() + " X2: " + prev.GetCoordinates(i).Item1);
-            Debug.Log("Y1: " + y.ToString() + " Y2: " + prev.GetCoordinates(i).Item2);
-            if ((x, y) == prev.GetCoordinates(i))
-            {
-                Debug.Log("CUT");
-                return null;
-                
-            }
-        }
-        PathingInfo ret = new PathingInfo(x, y, prev);
-        if (map[x, y] == target)
-            ret.success = true;
-        
-        return ret;
     }
 
     protected void Update()

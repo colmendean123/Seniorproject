@@ -19,9 +19,19 @@ public class ObjectAI : RPGObject
             if (target != null)
             {
                 Debug.Log("GO!");
-
-                (int, int) path = GeneratePath(target.gameObject.name);
-                Move(path.Item1, path.Item2);
+                PathingInfo targetpath = GeneratePath(target.gameObject.name);
+                if (targetpath.distance > 0)
+                {
+                    (int, int) next = targetpath.position;
+                    Move(next.Item1, next.Item2);
+                }
+                else
+                {
+                    int maxattack = attacks.Count-1;
+                    System.Random rand = new System.Random();
+                    int attack = rand.Next(0, maxattack);
+                    Attack(attack, target.gameObject);
+                }
                 EndTurn();
                 
             }
