@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +16,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using Microsoft.Win32;
 using System.Drawing;
+using System.Text.RegularExpressions;
 
 namespace NPCMaker
 {
@@ -46,11 +47,16 @@ namespace NPCMaker
 
         private void Submit_Click(object sender, RoutedEventArgs e)
         {
+            String mName = name.Text;
+            var checker = new Regex("^[a-zA-Z0-9 ]*$");
             if (name.Text == "" || attack.Text == "" || defense.Text == "" || moves.Text == "")
             {
                 MessageBox.Show("please fill in the rest of the data");
             }
-
+            else if (!(checker.IsMatch(mName)))
+            {
+                MessageBox.Show("No Special Characters");
+            }
 
             else
             {
@@ -65,22 +71,55 @@ namespace NPCMaker
                     //MessageBox.Show(temp.getIsPlayable());
 
                 }
+               
                 Save.IsEnabled = true;
-                String mName = name.Text;
+                mName = name.Text;
+                
                 temp.setName(mName);
+
                 displayName.Content = mName;
-                int mHP = int.Parse(hp.Text);
-                temp.setHP(mHP);
-                displayHP.Content = mHP;
-                int mAttack = int.Parse(attack.Text);
-                temp.setAttack(mAttack);
-                displayAttack.Content = mAttack;
-                int mDeffense = int.Parse(defense.Text);
-                temp.setDefense(mDeffense);
-                displaydefense.Content = mDeffense;
-                int mFaction = int.Parse(moves.Text);
-                temp.setFaction(mFaction);
-                displayMoves.Content = mFaction;
+
+                if (!(hp.Text.All(char.IsDigit)))
+                {
+                    MessageBox.Show("Please insert a number for hp");
+
+                }
+                else
+                {
+                    int mHP = int.Parse(hp.Text);
+                    temp.setHP(mHP);
+                    displayHP.Content = mHP;
+                }
+                if (!(attack.Text.All(char.IsDigit)))
+                {
+                    MessageBox.Show("Please make the value of Attack a number");
+                }
+                else
+                {
+                    int mAttack = int.Parse(attack.Text);
+                    temp.setAttack(mAttack);
+                    displayAttack.Content = mAttack;
+                }
+                if (!(defense.Text.All(char.IsDigit)))
+                {
+                    MessageBox.Show("Please insert a number for Defense");
+                }
+                else
+                {
+                    int mDeffense = int.Parse(defense.Text);
+                    temp.setDefense(mDeffense);
+                    displaydefense.Content = mDeffense;
+                }
+                if (!(defense.Text.All(char.IsDigit)))
+                {
+                    MessageBox.Show("Please insert a number for moves");
+                }
+                else
+                {
+                    int mFaction = int.Parse(moves.Text);
+                    temp.setFaction(mFaction);
+                    displayMoves.Content = mFaction;
+                }
                 temp.setImage(this.imageFile);
                 temp.setDialogue(this.dialogue);
                 temp.setMoves(this.Moves);
