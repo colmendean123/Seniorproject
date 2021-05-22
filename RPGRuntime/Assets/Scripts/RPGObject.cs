@@ -20,6 +20,7 @@ public class RPGObject : MonoBehaviour
     private int ID = 1;
     FunctionParser function;
     protected GameObject target;
+    bool[] equippeditem = new bool[0];
 
     public static GameObject FindWithID(string name, int id)
     {
@@ -139,13 +140,19 @@ public class RPGObject : MonoBehaviour
         attacknames = new List<string>();
         ChangeInt("HP", 10);
         ChangeInt("DEF", 3);
-        ChangeInt("ATTACK", 3);
-        ChangeInt("SPEED", 1);
+        ChangeInt("ATK", 3);
+        ChangeInt("SPD", 1);
+        ChangeInt("SLOTS", 5);
         ChangeString("name", gameObject.name);
         ChangeString("sprite", "player.png");
         if(name!="")
             LoadParameters(name+".txt");
         LoadSprite(GetString("sprite"));
+        equippeditem = new bool[GetInt("SLOTS")];
+        for(int i = 0; i < equippeditem.Length; ++i)
+        {
+            equippeditem[i] = false;
+        }
         
     }
 
@@ -297,6 +304,54 @@ public class RPGObject : MonoBehaviour
                 TilemapGenerator.walls[posx, posy] = false;
             }
         }
+    }
+
+    //Equips an item
+    public void EquipItem(string item)
+    {
+        FunctionParser funcparser = new FunctionParser();
+        int tryslot = 0;
+        string[] parameters = GameManager.LoadFile("Items", name);
+        foreach(string str in parameters)
+        {
+            string key = str.Split('=')[0].Trim().ToUpper();
+            string value = str.Split('=')[1].Trim();
+            if (key.ToUpper() == "SLOT")
+            {
+                int.TryParse(value, out tryslot);
+                if(equippeditem[tryslot] == true)
+                {
+                    break;
+                }
+            }
+        }
+        
+        foreach (string j in parameters)
+        {
+            string str = j.Replace("$this", "$" + name);
+            if (str.StartsWith("["))
+            {
+                break;
+            }
+            //split into key value pair
+            string key = str.Split('=')[0].Trim().ToUpper();
+            string value = str.Split('=')[1].Trim();
+            //check if int or string
+            if(key.ToUpper() == "NAME")
+            {
+                continue;
+            }
+            if (int.TryParse(value, out int i))
+            {
+                ChangeInt(key, i);
+            }
+            else
+            {
+                ChangeString(key, value);
+            }
+        }
+        AddFunction(funcparser.Export());
+        this.gameObject.name = GetString("NAME") + ID.ToString();
     }
 
     //Load parameters from the object file
