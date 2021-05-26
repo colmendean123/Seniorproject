@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,10 +31,10 @@ namespace NPCMaker
             obj.ShowDialog();
         }
 
-        private void Createb_Click(object sender, RoutedEventArgs e)
+        private void CreateI_Click(object sender, RoutedEventArgs e)
         {
-            Building obj = new Building();
-            obj.ShowDialog();
+            Item obj1 = new Item();
+            obj1.ShowDialog();
         }
     }
 }
