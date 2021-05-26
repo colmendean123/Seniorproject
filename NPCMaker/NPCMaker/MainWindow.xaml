@@ -1,4 +1,4 @@
-﻿<Window x:Class="NPCMaker.MainWindow"
+<Window x:Class="NPCMaker.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,7 +10,8 @@
         <Canvas>
             <Label Name="NPCMenu" Content="NPC Maker Menu" FontSize="45"/>
             <Button Name="Create" Content="Create NPC " ToolTip="Create new NPC" Click="Create_Click" Canvas.Left="36" Canvas.Top="114" Width="72" Height="30"/>
-            <Button Name="Createb" Content="Create Building" ToolTip="Create new Building " Click="Createb_Click" Canvas.Left="132" Canvas.Top="114" Height="30" Width="90"/>
+            <Button Name="CreateI" Content="Create Item " Click="CreateI_Click" ToolTip="Create new Item" Canvas.Left="150" Canvas.Top="114" Height="30"  />
+    
         </Canvas>
     </Grid>
 </Window>
