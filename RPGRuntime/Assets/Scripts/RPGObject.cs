@@ -19,7 +19,7 @@ public class RPGObject : MonoBehaviour
     protected int posy;
     private int ID = 1;
     FunctionParser function;
-    protected GameObject target;
+    public GameObject target;
     bool[] equippeditem = new bool[0];
 
     public static GameObject FindWithID(string name, int id)

@@ -8,7 +8,6 @@ public class ObjectAI : RPGObject
     public new void Start()
     {
         base.Start();
-        target = RPGObject.FindWithName("ness");
     }
 
     public new void Update()

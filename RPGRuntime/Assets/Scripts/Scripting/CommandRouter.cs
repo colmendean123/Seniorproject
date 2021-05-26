@@ -10,9 +10,9 @@ public class CommandRouter : MonoBehaviour
     private string[] commands = {"SELECT", "GET", "SET", "RAND",
     "GOTO", "IF", "ELSE", "TRUE", "FALSE", "PRINT", "HEAL",
     "ACTION", "ATTACK", "AGGRO", "FOLLOW", "MOVE", "DESTROY", "GIVE",
-    "DEAGGRO", "SAY", "RESPONSE", "PRINT", "QUEST", "COMPLETEQUEST",
+    "SAY", "RESPONSE", "PRINT", "QUEST", "COMPLETEQUEST",
     "OBJECTIVECOMPLETE", "SHOPWINDOW", "SHOPEND", "SHOP", "SELL", "LOCK", "UNLOCK", "=", "-=", "+=", "IF", "GREATER",
-    "THAN", "LESS", "IS", "GETRESPONSE", "NEWRESPONSE", "ADDRESPONSE", "RUN", "RAND", "SWITCHMAP"};
+    "THAN", "LESS", "IS", "GETRESPONSE", "NEWRESPONSE", "ADDRESPONSE", "RUN", "RAND", "SWITCHMAP", "AGGRO", "DEAGRRO"};
     private Tokenizer token;
     int logicdepth = 0;
     private string[] func;
@@ -121,9 +121,21 @@ public class CommandRouter : MonoBehaviour
     public void ExecuteStep(Tokenizer token) {
         string next = token.GetNext();
         if(CheckCommand(next)){
+            if (next.Equals("GOTO"))
+            {
+                int.TryParse(token.GetNext(), out step);
+            }
             if (next.Equals("SAY"))
             {
                 Say(token, this.gameObject.name, self);
+            }
+            if (next.Equals("AGGRO"))
+            {
+                this.gameObject.GetComponent<RPGObject>().target = RPGObject.FindWithName(token.GetNext());
+            }
+            if (next.Equals("DEAGGRO"))
+            {
+                this.gameObject.GetComponent<RPGObject>().target = null;
             }
             if (next.Equals("SWITCHMAP"))
             {
@@ -132,7 +144,6 @@ public class CommandRouter : MonoBehaviour
             }
             if (next.Equals("RUN"))
             {
-                Debug.Log("GO");
                 string script = token.GetNext();
                 string target = token.GetNext();
                 GameObject obj = this.gameObject;
@@ -284,8 +295,16 @@ public class CommandRouter : MonoBehaviour
             string target = next;
             string command = token.GetNext().ToUpper();
             if(CheckCommand(command)){
+                if (next.Equals("AGGRO"))
+                {
+                    RPGObject.FindWithName(target).GetComponent<RPGObject>().target = RPGObject.FindWithName(token.GetNext());
+                }
+                if (next.Equals("DEAGGRO"))
+                {
+                    RPGObject.FindWithName(target).GetComponent<RPGObject>().target = null;
+                }
                 //pass along the SAY command with the target for simple targeting.
-                if(command.Equals("SAY")){
+                if (command.Equals("SAY")){
 
                     Say(token, target, self);
                 }
