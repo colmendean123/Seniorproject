@@ -394,7 +394,7 @@ public class RPGObject : MonoBehaviour
                 AddFunction(funcparser.Export());
                 string n = parameters[i].Replace("[", "");
                 n = n.Replace("]", "");
-                n = n.ToUpper();
+                
                 funcparser = new FunctionParser(n);
                 continue;
             }
@@ -411,16 +411,19 @@ public class RPGObject : MonoBehaviour
         if (func.Item1 == null)
             return;
         string name = func.Item1;
-        name = name.ToUpper();
+        
         string[] function = func.Item2;
         if (name.StartsWith("ACTION:"))
         {
-            
+
             name = name.Substring(7);
             actions.Add(name, function);
         }
         else
+        {
+            name = name.ToUpper();
             functions.Add(name, function);
+        }
     }
 
     //scripting on a local level
@@ -470,7 +473,6 @@ public class RPGObject : MonoBehaviour
 
     public void DoAction(string func)
     {
-        func = func.ToUpper();
         if (!actions.ContainsKey(func))
             return;
         string[] inputs = actions[func];
