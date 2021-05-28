@@ -119,6 +119,7 @@ public class CommandRouter : MonoBehaviour
 
     //Execute steps based on the tokenizer input
     public void ExecuteStep(Tokenizer token) {
+        
         string next = token.GetNext();
         if(CheckCommand(next)){
             if (next.Equals("GOTO"))
@@ -160,6 +161,7 @@ public class CommandRouter : MonoBehaviour
             if (next.Equals("GETRESPONSE"))
             {
                 string target = token.GetNext();
+                
                 tempstep = step;
                 temptarget = target;
                 waiting = true;
@@ -186,10 +188,12 @@ public class CommandRouter : MonoBehaviour
             {
                 next = token.GetNext();
                 GameObject.Find(next).GetComponent<RPGObject>().Lock(true);
+                Nextstep();
             }
             if (next.Equals("UNLOCK"))
             {
                 GameObject.Find(token.GetNext()).GetComponent<RPGObject>().Lock(false);
+                Nextstep();
             }
             if (next.Equals("RAND"))
             {
@@ -206,17 +210,19 @@ public class CommandRouter : MonoBehaviour
                 }
             }
             if(next.Equals("IF")){
+                
                 //find the comparator through concat
                 string comparator = "";
                 string var1 = token.GetNext();
                 
                 //skip over already determined operators
-                while (!var1.Equals(":"))
+                while (var1.Equals("TRUE") || var1.Equals("FALSE") || var1.Equals("AND") || var1.Equals("OR"))
                 {
                     var1 = token.GetNext();
                 }
+                
                 //Final step. finding the :
-                if(var1 == ":")
+                if (var1 == ":")
                 {
                     List<bool> andops = new List<bool>();
                     List<bool> orops = new List<bool>();
@@ -257,6 +263,7 @@ public class CommandRouter : MonoBehaviour
                     {
                         ++logicdepth;
                     }
+                    Debug.Log("GO");
                     Nextstep();
                     return;
                 }
@@ -273,6 +280,7 @@ public class CommandRouter : MonoBehaviour
                 int stepend = token.GetStep();
                 string newcommand = "";
                 string torf;
+                Debug.Log("var3 " + var1);
                 if (Equals(var1, var2, comparator))
                     torf = "TRUE";
                 else
@@ -407,10 +415,10 @@ public class CommandRouter : MonoBehaviour
             string sp = token.GetNext();
             float speed = float.Parse(sp);
             WaitSeconds(speed);
-            DialogueCommands.Say(GameObject.Find(target), dialogue, speed);
+            DialogueCommands.Say(RPGObject.FindWithName(target), dialogue, speed);
             }
         else{
-            DialogueCommands.Say(GameObject.Find(target), dialogue);
+            DialogueCommands.Say(RPGObject.FindWithName(target), dialogue);
             WaitSeconds(3f);
         }
     }
@@ -456,7 +464,8 @@ public class CommandRouter : MonoBehaviour
         {
             int choice = DialogueCommands.GetResponse();
             waiting = false;
-            Set(temptarget, choice.ToString());
+            Debug.Log(temptarget);
+            Set("$"+temptarget, choice.ToString());
             DialogueCommands.Clear();
             Nextstep();
         }

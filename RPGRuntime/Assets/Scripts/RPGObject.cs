@@ -7,6 +7,7 @@ public class RPGObject : MonoBehaviour
     SortedDictionary<string,int> intvars;
     SortedDictionary<string,string> stringvars;
     SortedDictionary<string, string[]> functions;
+    public SortedDictionary<string, string[]> actions;
     protected List<string[]> attacks;
     protected List<string> attacknames;
     int logicdepth = 0;
@@ -136,6 +137,7 @@ public class RPGObject : MonoBehaviour
         intvars = new SortedDictionary<string, int>();
         stringvars = new SortedDictionary<string, string>();
         functions = new SortedDictionary<string, string[]>();
+        actions = new SortedDictionary<string, string[]>();
         attacks = new List<string[]>();
         attacknames = new List<string>();
         ChangeInt("HP", 10);
@@ -304,6 +306,13 @@ public class RPGObject : MonoBehaviour
                 TilemapGenerator.walls[posx, posy] = false;
             }
         }
+        if (intvars.ContainsKey("MAXHP"))
+        {
+            if (GetInt("HP") > GetInt("MAXHP"))
+            {
+                ChangeInt("HP", GetInt("MAXHP"));
+            }
+        }
     }
 
     //Equips an item
@@ -350,7 +359,7 @@ public class RPGObject : MonoBehaviour
                 ChangeString(key, value);
             }
         }
-        AddFunction(funcparser.Export());
+        //AddFunction(funcparser.Export());
         this.gameObject.name = GetString("NAME") + ID.ToString();
     }
 
@@ -369,6 +378,8 @@ public class RPGObject : MonoBehaviour
             string value = str.Split('=')[1].Trim();
             //check if int or string
             if(int.TryParse(value, out int i)){
+                if(value == "HP")
+                    ChangeInt("MAXHP", i);
                 ChangeInt(key, i);
             }
             else{
@@ -402,7 +413,14 @@ public class RPGObject : MonoBehaviour
         string name = func.Item1;
         name = name.ToUpper();
         string[] function = func.Item2;
-        functions.Add(name, function);
+        if (name.StartsWith("ACTION:"))
+        {
+            
+            name = name.Substring(7);
+            actions.Add(name, function);
+        }
+        else
+            functions.Add(name, function);
     }
 
     //scripting on a local level
@@ -443,6 +461,24 @@ public class RPGObject : MonoBehaviour
         cmd.ExecuteStep(0);
     }
 
+    public string[] GetAction(string func)
+    {
+        if (!actions.ContainsKey(func))
+            return null;
+        return actions[func];
+    }
+
+    public void DoAction(string func)
+    {
+        func = func.ToUpper();
+        if (!actions.ContainsKey(func))
+            return;
+        string[] inputs = actions[func];
+        CommandRouter cmd = gameObject.AddComponent<CommandRouter>();
+        cmd.Assign(inputs, this.gameObject);
+        cmd.ExecuteStep(0);
+    }
+
     public void DoMove(string[] move)
     {
         CommandRouter cmd = gameObject.AddComponent<CommandRouter>();
@@ -459,7 +495,6 @@ public class RPGObject : MonoBehaviour
     //lock the player into place
     public void Lock(bool tf){
         this.locked = tf;
-        this.gameObject.GetComponent<CommandRouter>().Nextstep();
     }
 
     //Load the sprite from an external sprite path

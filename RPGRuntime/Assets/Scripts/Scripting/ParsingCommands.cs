@@ -43,6 +43,7 @@ namespace Scripting{
             }
             //get the variable by finding the target, taking off the $, and parsing.
             public static string GetVar(string target){
+            Debug.Log(target);
                 target = target.Substring(1);
                 GameManager.Debug(target);
                 string[] spl = target.Split('.');

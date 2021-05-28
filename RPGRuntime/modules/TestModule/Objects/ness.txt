@@ -6,6 +6,6 @@ attack = 2
 Faction = 4
 speed = 3
 [ACTION:TALK]
-RUN "nessdialogue"
+RUN "nessdialogue.txt"
 [ONDESTROY]
 ness1 MOVE 1 2

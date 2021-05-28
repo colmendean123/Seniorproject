@@ -81,9 +81,20 @@ public class PlayerMovement : RPGObject
             {
                 int choice = DialogueCommands.GetResponse();
                 attacking = false;
-                
+                List<string> actions = new List<string>();
+                foreach (string i in target.GetComponent<RPGObject>().actions.Keys)
+                {
+                    actions.Add(i);
+                }
                 DialogueCommands.Clear();
-                Attack(choice, target);
+                if (choice < attacknames.Count)
+                {
+                    Attack(choice, target);
+                }
+                else
+                {
+                    target.GetComponent<RPGObject>().DoAction(actions[choice - attacknames.Count]);
+                }
             }
         }
         if (talking == true)
@@ -99,6 +110,11 @@ public class PlayerMovement : RPGObject
                 DialogueCommands.NewResponse();
                 foreach (string i in attacknames)
                 {
+                    DialogueCommands.AddResponse(i);
+                }
+                foreach (string i in Adjacent[choice].GetComponent<RPGObject>().actions.Keys)
+                {
+                    
                     DialogueCommands.AddResponse(i);
                 }
                 target = Adjacent[choice];

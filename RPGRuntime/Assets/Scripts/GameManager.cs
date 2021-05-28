@@ -69,7 +69,6 @@ public static class GameManager
     {
         if (turn > objects.Count-1)
             turn = 0;
-        GameManager.Debug(objects.Count.ToString());
         objects[turn].GetComponent<RPGObject>().BeginTurn();
         ++turn;
     }

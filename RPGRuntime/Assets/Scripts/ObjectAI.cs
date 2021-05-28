@@ -34,6 +34,10 @@ public class ObjectAI : RPGObject
                 EndTurn();
                 
             }
+            else
+            {
+                EndTurn();
+            }
         }
     }
 }

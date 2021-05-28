@@ -2,10 +2,10 @@ LOCK $this
 NEWRESPONSE
 ADDRESPONSE "I will hurt you!"
 ADDRESPONSE "We should be pals!"
-GETRESPONSE $response
-PRINT "Hey! You chose $response !"
-IF ($response) IS 1:
+GETRESPONSE resp
+IF $resp IS 1:
 	$this SAY "HOLY CRAP, sure!"
-IF ($response) IS 0:
+IF $resp IS 0:
 	$this SAY "Very well! Eat blade!"
+	PRINT "Hey! You chose $resp !"
 UNLOCK $this

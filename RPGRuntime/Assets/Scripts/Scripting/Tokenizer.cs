@@ -131,7 +131,8 @@ namespace Scripting{
 			string[] parseinfo = line.Split(' ');
 			for(int i = 0; i < parseinfo.Length; ++i){
 				//if the parsed var starts with $
-				if(parseinfo[i].Contains("$")){
+				
+				if(parseinfo[i].Contains("$") && !parseinfo[i].Equals("$this")){
 					if(!parseinfo[i].Substring(0,1).Equals("\\")){
 						//var length is 2 to compensate for the $ and the . that won't be counted
 						int varlen = 2;
@@ -173,7 +174,9 @@ namespace Scripting{
 				return null;
 			this.next++;
 			if (tokens[currentIndex] == "$this")
+			{
 				return name;
+			}
 			return tokens[currentIndex].Trim();
 		}
 
