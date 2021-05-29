@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -85,7 +85,7 @@ namespace NPCMaker
             using (StreamWriter sw = File.CreateText(file))
             {
                 sw.WriteLine("name = " + obj.getName());
-                sw.WriteLine("hp = " + obj.getSlots().ToString());
+                sw.WriteLine("slot = " + obj.getSlots().ToString());
             }
             if (numSaves < 1)
             {
@@ -138,7 +138,7 @@ namespace NPCMaker
                         obj.setName(NPCLIST.ElementAt(i));
                         i--;
                         obj.setSlots(int.Parse(NPCLIST.ElementAt(i)));
-                        MessageBox.Show(i.ToString());
+                        //MessageBox.Show(i.ToString());
                         i--;
                         Roster.AddLast(obj);
                     } while (i > 0);
@@ -161,3 +161,4 @@ namespace NPCMaker
 
     }
 }
+
