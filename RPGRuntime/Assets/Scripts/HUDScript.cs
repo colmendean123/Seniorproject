@@ -7,6 +7,7 @@ using Scripting;
 public class HUDScript : MonoBehaviour
 {
     private string[] lines = {"", "", "", "", ""};
+    private string[] saved = { "", "", "", "", ""};
 
     //add a new line to the array of prints
     public void Print(string ln){
@@ -27,6 +28,20 @@ public class HUDScript : MonoBehaviour
             conc += lines[i] + "\n";
         }
         this.gameObject.GetComponent<TextMeshProUGUI>().text = conc;
+    }
+
+
+
+    public void SetSaved()
+    {
+        saved = lines;
+    }
+
+    public void GetSaved()
+    {
+       
+        lines = saved;
+        UpdateHUD();
     }
 
     private void Update()

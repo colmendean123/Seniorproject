@@ -102,6 +102,7 @@ public class TilemapGenerator : MonoBehaviour
         {
             if (next == "PLAYER")
             {
+                GameManager.SetPlayer(inst);
                 inst.AddComponent(typeof(PlayerMovement));
                 GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraScript>().AssignTarget(inst);
             }

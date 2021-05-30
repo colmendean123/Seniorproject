@@ -7,12 +7,11 @@ using Random = System.Random;
 
 public class CommandRouter : MonoBehaviour
 {
-    private string[] commands = {"SELECT", "GET", "SET", "RAND",
-    "GOTO", "IF", "ELSE", "TRUE", "FALSE", "PRINT", "HEAL",
-    "ACTION", "ATTACK", "AGGRO", "FOLLOW", "MOVE", "DESTROY", "GIVE",
-    "SAY", "RESPONSE", "PRINT", "QUEST", "COMPLETEQUEST",
-    "OBJECTIVECOMPLETE", "SHOPWINDOW", "SHOPEND", "SHOP", "SELL", "LOCK", "UNLOCK", "=", "-=", "+=", "IF", "GREATER",
-    "THAN", "LESS", "IS", "GETRESPONSE", "NEWRESPONSE", "ADDRESPONSE", "RUN", "RAND", "SWITCHMAP", "AGGRO", "DEAGRRO"};
+    private string[] commands = {"RAND",
+    "GOTO", "IF", "ELSE", "TRUE", "FALSE", "PRINT",
+    "ACTION", "ATTACK", "AGGRO", "FOLLOW", "MOVE", "DESTROY", "GIVE", "TAKE",
+    "SAY", "RESPONSE", "PRINT", "LOCK", "UNLOCK", "=", "-=", "+=", "==",  "GREATER", "<", ">", "=<", "=>", "ISGREATERTHAN", "ISLESSTHAN", "EQUAL", 
+    "THAN", "LESS", "IS", "GETRESPONSE", "NEWRESPONSE", "ADDRESPONSE", "RUN", "RAND", "SWITCHMAP", "AGGRO", "DEAGRRO", "TO", "AND", "OR", "ISLESSTHANOREQUALTO", "ISGREATERTHANOREQUALTO" };
     private Tokenizer token;
     int logicdepth = 0;
     private string[] func;
@@ -130,6 +129,16 @@ public class CommandRouter : MonoBehaviour
             {
                 Say(token, this.gameObject.name, self);
             }
+            if (next.Equals("GIVE"))
+            {
+                
+                GameManager.GetPlayer().GetComponent<RPGObject>().AddToInventory(token.GetNext());
+            }
+            if (next.Equals("TAKE"))
+            {
+
+                GameManager.GetPlayer().GetComponent<RPGObject>().RemoveFromInventory(token.GetNext());
+            }
             if (next.Equals("AGGRO"))
             {
                 this.gameObject.GetComponent<RPGObject>().target = RPGObject.FindWithName(token.GetNext());
@@ -214,7 +223,7 @@ public class CommandRouter : MonoBehaviour
                 //find the comparator through concat
                 string comparator = "";
                 string var1 = token.GetNext();
-                
+                Debug.Log(var1);
                 //skip over already determined operators
                 while (var1.Equals("TRUE") || var1.Equals("FALSE") || var1.Equals("AND") || var1.Equals("OR"))
                 {
@@ -280,7 +289,6 @@ public class CommandRouter : MonoBehaviour
                 int stepend = token.GetStep();
                 string newcommand = "";
                 string torf;
-                Debug.Log("var3 " + var1);
                 if (Equals(var1, var2, comparator))
                     torf = "TRUE";
                 else
@@ -464,7 +472,6 @@ public class CommandRouter : MonoBehaviour
         {
             int choice = DialogueCommands.GetResponse();
             waiting = false;
-            Debug.Log(temptarget);
             Set("$"+temptarget, choice.ToString());
             DialogueCommands.Clear();
             Nextstep();

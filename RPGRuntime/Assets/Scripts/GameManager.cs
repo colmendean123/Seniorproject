@@ -14,9 +14,21 @@ public static class GameManager
     private static List<(int, int)> coordinateArray;
     private static List<GameObject> objects;
     private static int turn = 0;
+    private static GameObject player;
 
     private static SortedDictionary<string, int> intvars = new SortedDictionary<string, int>();
     private static SortedDictionary<string, string> stringvars = new SortedDictionary<string, string>();
+
+    public static GameObject GetPlayer()
+    {
+        return player;
+    }
+
+
+    public static void SetPlayer(GameObject p)
+    {
+        player = p;
+    }
     // Start is called before the first frame update
     public static void Init()
     {
@@ -67,10 +79,12 @@ public static class GameManager
 
     public static void NextTurn()
     {
+        
         if (turn > objects.Count-1)
             turn = 0;
         objects[turn].GetComponent<RPGObject>().BeginTurn();
         ++turn;
+
     }
 
     public static void NewObjectList()
@@ -165,7 +179,8 @@ public static class GameManager
 
     public static void Clear()
     {
-        for(int i = 0; i < 5; ++i)
+        GameObject.FindGameObjectWithTag("Console").GetComponent<HUDScript>().SetSaved();
+        for (int i = 0; i < 5; ++i)
             GameObject.FindGameObjectWithTag("Console").GetComponent<HUDScript>().Print("");
     }
 

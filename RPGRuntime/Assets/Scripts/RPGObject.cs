@@ -10,6 +10,7 @@ public class RPGObject : MonoBehaviour
     public SortedDictionary<string, string[]> actions;
     protected List<string[]> attacks;
     protected List<string> attacknames;
+    protected List<string> inventory;
     int logicdepth = 0;
     string[] inputs;
     int step;
@@ -35,6 +36,16 @@ public class RPGObject : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void AddToInventory(string item)
+    {
+        inventory.Add(item);
+    }
+
+    public void RemoveFromInventory(string item)
+    {
+        inventory.Remove(item);
     }
 
     public static GameObject FindWithName(string name)
@@ -65,6 +76,7 @@ public class RPGObject : MonoBehaviour
 
     public void BeginTurn()
     {
+        GameObject.FindGameObjectWithTag("Console").GetComponent<HUDScript>().GetSaved();
         DoFunction("TURNSTART");
         turn = true;
     }
@@ -330,7 +342,12 @@ public class RPGObject : MonoBehaviour
                 int.TryParse(value, out tryslot);
                 if(equippeditem[tryslot] == true)
                 {
-                    break;
+                    GameManager.Print("There is already something in that slot!");
+                    return;
+                }
+                else
+                {
+                    equippeditem[tryslot] = true;
                 }
             }
         }
@@ -359,7 +376,6 @@ public class RPGObject : MonoBehaviour
                 ChangeString(key, value);
             }
         }
-        //AddFunction(funcparser.Export());
         this.gameObject.name = GetString("NAME") + ID.ToString();
     }
 
