@@ -5,6 +5,10 @@ defense = 3
 attack = 2
 Faction = 4
 speed = 3
+[TURNSTART]
+$this DISTANCE ness1 dist
+if ($dist) ISLESSTHAN 4 :
+	AGGRO ness1
 [ACTION:Talk]
 RUN "nessdialogue.txt"
 [ONDESTROY]

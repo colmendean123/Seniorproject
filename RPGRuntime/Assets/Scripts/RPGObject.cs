@@ -182,6 +182,14 @@ public class RPGObject : MonoBehaviour
         DoMove(attackReplace);
     }
     
+    public int FindDistance(GameObject target)
+    {
+  
+        Debug.Log("GO!");
+        PathingInfo targetpath = GeneratePath(target.gameObject.name);
+        return targetpath.distance;
+    }
+
     //Generatepath finds the smallest possible path between an object and another. Obviously useful for aggro path finding. Could be reformatted to target points instead.
     public PathingInfo GeneratePath(string target)
     {
@@ -268,7 +276,6 @@ public class RPGObject : MonoBehaviour
             ++dist;
            
         }
-        Debug.Log(completed.Count);
         //get the completed paths
         if (completed.Count == 0)
             return new PathingInfo((thisx, thisy), 100);

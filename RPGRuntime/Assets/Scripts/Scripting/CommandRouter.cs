@@ -11,7 +11,7 @@ public class CommandRouter : MonoBehaviour
     "GOTO", "IF", "ELSE", "TRUE", "FALSE", "PRINT",
     "ACTION", "ATTACK", "AGGRO", "FOLLOW", "MOVE", "DESTROY", "GIVE", "TAKE",
     "SAY", "RESPONSE", "PRINT", "LOCK", "UNLOCK", "=", "-=", "+=", "==",  "GREATER", "<", ">", "=<", "=>", "ISGREATERTHAN", "ISLESSTHAN", "EQUAL", 
-    "THAN", "LESS", "IS", "GETRESPONSE", "NEWRESPONSE", "ADDRESPONSE", "RUN", "RAND", "SWITCHMAP", "AGGRO", "DEAGRRO", "TO", "AND", "OR", "ISLESSTHANOREQUALTO", "ISGREATERTHANOREQUALTO" };
+    "THAN", "LESS", "IS", "GETRESPONSE", "NEWRESPONSE", "ADDRESPONSE", "RUN", "RAND", "SWITCHMAP", "AGGRO", "DEAGRRO", "TO", "AND", "OR", "ISLESSTHANOREQUALTO", "ISGREATERTHANOREQUALTO", "DISTANCE" };
     private Tokenizer token;
     int logicdepth = 0;
     private string[] func;
@@ -311,6 +311,16 @@ public class CommandRouter : MonoBehaviour
             string target = next;
             string command = token.GetNext().ToUpper();
             if(CheckCommand(command)){
+                if (command.Equals("DISTANCE"))
+                {
+                    string var = token.GetNext();
+                    string targetvar = token.GetNext();
+                    Debug.Log(targetvar);
+
+                    string change = RPGObject.FindWithName(target).GetComponent<RPGObject>().FindDistance(RPGObject.FindWithName(var)).ToString();
+                    Set("$"+targetvar, change);
+                    Nextstep();
+                }
                 if (next.Equals("AGGRO"))
                 {
                     RPGObject.FindWithName(target).GetComponent<RPGObject>().target = RPGObject.FindWithName(token.GetNext());
