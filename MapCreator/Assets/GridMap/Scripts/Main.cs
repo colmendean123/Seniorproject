@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class Main : MonoBehaviour
@@ -7,11 +8,14 @@ public class Main : MonoBehaviour
     [SerializeField] private TileMapVisual tileMapVisual;
     private TileMap tilemap;
     private TileMap.TileMapObject.TileMapSprite tileMapSprite;
+    public int width, height;
 
     private void Start()
     {
-        int width = 0, height = 0;
-        width = 15; height = 15;
+        string[] mapConfig = File.ReadAllText(@"./README/MapConfig.txt").Split('\n');
+        width = int.Parse(mapConfig[0]);
+        height = int.Parse(mapConfig[1]);
+        
         tilemap = new TileMap(width, height, 7.5f, new Vector3(-(width *3), -(height * 3)));
         tilemap.setTileMapVisual(tileMapVisual);
     }
@@ -44,6 +48,15 @@ public class Main : MonoBehaviour
         {
             tileMapSprite = TileMap.TileMapObject.TileMapSprite.Water;
         }
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            tileMapSprite = TileMap.TileMapObject.TileMapSprite.BridgeUD;
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            tileMapSprite = TileMap.TileMapObject.TileMapSprite.BridgeLR;
+        }
+
         if (Input.GetKeyDown(KeyCode.F1))
         {
             tilemap.SaveCollisionMap();
@@ -55,5 +68,4 @@ public class Main : MonoBehaviour
             Utils.TextPopupMouse("Saved Sprite Map");
         }
     }
-
 }

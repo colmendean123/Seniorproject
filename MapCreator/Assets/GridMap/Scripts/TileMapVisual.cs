@@ -44,7 +44,7 @@ public class TileMapVisual : MonoBehaviour {
 
     public void SetGrid(Grid<TileMap.TileMapObject> grid) {
         this.grid = grid;
-        UpdateHeatMapVisual();
+        UpdateTileMapVisual();
 
         grid.OnGridObjectChanged += Grid_OnGridValueChanged;
     }
@@ -56,11 +56,11 @@ public class TileMapVisual : MonoBehaviour {
     private void LateUpdate() {
         if (updateMesh) {
             updateMesh = false;
-            UpdateHeatMapVisual();
+            UpdateTileMapVisual();
         }
     }
 
-    private void UpdateHeatMapVisual() {
+    private void UpdateTileMapVisual() {
         MeshUtils.CreateEmptyMeshArrays(grid.GetWidth() * grid.GetHeight(), out Vector3[] vertices, out Vector2[] uv, out int[] triangles);
 
         for (int x = 0; x < grid.GetWidth(); x++) {
@@ -93,37 +93,3 @@ public class TileMapVisual : MonoBehaviour {
     }
 
 }
-
-
-public class HeatMapGridObject {
-
-    private const int MIN = 0;
-    private const int MAX = 100;
-
-    private Grid<TileMap.TileMapObject> grid;
-    private int x;
-    private int y;
-    private int value;
-
-    public HeatMapGridObject(Grid<TileMap.TileMapObject> grid, int x, int y) {
-        this.grid = grid;
-        this.x = x;
-        this.y = y;
-    }
-
-    public void AddValue(int addValue) {
-        value += addValue;
-        value = Mathf.Clamp(value, MIN, MAX);
-        grid.TriggerGridObjectChanged(x, y);
-    }
-
-    public float GetValueNormalized() {
-        return (float)value / MAX;
-    }
-
-    public override string ToString() {
-        return value.ToString();
-    }
-
-}
-

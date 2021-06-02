@@ -80,7 +80,9 @@ public class TileMap
             Wall,
             Dirt,
             Grass,
-            Water
+            Water,
+            BridgeUD,
+            BridgeLR
         }
 
         private Grid<TileMapObject> grid;
