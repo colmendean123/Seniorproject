@@ -1,0 +1,7 @@
+name = Knight
+hp = 1
+defense = 1
+attack = 1
+faction = 1
+isPlayable = no
+speed = 1

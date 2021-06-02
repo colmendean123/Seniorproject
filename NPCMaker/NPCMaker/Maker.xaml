@@ -32,8 +32,7 @@
             <Button Name="Save" Content="Save" IsEnabled="False"  Click="Save_Click" Width="106" Height="35" RenderTransformOrigin="2.854,5.657" Canvas.Left="10" Canvas.Top="374"/>
             <Button Name="Load"   Content="Load" Click="Load_Click" Width="106" Height="35" Canvas.Left="232" Canvas.Top="374"/>
             <Button Name="imageGetter"  Content="Add Image" Click="imageGetter_Click" Width="106" Height="35" Canvas.Left="111" Canvas.Top="15"/>
-            <Button Name="dialogueGetter"  Content="Add dialogue" Click="dialogueGetter_Click" Width="80" Height="35" Canvas.Left="222" Canvas.Top="15"/>
-            <Button Name="moveGetter" Content="Add moves"  Click="moveGetter_Click" Width="86" Height="35" Canvas.Left="307" Canvas.Top="15"/>
+            <Button Name="dialogueGetter"  Content="Add Script" Click="dialogueGetter_Click" Width="116" Height="35" Canvas.Left="222" Canvas.Top="15"/>
             <TextBox Name="Speed" Width="250" Height="35" Canvas.Left="478" Canvas.Top="374"/>
             <Label Name="empty6" Content="empty" FontSize="25" Canvas.Left="393" Canvas.Top="366" Width="80"/>
             <Label Name="speed" Content="Speed" FontSize="25" Canvas.Left="479" Canvas.Top="334" Height="50"/>

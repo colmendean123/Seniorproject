@@ -162,9 +162,9 @@ namespace NPCMaker
             File.CreateText(saveFile).Close();
             this.lines = new string[10];
 
-            if (temp.getName() == null || temp.getMoves() == null || temp.getImage() == null || temp.getDialogue() == null)
+            if (temp.getName() == null || temp.getImage() == null)
             {
-                MessageBox.Show("Please check name, moves, images and dialogue");
+                MessageBox.Show("NPCs need a name and an image.");
             }
             else
             {
@@ -173,11 +173,11 @@ namespace NPCMaker
                 lines[2] = string.Format(temp.getDefense().ToString());
                 lines[3] = string.Format(temp.getAttack().ToString());
                 lines[4] = string.Format(temp.getFaction().ToString());
-                lines[5] = string.Format(temp.getDialogue());
-                lines[6] = string.Format(temp.getImage().ToString());
-                lines[7] = string.Format(temp.getMoves().ToString());
-                lines[8] = string.Format(temp.getIsPlayable());
-                lines[9] = string.Format(temp.getSpeed().ToString());
+                //lines[5] = string.Format(temp.getDialogue());
+                lines[5] = string.Format(temp.getImage().ToString());
+                //lines[7] = string.Format(temp.getMoves().ToString());
+                lines[6] = string.Format(temp.getIsPlayable());
+                lines[7] = string.Format(temp.getSpeed().ToString());
             }
 
             String file = temp.getName() + ".txt";
@@ -186,21 +186,32 @@ namespace NPCMaker
             {
                 sw.WriteLine("name = " + temp.getName());
                 sw.WriteLine("hp = " + temp.getHP().ToString());
+                string sprite = temp.getImage().Substring(temp.getImage().LastIndexOf('\\')+1);
+                sw.WriteLine("sprite = " + sprite);
+                System.IO.File.Copy(temp.getImage(), sprite, true);
                 sw.WriteLine("defense = " + temp.getDefense().ToString());
                 sw.WriteLine("attack = " + temp.getAttack().ToString());
                 sw.WriteLine("faction = " + temp.getFaction().ToString());
                 sw.WriteLine("isPlayable = " + temp.getIsPlayable());
                 sw.WriteLine("speed = " + temp.getSpeed());
+                string[] script = System.IO.File.ReadAllLines(temp.getName() + "script.txt");
+               foreach(string i in script)
+                {
+                    sw.WriteLine(i);
+                }
 
             }
 
             if (numSaves < 1)
             {
+
                 System.IO.File.WriteAllLines(saveFile, lines);
+
             }
             else
             {
                 System.IO.File.AppendAllLines(saveFile, lines);
+                System.IO.File.AppendAllLines(saveFile, System.IO.File.ReadAllLines(name + "script.txt"));
             }
         }
 
@@ -369,7 +380,7 @@ namespace NPCMaker
             }
             else
             {
-                String characterdialogue = name.Text + "dialogue";
+                String characterdialogue = name.Text + "script";
                 this.dialogue = characterdialogue + ".txt";
                 File.CreateText(this.dialogue);
                 temp.setDialogue(this.dialogue);

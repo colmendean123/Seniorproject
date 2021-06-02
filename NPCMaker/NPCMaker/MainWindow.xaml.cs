@@ -33,8 +33,8 @@ namespace NPCMaker
 
         private void CreateI_Click(object sender, RoutedEventArgs e)
         {
-            Item obj1 = new Item();
-            obj1.ShowDialog();
+            //Item obj1 = new Item();
+            //obj1.ShowDialog();
         }
     }
 }
