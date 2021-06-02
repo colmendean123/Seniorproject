@@ -10,7 +10,7 @@ public class CommandRouter : MonoBehaviour
     private string[] commands = {"RAND",
     "GOTO", "IF", "ELSE", "TRUE", "FALSE", "PRINT",
     "ACTION", "ATTACK", "AGGRO", "FOLLOW", "MOVE", "DESTROY", "GIVE", "TAKE",
-    "SAY", "RESPONSE", "PRINT", "LOCK", "UNLOCK", "=", "-=", "+=", "==",  "GREATER", "<", ">", "=<", "=>", "ISGREATERTHAN", "ISLESSTHAN", "EQUAL", 
+    "SAY", "RESPONSE", "PRINT", "LOCK", "UNLOCK", "=", "-=", "+=", "==",  "GREATER", "<", ">", "=<", "=>", "ISGREATERTHAN", "ISLESSTHAN", "EQUAL", "ADDMOVE", "ENDTURN",
     "THAN", "LESS", "IS", "GETRESPONSE", "NEWRESPONSE", "ADDRESPONSE", "RUN", "RAND", "SWITCHMAP", "AGGRO", "DEAGRRO", "TO", "AND", "OR", "ISLESSTHANOREQUALTO", "ISGREATERTHANOREQUALTO", "DISTANCE" };
     private Tokenizer token;
     int logicdepth = 0;
@@ -124,10 +124,33 @@ public class CommandRouter : MonoBehaviour
             if (next.Equals("GOTO"))
             {
                 int.TryParse(token.GetNext(), out step);
+                Nextstep();
             }
             if (next.Equals("SAY"))
             {
                 Say(token, this.gameObject.name, self);
+            }
+            if (next.Equals("ENDTURN"))
+            {
+                this.GetComponent<RPGObject>().EndTurn();
+                Nextstep();
+            }
+            if (next.Equals("ADDMOVE"))
+            {
+                string var = token.GetNext();
+                this.GetComponent<RPGObject>().AddMove(var);
+  
+                Nextstep();
+            }
+            if (next.Equals("DISTANCE"))
+            {
+                string var = token.GetNext();
+                string targetvar = token.GetNext();
+                Debug.Log(targetvar);
+
+                string change = this.GetComponent<RPGObject>().FindDistance(RPGObject.FindWithName(var)).ToString();
+                Set("$" + targetvar, change);
+                Nextstep();
             }
             if (next.Equals("GIVE"))
             {
@@ -177,12 +200,15 @@ public class CommandRouter : MonoBehaviour
             }
             if (next.Equals("PRINT"))
             {
+                
+                
                 string p = token.GetNext();
-                GameManager.Print(p);
+                GameManager.PrintPerm(p);
                 Nextstep();
             }
             if (next.Equals("NEWRESPONSE"))
             {
+               
                 DialogueCommands.NewResponse();
                 Nextstep();
             }
@@ -223,7 +249,6 @@ public class CommandRouter : MonoBehaviour
                 //find the comparator through concat
                 string comparator = "";
                 string var1 = token.GetNext();
-                Debug.Log(var1);
                 //skip over already determined operators
                 while (var1.Equals("TRUE") || var1.Equals("FALSE") || var1.Equals("AND") || var1.Equals("OR"))
                 {
@@ -272,7 +297,6 @@ public class CommandRouter : MonoBehaviour
                     {
                         ++logicdepth;
                     }
-                    Debug.Log("GO");
                     Nextstep();
                     return;
                 }
@@ -315,10 +339,16 @@ public class CommandRouter : MonoBehaviour
                 {
                     string var = token.GetNext();
                     string targetvar = token.GetNext();
-                    Debug.Log(targetvar);
 
                     string change = RPGObject.FindWithName(target).GetComponent<RPGObject>().FindDistance(RPGObject.FindWithName(var)).ToString();
                     Set("$"+targetvar, change);
+                    Nextstep();
+                }
+                if (next.Equals("ADDMOVE"))
+                {
+                    string var = token.GetNext();
+                    RPGObject.FindWithName(target).GetComponent<RPGObject>().AddMove(var);
+
                     Nextstep();
                 }
                 if (next.Equals("AGGRO"))
@@ -415,6 +445,7 @@ public class CommandRouter : MonoBehaviour
 
     //Set either a string or an int based on $object.var or $var
     private void Set(string target, string set){
+        target = target.Replace("$this", "$" + name);
         ParsingCommands.ChangeVar(target, set);
     }
 
@@ -482,8 +513,8 @@ public class CommandRouter : MonoBehaviour
         {
             int choice = DialogueCommands.GetResponse();
             waiting = false;
-            Set("$"+temptarget, choice.ToString());
             DialogueCommands.Clear();
+            Set("$"+temptarget, choice.ToString());
             Nextstep();
         }
     }

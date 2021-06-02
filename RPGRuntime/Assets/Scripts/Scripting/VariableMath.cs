@@ -65,6 +65,7 @@ namespace Scripting{
                     }
                     operatorStack.Push(token);
                 } else {
+
                     operandStack.Push(int.Parse(token));
                 }
                 tokenIndex += 1;

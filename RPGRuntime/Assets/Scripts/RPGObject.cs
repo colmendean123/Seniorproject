@@ -63,7 +63,6 @@ public class RPGObject : MonoBehaviour
 
     //onstart, load default variables. Then load parameters.
     protected void Start(){
-        AddMove("BasicAttack.txt");
     }
 
     public void AddMove(string filename)
@@ -76,7 +75,8 @@ public class RPGObject : MonoBehaviour
 
     public void BeginTurn()
     {
-        GameObject.FindGameObjectWithTag("Console").GetComponent<HUDScript>().GetSaved();
+        //GameObject.FindGameObjectWithTag("Console").GetComponent<HUDScript>().GetSaved();
+        //GameObject.FindGameObjectWithTag("Console").GetComponent<HUDScript>().SetSaved();
         DoFunction("TURNSTART");
         turn = true;
     }
@@ -85,6 +85,7 @@ public class RPGObject : MonoBehaviour
     {
         DoFunction("TURNEND");
         turn = false;
+        //GameObject.FindGameObjectWithTag("Console").GetComponent<HUDScript>().GetSaved();
         GameManager.NextTurn();
     }
 
@@ -153,10 +154,10 @@ public class RPGObject : MonoBehaviour
         attacks = new List<string[]>();
         attacknames = new List<string>();
         ChangeInt("HP", 10);
-        ChangeInt("DEF", 3);
-        ChangeInt("ATK", 3);
-        ChangeInt("SPD", 1);
-        ChangeInt("SLOTS", 5);
+        ChangeInt("defense", 3);
+        ChangeInt("attack", 3);
+        ChangeInt("speed", 1);
+        ChangeInt("slots", 5);
         ChangeString("name", gameObject.name);
         ChangeString("sprite", "player.png");
         if(name!="")
@@ -185,7 +186,6 @@ public class RPGObject : MonoBehaviour
     public int FindDistance(GameObject target)
     {
   
-        Debug.Log("GO!");
         PathingInfo targetpath = GeneratePath(target.gameObject.name);
         return targetpath.distance;
     }
@@ -287,7 +287,6 @@ public class RPGObject : MonoBehaviour
                 
                 ++check;
             }
-            Debug.Log("check: " + completed[check].ToString());
             return new PathingInfo(completed[check], check);
         }
 
@@ -323,6 +322,8 @@ public class RPGObject : MonoBehaviour
                 Destroy(this.gameObject);
                 GameManager.Remove(this.gameObject);
                 TilemapGenerator.walls[posx, posy] = false;
+                if (turn == true)
+                    EndTurn();
             }
         }
         if (intvars.ContainsKey("MAXHP"))
@@ -401,7 +402,7 @@ public class RPGObject : MonoBehaviour
             string value = str.Split('=')[1].Trim();
             //check if int or string
             if(int.TryParse(value, out int i)){
-                if(value == "HP")
+                if(key.ToUpper() == "HP")
                     ChangeInt("MAXHP", i);
                 ChangeInt(key, i);
             }

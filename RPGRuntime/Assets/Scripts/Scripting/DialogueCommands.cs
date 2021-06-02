@@ -49,6 +49,7 @@ namespace Scripting{
             {
                 GameManager.Print("");
             }
+            GameManager.PrintPerm();
         }
 
         public static void ResponseMenu()
@@ -69,7 +70,9 @@ namespace Scripting{
 
         public static int GetResponse()
         {
+            GameObject.FindGameObjectWithTag("Console").GetComponent<HUDScript>().GetSaved();
             return selected;
+            
         }
 
         public static void Control()

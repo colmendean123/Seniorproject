@@ -77,7 +77,6 @@
     <Compile Include="Assets\Scripts\Scripting\DialogueCommands.cs" />
     <Compile Include="Assets\Scripts\Scripting\Exceptions.cs" />
     <Compile Include="Assets\Scripts\Scripting\ParsingCommands.cs" />
-    <Compile Include="Assets\Scripts\Scripting\ResponseCommands.cs" />
     <Compile Include="Assets\Scripts\Scripting\Tokenizer.cs" />
     <Compile Include="Assets\Scripts\Scripting\VariableMath.cs" />
     <Compile Include="Assets\Scripts\TilemapGenerator.cs" />

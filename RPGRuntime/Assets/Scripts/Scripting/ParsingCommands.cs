@@ -31,7 +31,9 @@ namespace Scripting{
                 }
                 string obj = spl[0];
                 string var = spl[1];
-                RPGObject rpgobj = GameObject.Find(obj).GetComponent<RPGObject>();
+            Debug.Log(set);
+            RPGObject rpgobj = GameObject.Find(obj).GetComponent<RPGObject>();
+           
                 if (int.TryParse(set, out parsed))
                 {
                     if (f == true)
@@ -43,9 +45,7 @@ namespace Scripting{
             }
             //get the variable by finding the target, taking off the $, and parsing.
             public static string GetVar(string target){
-            Debug.Log(target);
                 target = target.Substring(1);
-                GameManager.Debug(target);
                 string[] spl = target.Split('.');
                 if(spl.Length == 1)
                 {

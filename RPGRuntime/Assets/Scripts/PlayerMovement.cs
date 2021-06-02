@@ -59,9 +59,11 @@ public class PlayerMovement : RPGObject
         }
         if (Input.GetButtonDown("Action") && talking == false)
         {
+            
             talking = true;
             DialogueCommands.NewResponse();
             List<GameObject> Adjacent = ScanForAdjacency();
+            Adjacent.Add(this.gameObject);
             if (Adjacent.Count == 0)
             {
                 talking = false;
@@ -72,6 +74,7 @@ public class PlayerMovement : RPGObject
             {
                 DialogueCommands.AddResponse(i.GetComponent<RPGObject>().GetString("NAME"));
             }
+
         }
         if (attacking == true)
         {
@@ -90,6 +93,7 @@ public class PlayerMovement : RPGObject
                 if (choice < attacknames.Count)
                 {
                     Attack(choice, target);
+                    EndTurn();
                 }
                 else
                 {
@@ -104,6 +108,7 @@ public class PlayerMovement : RPGObject
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 List<GameObject> Adjacent = ScanForAdjacency();
+                Adjacent.Add(this.gameObject);
                 int choice = DialogueCommands.GetResponse();
                 talking = false;
                 attacking = true;

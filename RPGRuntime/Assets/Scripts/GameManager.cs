@@ -75,6 +75,8 @@ public static class GameManager
     public static void Remove(GameObject target)
     {
         objects.Remove(target);
+        CalculateTurnOrder();
+        
     }
 
     public static void NextTurn()
@@ -177,14 +179,18 @@ public static class GameManager
         GameObject.FindGameObjectWithTag("Console").GetComponent<HUDScript>().Print(ln);
     }
 
-    public static void Clear()
+    public static void PrintPerm(string ln)
     {
-        GameObject.FindGameObjectWithTag("Console").GetComponent<HUDScript>().SetSaved();
-        for (int i = 0; i < 5; ++i)
-            GameObject.FindGameObjectWithTag("Console").GetComponent<HUDScript>().Print("");
+        GameObject.FindGameObjectWithTag("Console").GetComponent<HUDScript>().PrintPerm(ln);
     }
 
-//Variable parsing and checking
+    public static void PrintPerm()
+    {
+        GameObject.FindGameObjectWithTag("Console").GetComponent<HUDScript>().GetSaved();
+    }
+
+
+    //Variable parsing and checking
     public static string ParseVar(string command){
         string[] spl = command.Split('.');
         if (spl.Length == 1)

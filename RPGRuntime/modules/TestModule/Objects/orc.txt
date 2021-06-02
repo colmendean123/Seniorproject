@@ -1,0 +1,17 @@
+name = Orc
+sprite = Orc.png
+hp = 10
+defense = 3
+attack = 2
+Faction = 4
+speed = 3
+[ONSTART]
+ADDMOVE BasicAttack.txt
+[TURNSTART]
+$this DISTANCE Elrich dist
+if ($dist) ISLESSTHAN 4 :
+	AGGRO Elrich
+[ACTION:Examine]
+PRINT "This creature looks dumb, but strong in numbers."
+PRINT "I'd do well to avoid letting them cluster."
+ENDTURN

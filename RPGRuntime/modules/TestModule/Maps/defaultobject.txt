@@ -1,3 +1,3 @@
 "ness" X: 2 Y: 2 PLAYER
-"ness" X: 4 Y: 4
-"ness" X: 3 Y: 5
+"orc" X: 4 Y: 4
+"orc" X: 3 Y: 5

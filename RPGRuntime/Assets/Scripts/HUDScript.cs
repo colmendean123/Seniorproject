@@ -15,33 +15,39 @@ public class HUDScript : MonoBehaviour
             lines[i] = lines[i-1];
         }
         lines[0] = ln;
-        UpdateHUD();
+        UpdateHUD(lines) ;
+    }
+
+    public void PrintPerm(string ln)
+    {
+        for (int i = 0; i < saved.Length-1; ++i)
+        {
+            saved[i] = saved[i + 1];
+        }
+        saved[4] = ln;
+        UpdateHUD(saved);
     }
 
 
     // Update is called once per frame
-    void UpdateHUD()
+    void UpdateHUD(string[] ln)
     {
+        
         //put all the console lines together
         string conc = "";
-        for(int i = 0; i < lines.Length; ++i){
-            conc += lines[i] + "\n";
+        for(int i = 0; i < ln.Length; ++i){
+            conc += ln[i] + "\n";
         }
         this.gameObject.GetComponent<TextMeshProUGUI>().text = conc;
     }
 
 
 
-    public void SetSaved()
-    {
-        saved = lines;
-    }
 
     public void GetSaved()
     {
-       
-        lines = saved;
-        UpdateHUD();
+        Debug.Log("LOADED");
+        UpdateHUD(saved);
     }
 
     private void Update()

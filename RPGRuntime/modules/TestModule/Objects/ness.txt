@@ -1,15 +1,24 @@
-name = ness
-sprite = player.png
-hp = 1
+name = Elrich
+sprite = Knight32-Red.png
+hp = 15
+level = 1
+exp = 10
+nextexp = 100
 defense = 3
 attack = 2
-Faction = 4
 speed = 3
+slots = 1
+next = 0
+[ONSTART]
+ADDMOVE BasicAttack.txt
 [TURNSTART]
-$this DISTANCE ness1 dist
+$this DISTANCE Elrich dist
 if ($dist) ISLESSTHAN 4 :
-	AGGRO ness1
-[ACTION:Talk]
-RUN "nessdialogue.txt"
-[ONDESTROY]
-ness1 MOVE 1 2
+	AGGRO Elrich
+[ACTION:Check Yourself]
+PRINT "Elrich has $this.hp / $this.MAXHP HP."
+PRINT "Defense: $this.defense"
+PRINT "Attack: $this.attack"
+PRINT "Speed: $this.speed"
+$this.next = ($this.nextexp - $this.exp)
+PRINT "His Level is $this.Level. He needs $this.next experience to level up."

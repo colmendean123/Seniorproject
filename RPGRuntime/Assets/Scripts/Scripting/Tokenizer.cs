@@ -61,8 +61,8 @@ namespace Scripting{
 					commandText += i;
 				}
 			}
-			commandText = commandText.Replace('(', ' ');
-			commandText = commandText.Replace(')', ' ');
+			commandText = commandText.Replace('(', '"');
+			commandText = commandText.Replace(')', '"');
 			String[] stringgetter = commandText.Split('"');
 			bool ifswitch = false;
 			for (int i = 0; i < stringgetter.Length; i++)
@@ -71,6 +71,7 @@ namespace Scripting{
 				//for every other split "" we take a string. Otherwise we take a token.
 				if(i % 2 == 1){
 					string parsed = stringgetter[i].Trim();
+					parsed = parsed.Replace("$this", "$"+name);
 					parsed = (ParseVars(parsed));
 					tokens.Add(parsed);
 				}
@@ -132,8 +133,9 @@ namespace Scripting{
 			for(int i = 0; i < parseinfo.Length; ++i){
 				//if the parsed var starts with $
 				
-				if(parseinfo[i].Contains("$") && !parseinfo[i].Equals("$this")){
+				if(parseinfo[i].Contains("$") && !parseinfo[i].StartsWith("$this")){
 					if(!parseinfo[i].Substring(0,1).Equals("\\")){
+						
 						//var length is 2 to compensate for the $ and the . that won't be counted
 						int varlen = 2;
 						//makes the varlength not break on the first non-character
@@ -157,6 +159,11 @@ namespace Scripting{
 					else
 						parseinfo[i] = parseinfo[i].Substring(1);
 				}
+                if (parseinfo[i].StartsWith("$this"))
+                {
+					parseinfo[i] = parseinfo[i].Replace("$this", name);
+					parseinfo[i] = ParsingCommands.GetVar("$"+parseinfo[i]);
+                }
 				parsed += parseinfo[i] + " ";
 			}
 			return parsed;

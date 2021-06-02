@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ObjectAI : RPGObject
 {
-
+    float timer = 0.2f;
     public new void Start()
     {
         base.Start();
@@ -15,28 +15,33 @@ public class ObjectAI : RPGObject
         base.Update();
         if (turn == true)
         {
-            if (target != null)
+            timer -= Time.deltaTime;
+            if (timer < 0f)
             {
-                Debug.Log("GO!");
-                PathingInfo targetpath = GeneratePath(target.gameObject.name);
-                if (targetpath.distance > 0)
+                if (target != null)
                 {
-                    (int, int) next = targetpath.position;
-                    Move(next.Item1, next.Item2);
+                    PathingInfo targetpath = GeneratePath(target.gameObject.name);
+                    if (targetpath.distance > 0)
+                    {
+                        (int, int) next = targetpath.position;
+                        Move(next.Item1, next.Item2);
+                    }
+                    else
+                    {
+                        int maxattack = attacks.Count - 1;
+                        System.Random rand = new System.Random();
+                        int attack = rand.Next(0, maxattack);
+                        Attack(attack, target.gameObject);
+                    }
+                    EndTurn();
+                    timer = 0.2f;
+
                 }
                 else
                 {
-                    int maxattack = attacks.Count-1;
-                    System.Random rand = new System.Random();
-                    int attack = rand.Next(0, maxattack);
-                    Attack(attack, target.gameObject);
+                    EndTurn();
+                    timer = 0.2f;
                 }
-                EndTurn();
-                
-            }
-            else
-            {
-                EndTurn();
             }
         }
     }
