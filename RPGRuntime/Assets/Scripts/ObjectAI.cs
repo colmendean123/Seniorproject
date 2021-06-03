@@ -29,6 +29,9 @@ public class ObjectAI : RPGObject
                     else
                     {
                         int maxattack = attacks.Count - 1;
+                        if (attacks.Count == 0)
+                            EndTurn();
+                            return;
                         System.Random rand = new System.Random();
                         int attack = rand.Next(0, maxattack);
                         Attack(attack, target.gameObject);

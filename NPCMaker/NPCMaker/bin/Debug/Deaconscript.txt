@@ -1,0 +1,6 @@
+[ONSTART]
+SAY "I have a gun and I'm not afraid to use it!"
+[TURNSTART]
+$this DISTANCE Elrich dist
+if ($dist) ISLESSTHAN 4 :
+	AGGRO Elrich
