@@ -7,13 +7,13 @@ public class PlayerMovement : RPGObject
 {
 
     bool movementreset = true;
-    bool talking = false;
-    bool attacking = false;
+    int selectionprocess = 0;
 
     // Start is called before the first frame update
     new void Start()
     {
         base.Start();
+        AddFunction(("ACTION:Inventory", new string[0]));
     }
 
 
@@ -31,7 +31,7 @@ public class PlayerMovement : RPGObject
         //reset input
         if(Input.GetAxis("Vertical") == 0 && Input.GetAxis("Horizontal") == 0 )
             movementreset = true;
-        if (talking == true || attacking == true)
+        if (selectionprocess != 0)
             movementreset = false;
         //down
         if (Input.GetAxis("Vertical") < 0 && movementreset == true){
@@ -57,16 +57,16 @@ public class PlayerMovement : RPGObject
             movementreset = false;
             EndTurn();
         }
-        if (Input.GetButtonDown("Action") && talking == false)
+        if (Input.GetButtonDown("Action") && selectionprocess == 0)
         {
-            
-            talking = true;
+
+            selectionprocess = 1;
             DialogueCommands.NewResponse();
             List<GameObject> Adjacent = ScanForAdjacency();
             Adjacent.Add(this.gameObject);
             if (Adjacent.Count == 0)
             {
-                talking = false;
+                selectionprocess = 0;
                 return;
             }
             
@@ -76,19 +76,35 @@ public class PlayerMovement : RPGObject
             }
 
         }
-        if (attacking == true)
+        if(selectionprocess == 3)
         {
             DialogueCommands.ResponseMenu();
             DialogueCommands.Control();
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 int choice = DialogueCommands.GetResponse();
-                attacking = false;
+                Item chosen = inventory[choice];
+                List<string> actions = new List<string>();
+                foreach (string i in chosen.GetActions())
+                {
+                    actions.Add(i);
+                }
+            }
+        }
+        if (selectionprocess == 2)
+        {
+            DialogueCommands.ResponseMenu();
+            DialogueCommands.Control();
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                int choice = DialogueCommands.GetResponse();
+                selectionprocess = 0;
                 List<string> actions = new List<string>();
                 foreach (string i in target.GetComponent<RPGObject>().actions.Keys)
                 {
                     actions.Add(i);
                 }
+                int respcount = DialogueCommands.ResponseCount();
                 DialogueCommands.Clear();
                 if (choice < attacknames.Count)
                 {
@@ -97,11 +113,27 @@ public class PlayerMovement : RPGObject
                 }
                 else
                 {
+                    if(choice == respcount-1)
+                    {
+                        if (inventory.Count == 0)
+                        {
+                            DialogueCommands.Say(this.gameObject, GetString("NOITEM"));
+                            return;
+                        }
+                        selectionprocess = 3;
+                        DialogueCommands.NewResponse();
+                        foreach (Item i in inventory)
+                        {
+                            DialogueCommands.AddResponse(i.GetName());
+                        }
+                        return;
+                    }
                     target.GetComponent<RPGObject>().DoAction(actions[choice - attacknames.Count]);
+                    
                 }
             }
         }
-        if (talking == true)
+        if (selectionprocess == 1)
         {
             DialogueCommands.ResponseMenu();
             DialogueCommands.Control();
@@ -110,8 +142,7 @@ public class PlayerMovement : RPGObject
                 List<GameObject> Adjacent = ScanForAdjacency();
                 Adjacent.Add(this.gameObject);
                 int choice = DialogueCommands.GetResponse();
-                talking = false;
-                attacking = true;
+                selectionprocess = 2;
                 DialogueCommands.NewResponse();
                 foreach (string i in attacknames)
                 {

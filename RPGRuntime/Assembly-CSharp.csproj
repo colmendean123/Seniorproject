@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\FunctionParser.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\HUDScript.cs" />
+    <Compile Include="Assets\Scripts\Item.cs" />
     <Compile Include="Assets\Scripts\ObjectAI.cs" />
     <Compile Include="Assets\Scripts\PathingInfo.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />

@@ -46,7 +46,6 @@ public class HUDScript : MonoBehaviour
 
     public void GetSaved()
     {
-        Debug.Log("LOADED");
         UpdateHUD(saved);
     }
 

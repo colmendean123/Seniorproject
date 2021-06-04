@@ -8,13 +8,14 @@ using Scripting;
 public static class GameManager
 {
     private static int overridex, overridey = 3;
-    private static string moduleName = "TestModule";
+    private static string moduleName;
     private static string mapName = "default";
     private static string path;
     private static List<(int, int)> coordinateArray;
     private static List<GameObject> objects;
     private static int turn = 0;
     private static GameObject player;
+    public static int selection = 0;
 
     private static SortedDictionary<string, int> intvars = new SortedDictionary<string, int>();
     private static SortedDictionary<string, string> stringvars = new SortedDictionary<string, string>();
@@ -24,12 +25,31 @@ public static class GameManager
         return player;
     }
 
+    public static void SetModule(string i)
+    {
+        moduleName = i;
+    }
 
     public static void SetPlayer(GameObject p)
     {
         player = p;
     }
     // Start is called before the first frame update
+
+    public static void SelectModule()
+    {
+        DialogueCommands.NewResponse();
+        string[] folders = Directory.GetDirectories(Application.dataPath + "\\..\\modules\\");
+        foreach(string i in folders)
+        {
+            string add = i.Substring(i.LastIndexOf('\\') + 1);
+            DialogueCommands.AddResponse(add);
+            
+        }
+        selection = 1;
+
+    }
+
     public static void Init()
     {
         turn = 0;

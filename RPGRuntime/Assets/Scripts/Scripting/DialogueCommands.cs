@@ -15,6 +15,11 @@ namespace Scripting{
         }
 
 
+        public static int ResponseCount()
+        {
+            return responses.Count;
+        }
+
         public static void Say(GameObject target, string input, float speed){
             var say = Resources.Load("Prefabs/Say") as GameObject;
             say.GetComponent<DialogueScript>().text = input;

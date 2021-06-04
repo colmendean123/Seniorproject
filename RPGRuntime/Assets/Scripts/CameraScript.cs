@@ -21,6 +21,7 @@ public class CameraScript : MonoBehaviour
     void FixedUpdate()
     {
         GameObject trans = this.gameObject;
-        trans.transform.position = new Vector3(target.transform.position.x, target.transform.position.y, -10);
+        if(target != null)
+            trans.transform.position = new Vector3(target.transform.position.x, target.transform.position.y, -10);
     }
 }

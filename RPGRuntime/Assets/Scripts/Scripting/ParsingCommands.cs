@@ -31,7 +31,6 @@ namespace Scripting{
                 }
                 string obj = spl[0];
                 string var = spl[1];
-            Debug.Log(set);
             RPGObject rpgobj = GameObject.Find(obj).GetComponent<RPGObject>();
            
                 if (int.TryParse(set, out parsed))

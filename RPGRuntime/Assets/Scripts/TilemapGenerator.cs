@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Scripting;
 
 public class TilemapGenerator : MonoBehaviour
 {
@@ -11,9 +12,14 @@ public class TilemapGenerator : MonoBehaviour
     private float size;
     private static int lenx = 0, leny = 0;
     Dictionary<string, int> assignid;
-    
+
+    private void Start()
+    {
+        GameManager.SelectModule();
+    }
+
     // Start is called before the first frame update
-    void Start()
+    void StartGame()
     {
         
         LoadCurrentMap();
@@ -252,6 +258,24 @@ public class TilemapGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(GameManager.selection == 1)
+        {
+            DialogueCommands.ResponseMenu();
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                int selection = DialogueCommands.GetResponse();
+                string[] folders = System.IO.Directory.GetDirectories(Application.dataPath + "\\..\\modules\\");
+                List<string> f = new List<string>();
+                foreach (string i in folders)
+                {
+                    string add = i.Substring(i.LastIndexOf('\\') + 1);
+                    f.Add(add);
+
+                }
+                GameManager.SetModule(f[selection]);
+                StartGame();
+                GameManager.selection = 0;
+            }
+        }
     }
 }

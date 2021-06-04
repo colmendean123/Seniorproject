@@ -10,7 +10,7 @@ public class CommandRouter : MonoBehaviour
     private string[] commands = {"RAND",
     "GOTO", "IF", "ELSE", "TRUE", "FALSE", "PRINT",
     "ACTION", "ATTACK", "AGGRO", "FOLLOW", "MOVE", "DESTROY", "GIVE", "TAKE",
-    "SAY", "RESPONSE", "PRINT", "LOCK", "UNLOCK", "=", "-=", "+=", "==",  "GREATER", "<", ">", "=<", "=>", "ISGREATERTHAN", "ISLESSTHAN", "EQUAL", "ADDMOVE", "ENDTURN",
+    "SAY", "RESPONSE", "PRINT", "LOCK", "UNLOCK", "=", "-=", "+=", "==",  "GREATER", "<", ">", "=<", "=>", "ISGREATERTHAN", "ISLESSTHAN", "EQUAL", "ADDMOVE", "ENDTURN", "GIVE", "TAKE",
     "THAN", "LESS", "IS", "GETRESPONSE", "NEWRESPONSE", "ADDRESPONSE", "RUN", "RAND", "SWITCHMAP", "AGGRO", "DEAGRRO", "TO", "AND", "OR", "ISLESSTHANOREQUALTO", "ISGREATERTHANOREQUALTO", "DISTANCE" };
     private Tokenizer token;
     int logicdepth = 0;
@@ -126,6 +126,18 @@ public class CommandRouter : MonoBehaviour
                 int.TryParse(token.GetNext(), out step);
                 Nextstep();
             }
+            if (next.Equals("GIVE"))
+            {
+                string i = token.GetNext();
+                GameManager.GetPlayer().GetComponent<RPGObject>().AddToInventory(i);
+                Nextstep();
+            }
+            if (next.Equals("TAKE"))
+            {
+                string i = token.GetNext();
+                GameManager.GetPlayer().GetComponent<RPGObject>().RemoveFromInventory(i);
+                Nextstep();
+            }
             if (next.Equals("SAY"))
             {
                 Say(token, this.gameObject.name, self);
@@ -156,11 +168,13 @@ public class CommandRouter : MonoBehaviour
             {
                 
                 GameManager.GetPlayer().GetComponent<RPGObject>().AddToInventory(token.GetNext());
+                Nextstep();
             }
             if (next.Equals("TAKE"))
             {
 
                 GameManager.GetPlayer().GetComponent<RPGObject>().RemoveFromInventory(token.GetNext());
+                Nextstep();
             }
             if (next.Equals("AGGRO"))
             {

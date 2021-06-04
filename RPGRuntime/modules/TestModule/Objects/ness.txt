@@ -10,6 +10,7 @@ speed = 3
 slots = 1
 next = 0
 [ONSTART]
+GIVE sword.txt
 ADDMOVE BasicAttack.txt
 [TURNSTART]
 $this DISTANCE Elrich dist

@@ -10,7 +10,7 @@ public class RPGObject : MonoBehaviour
     public SortedDictionary<string, string[]> actions;
     protected List<string[]> attacks;
     protected List<string> attacknames;
-    protected List<string> inventory;
+    protected List<Item> inventory;
     int logicdepth = 0;
     string[] inputs;
     int step;
@@ -22,7 +22,7 @@ public class RPGObject : MonoBehaviour
     private int ID = 1;
     FunctionParser function;
     public GameObject target;
-    bool[] equippeditem = new bool[0];
+    public bool[] equippeditem = new bool[0];
 
     public static GameObject FindWithID(string name, int id)
     {
@@ -40,12 +40,20 @@ public class RPGObject : MonoBehaviour
 
     public void AddToInventory(string item)
     {
-        inventory.Add(item);
+        inventory.Add(new Item(item));
+        RemoveFromInventory(null);
     }
 
     public void RemoveFromInventory(string item)
     {
-        inventory.Remove(item);
+        foreach(Item i in inventory)
+        {
+            if (i.GetName() == item)
+            {
+                inventory.Remove(i);
+                return;
+            }
+        }
     }
 
     public static GameObject FindWithName(string name)
@@ -151,6 +159,7 @@ public class RPGObject : MonoBehaviour
         stringvars = new SortedDictionary<string, string>();
         functions = new SortedDictionary<string, string[]>();
         actions = new SortedDictionary<string, string[]>();
+        inventory = new List<Item>();
         attacks = new List<string[]>();
         attacknames = new List<string>();
         ChangeInt("HP", 10);
@@ -158,6 +167,7 @@ public class RPGObject : MonoBehaviour
         ChangeInt("attack", 3);
         ChangeInt("speed", 1);
         ChangeInt("slots", 5);
+        ChangeString("noitem", "There are no items in my inventory!");
         ChangeString("name", gameObject.name);
         ChangeString("sprite", "player.png");
         if(name!="")
@@ -340,7 +350,7 @@ public class RPGObject : MonoBehaviour
     {
         FunctionParser funcparser = new FunctionParser();
         int tryslot = 0;
-        string[] parameters = GameManager.LoadFile("Items", name);
+        string[] parameters = GameManager.LoadFile("Items", item);
         foreach(string str in parameters)
         {
             string key = str.Split('=')[0].Trim().ToUpper();
@@ -375,9 +385,13 @@ public class RPGObject : MonoBehaviour
             {
                 continue;
             }
+            
             if (int.TryParse(value, out int i))
             {
-                ChangeInt(key, i);
+                if (GetInt(key) == 0)
+                    ChangeInt(key, i);
+                else
+                    ChangeInt(key, GetInt(key) + i);
             }
             else
             {
@@ -426,6 +440,7 @@ public class RPGObject : MonoBehaviour
         }
         AddFunction(funcparser.Export());
         this.gameObject.name = GetString("NAME") + ID.ToString();
+        Debug.Log("ON");
         DoFunction("ONSTART");
     }
 
@@ -557,18 +572,18 @@ public class RPGObject : MonoBehaviour
     //Get the keys from the dict by key
     public int GetInt(string key){
         key = key.ToUpper();
-        if(intvars.ContainsKey(key))
+        if (intvars.ContainsKey(key))
             return intvars[key];
         else
-            throw new ObjectVariableException("Error! Object does not contain int \""+key+"\"");
+            return 0;
     }
 
     public string GetString(string key){
         key = key.ToUpper();
-        if(stringvars.ContainsKey(key))
+        if (stringvars.ContainsKey(key))
             return stringvars[key];
         else
-            throw new ObjectVariableException("Error! Object does not contain string \""+key+"\"");
+            return "None";
     }
 
     //change or initialize new vars
