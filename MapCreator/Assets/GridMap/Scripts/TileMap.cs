@@ -27,7 +27,7 @@ public class TileMap
 
     public void SaveCollisionMap()
     {
-        using (var sw = new StreamWriter("CollisionMap.txt"))
+        using (var sw = new StreamWriter("./MapConFig/CollisionMap.txt"))
         {
             for (int i = 0; i < grid.GetWidth(); i++)
             {
@@ -53,7 +53,7 @@ public class TileMap
 
     public void SaveSpriteMap()
     {
-        using (var sw = new StreamWriter("SpriteMap.txt"))
+        using (var sw = new StreamWriter("./MapConFig/SpriteMap.txt"))
         {
             for (int i = 0; i < grid.GetWidth(); i++)
             {
@@ -70,6 +70,11 @@ public class TileMap
             sw.Flush();
             sw.Close();
         }
+    }
+
+    public void ExitApplication()
+    {
+        Application.Quit();
     }
 
     public class TileMapObject
@@ -111,21 +116,5 @@ public class TileMap
         {
             return tilemapSprite.ToString();
         }
-
-        //public class SaveObject
-        //{
-        //    public TileMapSprite tileMapSprite;
-        //    public int x, y;
-        //}
-
-        //public SaveObject Save()
-        //{
-        //    return new SaveObject
-        //    {
-        //        tileMapSprite = tilemapSprite,
-        //        x = x,
-        //        y = y
-        //    };
-        //}
     }
 }

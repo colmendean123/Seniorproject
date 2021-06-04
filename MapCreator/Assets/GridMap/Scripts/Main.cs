@@ -12,11 +12,15 @@ public class Main : MonoBehaviour
 
     private void Start()
     {
-        string[] mapConfig = File.ReadAllText(@"./README/MapConfig.txt").Split('\n');
-        width = int.Parse(mapConfig[0]);
-        height = int.Parse(mapConfig[1]);
-        
-        tilemap = new TileMap(width, height, 7.5f, new Vector3(-(width *3), -(height * 3)));
+        string[] mapConfig = File.ReadAllText(@"./MapConFig/MapConfig.txt").Split('\n');
+
+        int w, h;
+        if (int.TryParse(mapConfig[0], out w))
+            width = w;
+        if (int.TryParse(mapConfig[1], out h))
+            height = h;
+
+        tilemap = new TileMap(width, height, 7.5f, new Vector3(-(width * 3), -(height * 3)));
         tilemap.setTileMapVisual(tileMapVisual);
     }
 
@@ -27,7 +31,6 @@ public class Main : MonoBehaviour
             Vector3 mousePosition = Utils.GetMouseWorldPosition();
             tilemap.SetTileMapSprite(mousePosition, tileMapSprite);
         }
-
         if (Input.GetKeyDown(KeyCode.Q))
         {
             tileMapSprite = TileMap.TileMapObject.TileMapSprite.None;
@@ -56,7 +59,6 @@ public class Main : MonoBehaviour
         {
             tileMapSprite = TileMap.TileMapObject.TileMapSprite.BridgeLR;
         }
-
         if (Input.GetKeyDown(KeyCode.F1))
         {
             tilemap.SaveCollisionMap();
@@ -66,6 +68,10 @@ public class Main : MonoBehaviour
         {
             tilemap.SaveSpriteMap();
             Utils.TextPopupMouse("Saved Sprite Map");
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            tilemap.ExitApplication();
         }
     }
 }
