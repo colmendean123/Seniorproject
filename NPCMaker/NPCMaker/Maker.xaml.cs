@@ -71,10 +71,10 @@ namespace NPCMaker
                     //MessageBox.Show(temp.getIsPlayable());
 
                 }
-               
+
                 Save.IsEnabled = true;
                 mName = name.Text;
-                
+
                 temp.setName(mName);
 
                 displayName.Content = mName;
@@ -160,7 +160,7 @@ namespace NPCMaker
             String saveFile = name.Text + "save" + ".txt";
 
             File.CreateText(saveFile).Close();
-            this.lines = new string[10];
+            this.lines = new string[9];
 
             if (temp.getName() == null || temp.getImage() == null)
             {
@@ -186,7 +186,7 @@ namespace NPCMaker
             {
                 sw.WriteLine("name = " + temp.getName());
                 sw.WriteLine("hp = " + temp.getHP().ToString());
-                string sprite = temp.getImage().Substring(temp.getImage().LastIndexOf('\\')+1);
+                string sprite = temp.getImage().Substring(temp.getImage().LastIndexOf('\\') + 1);
                 sw.WriteLine("sprite = " + sprite);
                 System.IO.File.Copy(temp.getImage(), sprite, true);
                 sw.WriteLine("defense = " + temp.getDefense().ToString());
@@ -194,11 +194,7 @@ namespace NPCMaker
                 sw.WriteLine("faction = " + temp.getFaction().ToString());
                 sw.WriteLine("isPlayable = " + temp.getIsPlayable());
                 sw.WriteLine("speed = " + temp.getSpeed());
-                string[] script = System.IO.File.ReadAllLines(temp.getName() + "script.txt");
-               foreach(string i in script)
-                {
-                    sw.WriteLine(i);
-                }
+
 
             }
 
@@ -235,7 +231,7 @@ namespace NPCMaker
                 }
                 else
                 {
-                    LinkedList<String> NPCLIST = cutter(LoadFile, 10);
+                    LinkedList<String> NPCLIST = cutter(LoadFile, 8);
                     int i = NPCLIST.Count - 1;
 
                     Roster = new LinkedList<NPC>();
@@ -252,13 +248,13 @@ namespace NPCMaker
                         i--;
                         temp.setFaction(int.Parse(NPCLIST.ElementAt(i)));
                         i--;
-                        temp.setDialogue(NPCLIST.ElementAt(i));
-                        i--;
+                        //temp.setDialogue(NPCLIST.ElementAt(i));
+                        //i--;
                         temp.setImage(NPCLIST.ElementAt(i));
                         i--;
 
-                        temp.setMoves(NPCLIST.ElementAt(i));
-                        i--;
+                        //temp.setMoves(NPCLIST.ElementAt(i));
+                        //i--;
                         temp.setIsPlayable(NPCLIST.ElementAt(i));
                         if (NPCLIST.ElementAt(i) == "yes")
                         {
@@ -271,7 +267,7 @@ namespace NPCMaker
                         Roster.AddLast(temp);
 
 
-                    } while (i >= 0);
+                    } while (i > 0);
 
 
                     if (this.tempSelector < Roster.Count - 1)
@@ -289,16 +285,16 @@ namespace NPCMaker
                     displayAttack.Content = Roster.ElementAt(this.tempSelector).getAttack();
                     displaydefense.Content = Roster.ElementAt(this.tempSelector).getDefense();
                     empty6.Content = Roster.ElementAt(this.tempSelector).getSpeed();
-                    displayMoves.Content = Roster.ElementAt(this.tempSelector).getFaction();
+                    //displayMoves.Content = Roster.ElementAt(this.tempSelector).getFaction();
                     BitmapImage bmImage = new BitmapImage();
                     bmImage.BeginInit();
                     bmImage.UriSource = new Uri(Roster.ElementAt(this.tempSelector).getImage(), UriKind.Absolute);
                     bmImage.EndInit();
-                  /*  Bitmap temp1 = newBitmap(bmImage);
-                    Bitmap resized = new Bitmap(temp1, new System.Drawing.Size(32, 32));
-                    BitmapImage bm = bitmapImage(resized);*/
+                    /*  Bitmap temp1 = newBitmap(bmImage);
+                      Bitmap resized = new Bitmap(temp1, new System.Drawing.Size(32, 32));
+                      BitmapImage bm = bitmapImage(resized);*/
                     Picture.Source = bmImage;
-                   
+
                 }
             }
         }
@@ -341,7 +337,8 @@ namespace NPCMaker
                 return nbm;
             }
         }
-        public BitmapImage bitmapImage(Bitmap bm) {
+        public BitmapImage bitmapImage(Bitmap bm)
+        {
 
             MemoryStream memoryStream = new MemoryStream();
             ((System.Drawing.Bitmap)bm).Save(memoryStream, System.Drawing.Imaging.ImageFormat.Bmp);
@@ -364,12 +361,12 @@ namespace NPCMaker
                 bmImage.UriSource = new Uri(openFileDialog.FileName, UriKind.Absolute);
                 bmImage.EndInit();
                 //Bitmap temp1 = newBitmap(bmImage);
-                
+
                 //Bitmap resized = new Bitmap(temp1, new System.Drawing.Size(32, 32));
                 //BitmapImage bm = bitmapImage(temp1);
                 Picture.Source = bmImage;
             }
-            
+
         }
 
         private void dialogueGetter_Click(object sender, RoutedEventArgs e)
@@ -386,7 +383,7 @@ namespace NPCMaker
                 temp.setDialogue(this.dialogue);
                 System.Diagnostics.Process.Start(this.dialogue);
             }
-           
+
 
 
         }
