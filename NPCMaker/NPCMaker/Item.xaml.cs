@@ -27,6 +27,7 @@ namespace NPCMaker
         Slot obj = new Slot();
         String[] lines;
         int numSaves;
+        String custom;
         String LoadFile;
         LinkedList<Slot> Roster;
         public Item()
@@ -39,6 +40,7 @@ namespace NPCMaker
         {
             var checker = new Regex("^[a-zA-Z0-9 ]*$");
             String mName = name.Text;
+            
             if (!(checker.IsMatch(mName)))
             {
                 MessageBox.Show("No Special Characters");
@@ -48,7 +50,7 @@ namespace NPCMaker
                 obj.setName(mName);
                 empty.Content = mName;
             }
-
+            
             if (!(slots.Text.All(char.IsDigit)))
             {
                 MessageBox.Show("Please insert a number");
@@ -69,7 +71,7 @@ namespace NPCMaker
             String saveFile = name.Text + "save" + ".txt";
 
             File.CreateText(saveFile).Close();
-            this.lines = new string[3];
+            this.lines = new string[4];
             if (obj.getName() == null)
             {
                 MessageBox.Show("Please insert a value ");
@@ -78,14 +80,17 @@ namespace NPCMaker
             {
                 lines[0] = string.Format(obj.getName());
                 lines[1] = string.Format(obj.getSlots().ToString());
+               
 
             }
             String file = obj.getName() + ".txt";
             File.CreateText(file).Close();
             using (StreamWriter sw = File.CreateText(file))
             {
-                sw.WriteLine("name = " + obj.getName());
+                
                 sw.WriteLine("slot = " + obj.getSlots().ToString());
+                sw.WriteLine("name = " + obj.getName());
+                
             }
             if (numSaves < 1)
             {
@@ -140,6 +145,8 @@ namespace NPCMaker
                         obj.setSlots(int.Parse(NPCLIST.ElementAt(i)));
                         //MessageBox.Show(i.ToString());
                         i--;
+                        obj.setCustom(NPCLIST.ElementAt(i));
+                        i--;
                         Roster.AddLast(obj);
                     } while (i > 0);
 
@@ -155,10 +162,27 @@ namespace NPCMaker
                     }
                     empty.Content= Roster.ElementAt(this.tempSelector).getName();
                     empty1.Content= Roster.ElementAt(this.tempSelector).getSlots();
+                   
                 }
                 }
                 }
 
+        private void dialogueGetter_Click(object sender, RoutedEventArgs e)
+        {
+            if (name.Text == "")
+            {
+                MessageBox.Show("Please insert a name into name box");
+            }
+            else
+            {
+                String characterdialogue = name.Text + "script";
+                this.custom = characterdialogue + ".txt";
+                File.CreateText(this.custom);
+                obj.setCustom(this.custom);
+                System.Diagnostics.Process.Start(this.custom);
+            }
+        }
     }
 }
+
 
