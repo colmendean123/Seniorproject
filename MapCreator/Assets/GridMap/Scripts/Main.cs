@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Main : MonoBehaviour
 {
@@ -62,16 +63,18 @@ public class Main : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F1))
         {
             tilemap.SaveCollisionMap();
-            Utils.TextPopupMouse("Saved Collision Map");
+            tilemap.SaveSpriteMap();
+            tilemap.Save();
+            Utils.TextPopupMouse("Saved Collsion and Sprite Maps!");
         }
         if (Input.GetKeyDown(KeyCode.F2))
         {
-            tilemap.SaveSpriteMap();
-            Utils.TextPopupMouse("Saved Sprite Map");
+            tilemap.Load();
+            Utils.TextPopupMouse("Loaded!");
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            tilemap.ExitApplication();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
         }
     }
 }

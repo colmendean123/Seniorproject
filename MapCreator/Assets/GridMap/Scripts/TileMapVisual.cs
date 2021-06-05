@@ -42,14 +42,21 @@ public class TileMapVisual : MonoBehaviour {
         }
     }
 
-    public void SetGrid(Grid<TileMap.TileMapObject> grid) {
+    public void SetGrid(TileMap tilemap, Grid<TileMap.TileMapObject> grid)
+    {
         this.grid = grid;
         UpdateTileMapVisual();
 
         grid.OnGridObjectChanged += Grid_OnGridValueChanged;
+        tilemap.OnLoaded += Tilemap_OnLoaded;
     }
 
     private void Grid_OnGridValueChanged(object sender, Grid<TileMap.TileMapObject>.OnGridObjectChangedEventArgs e) {
+        updateMesh = true;
+    }
+
+    private void Tilemap_OnLoaded(object sender, System.EventArgs e)
+    {
         updateMesh = true;
     }
 

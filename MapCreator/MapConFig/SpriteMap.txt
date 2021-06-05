@@ -1,0 +1,5 @@
+Wall,Wall,Wall,Wall,Wall,
+Wall,Wall,Wall,Wall,Wall,
+Wall,Grass,Grass,Grass,Wall,
+Wall,
+Wall,Wall,Wall,Wall,Wall,

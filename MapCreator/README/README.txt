@@ -31,11 +31,13 @@ Controls:
 			created from pressing this button will overwrite anything 
 			in the file and write new info for the current map
 			(it will look like alot of 0's and 1's)
-		F2:
-			Pressing F2 will save the sprite map which will hold sprite
+			Pressing F1 will also save the sprite map which will hold sprite
 			info for the main game. The SpriteMap.txt file created from
-			pressing F2 will overwrite anything in the file and write 
+			pressing F1 will overwrite anything in the file and write 
 			new info for the current map. (The data for this map will 
 			be a list of names for each sprite)
+		F2:
+			Will load your map from earlier in the session if you want to revert
         Escape:
-			Pressing the Escape key will quit the application WITHOUT WARNING.
+			Pressing the Escape key will boot you back to the main menu
+			without saving progress be careful.

@@ -38,6 +38,11 @@ public class InputWindow : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
+    public void onExit()
+    {
+        Application.Quit();
+    }
+
     public void storeValues()
     {
         string w = widthInput.text;

@@ -880,4 +880,4 @@ ScriptsOnlyBuild:
   scenePathNames:
   - Assets/Scenes/MainMenu.unity
   - Assets/Scenes/Game.unity
-  playerPath: C:/Users/jentz/Desktop/MapCreator/MapCreator.exe
+  playerPath: C:/Users/jentz/Desktop/MapCreatorEXE/MapCreator.exe

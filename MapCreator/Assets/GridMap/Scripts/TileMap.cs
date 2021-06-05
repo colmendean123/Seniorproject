@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -6,6 +7,7 @@ using UnityEngine;
 public class TileMap
 {
     private Grid<TileMapObject> grid;
+    public event EventHandler OnLoaded;
 
     public TileMap(int width, int height, float cellSize, Vector3 originPosoition)
     {
@@ -22,7 +24,7 @@ public class TileMap
     }
     public void setTileMapVisual(TileMapVisual tilemapVisual)
     {
-        tilemapVisual?.SetGrid(grid);
+        tilemapVisual.SetGrid(this, grid);
     }
 
     public void SaveCollisionMap()
@@ -72,11 +74,6 @@ public class TileMap
         }
     }
 
-    public void ExitApplication()
-    {
-        Application.Quit();
-    }
-
     public class TileMapObject
     {
         public enum TileMapSprite
@@ -116,5 +113,61 @@ public class TileMap
         {
             return tilemapSprite.ToString();
         }
+
+        [System.Serializable]
+        public class SaveObject
+        {
+            public TileMapSprite tilemapSprite;
+            public int x;
+            public int y;
+        }
+
+        public SaveObject Save()
+        {
+            return new SaveObject
+            {
+                tilemapSprite = tilemapSprite,
+                x = x,
+                y = y,
+            };
+        }
+
+        public void Load(SaveObject saveObject)
+        {
+            tilemapSprite = saveObject.tilemapSprite;
+        }
+    }
+
+    public class SaveObject
+    {
+        public TileMapObject.SaveObject[] tilemapObjectSaveObjectArray;
+    }
+
+    public void Save()
+    {
+        List<TileMapObject.SaveObject> tilemapObjectSaveObjectList = new List<TileMapObject.SaveObject>();
+        for (int x = 0; x < grid.GetWidth(); x++)
+        {
+            for (int y = 0; y < grid.GetHeight(); y++)
+            {
+                TileMapObject tilemapObject = grid.GetGridObject(x, y);
+                tilemapObjectSaveObjectList.Add(tilemapObject.Save());
+            }
+        }
+
+        SaveObject saveObject = new SaveObject { tilemapObjectSaveObjectArray = tilemapObjectSaveObjectList.ToArray() };
+
+        Utils.SaveObject(saveObject);
+    }
+
+    public void Load()
+    {
+        SaveObject saveObject = Utils.LoadMostRecentObject<SaveObject>();
+        foreach (TileMapObject.SaveObject tilemapObjectSaveObject in saveObject.tilemapObjectSaveObjectArray)
+        {
+            TileMapObject tilemapObject = grid.GetGridObject(tilemapObjectSaveObject.x, tilemapObjectSaveObject.y);
+            tilemapObject.Load(tilemapObjectSaveObject);
+        }
+        OnLoaded?.Invoke(this, EventArgs.Empty);
     }
 }
