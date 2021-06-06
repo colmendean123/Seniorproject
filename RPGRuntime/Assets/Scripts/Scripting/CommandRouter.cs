@@ -465,6 +465,7 @@ public class CommandRouter : MonoBehaviour
 
     //Get a variable from the format $object.var or $var
     private string Get(string target){
+        target = target.Replace("$this", "$" + name);
         return ParsingCommands.GetVar(target);
     }
 

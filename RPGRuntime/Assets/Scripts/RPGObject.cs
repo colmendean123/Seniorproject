@@ -50,6 +50,10 @@ public class RPGObject : MonoBehaviour
         {
             if (i.GetName() == item)
             {
+                if(i.equipped == true)
+                {
+                    i.UnEquip();
+                }
                 inventory.Remove(i);
                 return;
             }
@@ -173,7 +177,8 @@ public class RPGObject : MonoBehaviour
         if(name!="")
             LoadParameters(name+".txt");
         LoadSprite(GetString("sprite"));
-        equippeditem = new bool[GetInt("SLOTS")];
+
+        Debug.Log(equippeditem.Length);
         for(int i = 0; i < equippeditem.Length; ++i)
         {
             equippeditem[i] = false;
@@ -440,7 +445,11 @@ public class RPGObject : MonoBehaviour
         }
         AddFunction(funcparser.Export());
         this.gameObject.name = GetString("NAME") + ID.ToString();
-        Debug.Log("ON");
+        equippeditem = new bool[GetInt("SLOTS")];
+        for (int i = 0; i < equippeditem.Length; ++i)
+        {
+            equippeditem[i] = false;
+        }
         DoFunction("ONSTART");
     }
 

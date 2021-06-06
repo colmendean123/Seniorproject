@@ -5,28 +5,43 @@ using UnityEngine;
 public class Item
 {
     string name;
-    SortedDictionary<string, string[]> actions = new SortedDictionary<string, string[]>();
+    public SortedDictionary<string, string[]> actions = new SortedDictionary<string, string[]>();
     RPGObject player = GameManager.GetPlayer().GetComponent<RPGObject>();
-    bool equipped = false;
+    public bool equipped = false;
+    public int slot = 0;
 
     public string GetName()
     {
         return name;
     }
 
+    public string[] GetActionResults(int count)
+    {
+        foreach(string[] i in actions.Values)
+        {
+            if (count == 0)
+                return i;
+            count--;
+        }
+        return null;
+    }
 
     public Item(string item)
     {
         if (item == null)
             return;
-        Debug.Log(item);
         name = item.Substring(0, item.Length-4);
-        Debug.Log(name);
         FunctionParser funcparser = new FunctionParser();
         int functionstart = 0;
         string[] parameters = GameManager.LoadFile("Items", item);
         foreach (string str in parameters)
         {
+            if (str.ToUpper().StartsWith("SLOT"))
+            {
+                string[] slotget = str.Split('=');
+                string convert = slotget[1].ToString();
+                slot = int.Parse(convert);
+            }
             if (str.StartsWith("["))
             {
                 break;
@@ -83,7 +98,7 @@ public class Item
     public void Equip()
     {
         int tryslot = 0;
-        string[] parameters = GameManager.LoadFile("Items", name);
+        string[] parameters = GameManager.LoadFile("Items", name+".txt");
         foreach (string str in parameters)
         {
             string key = str.Split('=')[0].Trim().ToUpper();
@@ -91,16 +106,22 @@ public class Item
             if (key.ToUpper() == "SLOT")
             {
                 int.TryParse(value, out tryslot);
-                if (player.equippeditem[tryslot] == false)
+                tryslot -= 1;
+                if (player.equippeditem[tryslot] == true)
                 {
-                    GameManager.Print("There is");
+                    GameManager.PrintPerm("There is already something in that slot!");
                     return;
                 }
                 else
                 {
                     equipped = true;
                     player.equippeditem[tryslot] = true;
+                    break;
                 }
+            }
+            if (str.StartsWith("["))
+            {
+                break;
             }
         }
 
@@ -119,13 +140,16 @@ public class Item
             {
                 continue;
             }
-
+            Debug.Log(key);
             if (int.TryParse(value, out int i))
             {
                 if (player.GetInt(key) == 0)
                     player.ChangeInt(key, i);
                 else
-                    player.ChangeInt(key, player. GetInt(key) + i);
+                {
+                    
+                    player.ChangeInt(key, player.GetInt(key) + i);
+                }
             }
             else
             {
@@ -137,23 +161,22 @@ public class Item
     public void UnEquip()
     {
         int tryslot = 0;
-        string[] parameters = GameManager.LoadFile("Items", name);
+        string[] parameters = GameManager.LoadFile("Items", name + ".txt");
         foreach (string str  in parameters)
         {
             string key = str.Split('=')[0].Trim().ToUpper();
             string value = str.Split('=')[1].Trim();
+            if (str.StartsWith("["))
+            {
+                break;
+            }
             if (key.ToUpper() == "SLOT")
             {
                 int.TryParse(value, out tryslot);
-                if (player.equippeditem[tryslot] == true)
-                {
-                    GameManager.Print("There is already something in that slot!");
-                    return;
-                }
-                else
-                {
-                    player.equippeditem[tryslot] = true;
-                }
+                tryslot -= 1;
+                player.equippeditem[tryslot] = false;
+                equipped = false;
+                break;
             }
         }
 
@@ -178,7 +201,7 @@ public class Item
                 if (player.GetInt(key) == 0)
                     player.ChangeInt(key, i);
                 else
-                    player.ChangeInt(key, player.GetInt(key) + i);
+                    player.ChangeInt(key, player.GetInt(key) - i);
             }
             else
             {

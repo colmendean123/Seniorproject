@@ -8,6 +8,7 @@ public class PlayerMovement : RPGObject
 
     bool movementreset = true;
     int selectionprocess = 0;
+    Item chosen;
 
     // Start is called before the first frame update
     new void Start()
@@ -76,19 +77,57 @@ public class PlayerMovement : RPGObject
             }
 
         }
-        if(selectionprocess == 3)
+        if (selectionprocess == 4)
         {
             DialogueCommands.ResponseMenu();
             DialogueCommands.Control();
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 int choice = DialogueCommands.GetResponse();
-                Item chosen = inventory[choice];
+                if (chosen.slot != 0)
+                {
+                    if (choice == 0)
+                    {
+                        if (!chosen.equipped)
+                            chosen.Equip();
+                        else
+                            chosen.UnEquip();
+                        selectionprocess = 0;
+                        DialogueCommands.Clear();
+                        return;
+                    }
+                    choice -= 1;
+                }
+                this.gameObject.GetComponent<RPGObject>().DoExtFunction(chosen.GetActionResults(choice));
+                selectionprocess = 0;
+                DialogueCommands.Clear();
+                return;
+            }
+
+
+        }
+        if (selectionprocess == 3)
+        {
+            DialogueCommands.ResponseMenu();
+            DialogueCommands.Control();
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                int choice = DialogueCommands.GetResponse();
+                chosen = inventory[choice];
+                DialogueCommands.NewResponse();
                 List<string> actions = new List<string>();
+                if (chosen.slot != 0)
+                {
+                    if(chosen.equipped == false)
+                        DialogueCommands.AddResponse("Equip");
+                    else
+                        DialogueCommands.AddResponse("UnEquip");
+                }
                 foreach (string i in chosen.GetActions())
                 {
-                    actions.Add(i);
+                    DialogueCommands.AddResponse(i);
                 }
+                ++selectionprocess;
             }
         }
         if (selectionprocess == 2)
@@ -158,6 +197,11 @@ public class PlayerMovement : RPGObject
                 
             }
         }
-
+        if(selectionprocess > 0 && Input.GetKeyDown(KeyCode.Backspace))
+        {
+            DialogueCommands.Clear();
+            selectionprocess = 0;
+        }
     }
+
 }
