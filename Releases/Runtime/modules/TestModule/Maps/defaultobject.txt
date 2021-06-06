@@ -1,0 +1,4 @@
+"ness" X: 2 Y: 2 PLAYER
+"orc" X: 4 Y: 4
+"orc" X: 3 Y: 5
+"Deacon" X: 4 Y: 5
