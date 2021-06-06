@@ -187,7 +187,9 @@ public class CommandRouter : MonoBehaviour
             if (next.Equals("SWITCHMAP"))
             {
                 string map = token.GetNext();
+                GameManager.LoadFromPlayer();
                 GameManager.LoadMap(map);
+                GameManager.SaveToPlayer();
             }
             if (next.Equals("RUN"))
             {

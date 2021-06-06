@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class RPGObject : MonoBehaviour
 {
-    SortedDictionary<string,int> intvars;
-    SortedDictionary<string,string> stringvars;
-    SortedDictionary<string, string[]> functions;
+    public SortedDictionary<string,int> intvars;
+    public SortedDictionary<string,string> stringvars;
+    public SortedDictionary<string, string[]> functions;
     public SortedDictionary<string, string[]> actions;
-    protected List<string[]> attacks;
-    protected List<string> attacknames;
-    protected List<Item> inventory;
+    public List<string[]> attacks;
+    public List<string> attacknames;
+    public List<Item> inventory;
     int logicdepth = 0;
     string[] inputs;
     int step;

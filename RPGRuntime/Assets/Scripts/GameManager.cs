@@ -20,6 +20,38 @@ public static class GameManager
     private static SortedDictionary<string, int> intvars = new SortedDictionary<string, int>();
     private static SortedDictionary<string, string> stringvars = new SortedDictionary<string, string>();
 
+    static SortedDictionary<string, int> intvarsplayer;
+    static SortedDictionary<string, string> stringvarsplayer;
+    static SortedDictionary<string, string[]> functions;
+    static SortedDictionary<string, string[]> actions;
+    static List<string[]> attacks;
+    static List<string> attacknames;
+    static List<Item> inventory;
+
+    public static void LoadFromPlayer()
+    {
+        RPGObject p = player.GetComponent<RPGObject>();
+        intvarsplayer = p.intvars;
+        stringvarsplayer = p.stringvars;
+        functions = p.functions;
+        actions = p.actions;
+        attacks = p.attacks;
+        attacknames = p.attacknames;
+        inventory = p.inventory;
+    }
+
+    public static void SaveToPlayer()
+    {
+        RPGObject p = player.GetComponent<RPGObject>();
+        p.intvars = intvarsplayer;
+        p.stringvars = stringvarsplayer;
+        p.functions = functions;
+        p.actions = actions;
+        p.attacks = attacks;
+        p.attacknames = attacknames;
+        p.inventory = inventory;
+    }
+
     public static GameObject GetPlayer()
     {
         return player;
