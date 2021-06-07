@@ -158,13 +158,13 @@ namespace NPCMaker
              this.numSaves = System.IO.File.ReadLines(p).Count();*/
             //MessageBox.Show(numSaves.ToString());
             String saveFile = name.Text + "save" + ".txt";
-
+            //MessageBox.Show(temp.getImage());
             File.CreateText(saveFile).Close();
             this.lines = new string[9];
 
-            if (temp.getName() == null || temp.getImage() == null)
+            if (temp.getName() == null)
             {
-                MessageBox.Show("NPCs need a name and an image.");
+                MessageBox.Show("NPCs need a name");
             }
             else
             {
@@ -174,7 +174,7 @@ namespace NPCMaker
                 lines[3] = string.Format(temp.getAttack().ToString());
                 lines[4] = string.Format(temp.getFaction().ToString());
                 //lines[5] = string.Format(temp.getDialogue());
-                lines[5] = string.Format(temp.getImage().ToString());
+                lines[5] = string.Format(temp.getImage());
                 //lines[7] = string.Format(temp.getMoves().ToString());
                 lines[6] = string.Format(temp.getIsPlayable());
                 lines[7] = string.Format(temp.getSpeed().ToString());
@@ -206,8 +206,8 @@ namespace NPCMaker
             }
             else
             {
-                System.IO.File.AppendAllLines(saveFile, lines);
-                System.IO.File.AppendAllLines(saveFile, System.IO.File.ReadAllLines(name + "script.txt"));
+                System.IO.File.WriteAllLines(saveFile, lines);
+                //System.IO.File.AppendAllLines(saveFile, System.IO.File.ReadAllLines(name + "script.txt"));
             }
         }
 
@@ -231,7 +231,7 @@ namespace NPCMaker
                 }
                 else
                 {
-                    LinkedList<String> NPCLIST = cutter(LoadFile, 8);
+                    LinkedList<String> NPCLIST = cutter(LoadFile, 9);
                     int i = NPCLIST.Count - 1;
 
                     Roster = new LinkedList<NPC>();
@@ -252,9 +252,12 @@ namespace NPCMaker
                         //i--;
                         temp.setImage(NPCLIST.ElementAt(i));
                         i--;
+                        this.imageFile = temp.getImage();
+                        MessageBox.Show(temp.getImage());
 
                         //temp.setMoves(NPCLIST.ElementAt(i));
                         //i--;
+                     
                         temp.setIsPlayable(NPCLIST.ElementAt(i));
                         if (NPCLIST.ElementAt(i) == "yes")
                         {
@@ -281,10 +284,19 @@ namespace NPCMaker
                     }
 
                     displayName.Content = Roster.ElementAt(this.tempSelector).getName();
+                    name.Text= Roster.ElementAt(this.tempSelector).getName();
                     displayHP.Content = Roster.ElementAt(this.tempSelector).getHP();
+                    hp.Text= Roster.ElementAt(this.tempSelector).getHP().ToString();
                     displayAttack.Content = Roster.ElementAt(this.tempSelector).getAttack();
+                    attack.Text = Roster.ElementAt(this.tempSelector).getAttack().ToString();
                     displaydefense.Content = Roster.ElementAt(this.tempSelector).getDefense();
+
+                    defense.Text = Roster.ElementAt(this.tempSelector).getDefense().ToString();
+                    displayMoves.Content = Roster.ElementAt(this.tempSelector).getFaction().ToString();
+                    moves.Text= Roster.ElementAt(this.tempSelector).getFaction().ToString();
                     empty6.Content = Roster.ElementAt(this.tempSelector).getSpeed();
+                    Speed.Text = Roster.ElementAt(this.tempSelector).getSpeed().ToString();
+
                     //displayMoves.Content = Roster.ElementAt(this.tempSelector).getFaction();
                     BitmapImage bmImage = new BitmapImage();
                     bmImage.BeginInit();
@@ -294,7 +306,7 @@ namespace NPCMaker
                       Bitmap resized = new Bitmap(temp1, new System.Drawing.Size(32, 32));
                       BitmapImage bm = bitmapImage(resized);*/
                     Picture.Source = bmImage;
-
+                    
                 }
             }
         }
