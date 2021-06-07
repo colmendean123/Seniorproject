@@ -1,3 +1,0 @@
-wall.png
-floor.png
-floor2.png
