@@ -161,6 +161,8 @@ namespace NPCMaker
 
                     }
                     empty.Content= Roster.ElementAt(this.tempSelector).getName();
+                    name.Text= Roster.ElementAt(this.tempSelector).getName();
+                    slots.Text = Roster.ElementAt(this.tempSelector).getSlots().ToString();
                     empty1.Content= Roster.ElementAt(this.tempSelector).getSlots();
                    
                 }
@@ -184,5 +186,3 @@ namespace NPCMaker
         }
     }
 }
-
-
