@@ -25,6 +25,11 @@ Controls:
 		U:
 			Pressing U will set the sprite to place as BridgeLR,
 			which is a Bridge sprite that is in the direction Left and Right
+		I:
+			Pressing O will set the sprite to place as Floor,
+			which is a franite floor sprite.
+		O:
+			Pressing I will set the sprite to place as Water
         F1:
 			Pressing F1 will save the collision map which will hold the 
 			collsion data for the main game. The CollisionMap.txt file
@@ -41,3 +46,6 @@ Controls:
         Escape:
 			Pressing the Escape key will boot you back to the main menu
 			without saving progress be careful.
+		Arrow keys:
+			The arrow keys move the camera around allowing you to be able to pan
+			to different parts of the map if the map is too big to fit on the screen
