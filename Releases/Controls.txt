@@ -16,5 +16,7 @@ R - Grass
 T - Water
 Y - BridgeUD
 U - BridgeLR
+I - Floor
+O - Sand
 Left Click - Place Tile
 Escape - Exit

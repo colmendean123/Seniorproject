@@ -60,6 +60,8 @@ Dirt.png
 Water.png
 BridgeUD.png
 BridgeLR.png
+Floor.png
+Sand.png
 
 NOTE: Your custom pngs do not necessarily have to BE "water" or "dirt" textures. Simply draw different items, if you wish.
 The only constraint of the map editor is that "Wall" always has collision and other tiles do not.
@@ -130,7 +132,9 @@ UNLOCK object - unlocks an object
 DISTANCE object variable = gets the distance to an object and loads it into the variable, Can have a object name before it to specify an object.
 DESTROY object
 
-IF true AND/OR false: - Checks the truth of statements. Can use IS GREATER THAN, IS LESS THAN, IS EQUAL TO, ect.
+Math operations -=, +=, and = are possible. Statements in paretheses like (2 * 2) will spit out 4.
+
+IF true AND/OR false: - Checks the truth of statements. Can use IS GREATER THAN, IS LESS THAN, IS EQUAL TO, ect. If an IF returns true, tab the script beneath it to indicate the logic depth.
 RAND 50: - checks a number between 1-100. The number is the chance, so 50 means 50%.
 Use a tab to go to a deeper logic level, like python.
 
