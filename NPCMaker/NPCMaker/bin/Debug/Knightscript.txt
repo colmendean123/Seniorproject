@@ -1,2 +1,0 @@
-[ONSTART]
-ADDMOVE BasicAttack.txt

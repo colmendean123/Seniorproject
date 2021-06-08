@@ -1,9 +1,0 @@
-name = todd
-hp = 1
-sprite = Knight32-Blue.png
-defense = 1
-attack = 1
-faction = 11
-isPlayable = no
-speed = 1
-haha butt
