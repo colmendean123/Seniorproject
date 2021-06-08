@@ -25,7 +25,7 @@
             <Label Name="Defense" Content="Defense" FontSize="25" Canvas.Left="478" Canvas.Top="204"/>
             <TextBox Name="defense" Width="250" Height="37" Canvas.Left="478" Canvas.Top="239"/>
             <Label Name="displaydefense" Content="empty" FontSize="25" Canvas.Left="393" Canvas.Top="239"/>
-            <Label Name="Faction" Content="Faction" FontSize="25" Canvas.Left="478" Canvas.Top="276" Height="38"/>
+            <Label Name="Faction" Content="Slots&#xD;&#xA;Slots" FontSize="25" Canvas.Left="478" Canvas.Top="276" Height="38"/>
             <TextBox Name="moves" Width="250" Height="35" Canvas.Left="478" Canvas.Top="308"/>
             <Label Name="displayMoves" Content="empty" FontSize="25" Canvas.Left="393" Canvas.Top="300"/>
             <Button Name="Submit" Content="Submit"  Click="Submit_Click" Width="106" Height="35" Canvas.Left="121" Canvas.Top="374"/>

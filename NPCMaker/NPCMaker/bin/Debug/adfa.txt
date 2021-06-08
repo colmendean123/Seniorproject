@@ -1,0 +1,8 @@
+name = adfa
+hp = 1
+sprite = bumbo.png
+defense = 1
+attack = 1
+slots = 1
+isPlayable = no
+speed = 1

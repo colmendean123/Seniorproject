@@ -10,7 +10,7 @@ public class CommandRouter : MonoBehaviour
     private string[] commands = {"RAND",
     "GOTO", "IF", "ELSE", "TRUE", "FALSE", "PRINT",
     "ACTION", "ATTACK", "AGGRO", "FOLLOW", "MOVE", "DESTROY", "GIVE", "TAKE",
-    "SAY", "RESPONSE", "PRINT", "LOCK", "UNLOCK", "=", "-=", "+=", "==",  "GREATER", "<", ">", "=<", "=>", "ISGREATERTHAN", "ISLESSTHAN", "EQUAL", "ADDMOVE", "ENDTURN", "GIVE", "TAKE",
+    "SAY", "RESPONSE", "PRINT", "LOCK", "UNLOCK", "=", "-=", "+=", "==",  "GREATER", "<", ">", "=<", "=>", "ISGREATERTHAN", "ISLESSTHAN", "EQUAL", "ADDMOVE", "ENDTURN", "GIVE", "TAKE", "REMOVEMOVE",
     "THAN", "LESS", "IS", "GETRESPONSE", "NEWRESPONSE", "ADDRESPONSE", "RUN", "RAND", "SWITCHMAP", "AGGRO", "DEAGRRO", "TO", "AND", "OR", "ISLESSTHANOREQUALTO", "ISGREATERTHANOREQUALTO", "DISTANCE" };
     private Tokenizer token;
     int logicdepth = 0;
@@ -132,6 +132,19 @@ public class CommandRouter : MonoBehaviour
                 GameManager.GetPlayer().GetComponent<RPGObject>().AddToInventory(i);
                 Nextstep();
             }
+            if (next.Equals("DESTROY"))
+            {
+                string i = token.GetNext();
+                RPGObject op = RPGObject.FindWithName(i).GetComponent<RPGObject>();
+                op.DoFunction("ONDESTROY");
+                Destroy(op);
+                GameManager.Remove(op.gameObject);
+                TilemapGenerator.walls[op.GetComponent<RPGObject>().posx, op.GetComponent<RPGObject>().posy] = false;
+                if (op.GetComponent<RPGObject>().turn == true)
+                    op.GetComponent<RPGObject>().EndTurn();
+                Destroy(op.gameObject);
+                Nextstep();
+            }
             if (next.Equals("TAKE"))
             {
                 string i = token.GetNext();
@@ -152,6 +165,13 @@ public class CommandRouter : MonoBehaviour
                 string var = token.GetNext();
                 this.GetComponent<RPGObject>().AddMove(var);
   
+                Nextstep();
+            }
+            if (next.Equals("REMOVEMOVE"))
+            {
+                string var = token.GetNext();
+                this.GetComponent<RPGObject>().RemoveMove(var);
+
                 Nextstep();
             }
             if (next.Equals("DISTANCE"))
@@ -364,6 +384,13 @@ public class CommandRouter : MonoBehaviour
                 {
                     string var = token.GetNext();
                     RPGObject.FindWithName(target).GetComponent<RPGObject>().AddMove(var);
+
+                    Nextstep();
+                }
+                if (next.Equals("ADDMOVE"))
+                {
+                    string var = token.GetNext();
+                    RPGObject.FindWithName(target).GetComponent<RPGObject>().RemoveMove(var);
 
                     Nextstep();
                 }

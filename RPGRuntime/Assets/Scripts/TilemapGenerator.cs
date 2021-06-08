@@ -261,6 +261,7 @@ public class TilemapGenerator : MonoBehaviour
         if(GameManager.selection == 1)
         {
             DialogueCommands.ResponseMenu();
+            DialogueCommands.Control();
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 int selection = DialogueCommands.GetResponse();

@@ -1,0 +1,20 @@
+The Controls for the runtime are as follows:
+
+SpaceBar - Interact
+Enter - Select Option
+Arrow Keys - Move/ Select
+Backspace - Quit Selection
+
+The controls for the Map Editor are as follows:
+
+F1- Save
+F2 - Load
+Q - Erase / None
+W - Wall
+E - Dirt
+R - Grass
+T - Water
+Y - BridgeUD
+U - BridgeLR
+Left Click - Place Tile
+Escape - Exit

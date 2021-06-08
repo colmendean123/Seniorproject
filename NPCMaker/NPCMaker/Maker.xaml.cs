@@ -191,7 +191,7 @@ namespace NPCMaker
                 System.IO.File.Copy(temp.getImage(), sprite, true);
                 sw.WriteLine("defense = " + temp.getDefense().ToString());
                 sw.WriteLine("attack = " + temp.getAttack().ToString());
-                sw.WriteLine("faction = " + temp.getFaction().ToString());
+                sw.WriteLine("slots = " + temp.getFaction().ToString());
                 sw.WriteLine("isPlayable = " + temp.getIsPlayable());
                 sw.WriteLine("speed = " + temp.getSpeed());
 

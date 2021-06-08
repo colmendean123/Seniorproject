@@ -152,7 +152,7 @@ public class PlayerMovement : RPGObject
                 }
                 else
                 {
-                    if(choice == respcount-1)
+                    if(choice == respcount-1 && target == this.gameObject)
                     {
                         if (inventory.Count == 0)
                         {

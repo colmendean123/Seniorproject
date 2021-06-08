@@ -14,11 +14,11 @@ public class RPGObject : MonoBehaviour
     int logicdepth = 0;
     string[] inputs;
     int step;
-    protected bool turn = false;
+    public bool turn = false;
     protected bool locked = false;
     new protected bool camera = false;
-    protected int posx;
-    protected int posy;
+    public int posx;
+    public int posy;
     private int ID = 1;
     FunctionParser function;
     public GameObject target;
@@ -83,6 +83,14 @@ public class RPGObject : MonoBehaviour
         string[] loadedattack = GameManager.LoadFile("Moves", filename);
         attacknames.Add(loadedattack[0].Substring(2));
         attacks.Add(loadedattack);
+    }
+
+    public void RemoveMove(string filename)
+    {
+
+        string[] loadedattack = GameManager.LoadFile("Moves", filename);
+        attacknames.Remove(loadedattack[0].Substring(2));
+        attacks.Remove(loadedattack);
     }
 
     public void BeginTurn()
@@ -177,8 +185,6 @@ public class RPGObject : MonoBehaviour
         if(name!="")
             LoadParameters(name+".txt");
         LoadSprite(GetString("sprite"));
-
-        Debug.Log(equippeditem.Length);
         for(int i = 0; i < equippeditem.Length; ++i)
         {
             equippeditem[i] = false;
