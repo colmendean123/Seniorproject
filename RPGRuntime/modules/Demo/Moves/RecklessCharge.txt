@@ -1,0 +1,13 @@
+//Reckless Charge
+$check = 0
+$value = $this.attack
+$value = ($value * 3)
+$value -= $target.defense
+IF $value is less than 1 :
+	$value = 1
+IF RAND 25:
+	$target.hp -= $value
+	PRINT "$this.name attacks $target.name for $value damage!"
+	$check = 1
+IF ($check == 0):
+	PRINT "$this.name falls over like an idiot."

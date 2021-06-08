@@ -1,0 +1,15 @@
+name = Bumbo
+sprite = bumbo.png
+hp = 20
+level = 1
+defense = 3
+attack = 3
+speed = 3
+slots = 1
+[ONSTART]
+ADDMOVE BasicAttack.txt
+[ACTION:Check Yourself]
+PRINT "Bumbo has $this.hp / $this.MAXHP HP."
+PRINT "Defense: $this.defense"
+PRINT "Attack: $this.attack"
+PRINT "Speed: $this.speed"

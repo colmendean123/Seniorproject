@@ -1,0 +1,21 @@
+name = DarkKnight
+sprite = knight.png
+hp = 10
+defense = 5
+attack = 2
+Faction = 4
+speed = 3
+[ONSTART]
+ADDMOVE BasicAttack.txt
+[TURNSTART]
+$this DISTANCE Bumbo dist
+if ($dist) ISLESSTHAN 4 :
+	AGGRO Bumbo
+[ACTION:Examine]
+PRINT "These knights ain't so tough!"
+if $this.hp > 5:
+	PRINT "Looks like he's fine."
+	ENDTURN
+if $this.hp ISLESSTHANOREQUALTO 5:
+	PRINT "Looks like he's a bit shaken."
+	ENDTURN

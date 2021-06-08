@@ -1,0 +1,3 @@
+sprite = door.png
+[ACTION:Go Down]
+SWITCHMAP map2

@@ -7,7 +7,8 @@ public class TilemapGenerator : MonoBehaviour
 {
 
     private float defsize = 0.32f;
-
+    float waittime = 0f;
+    public bool started = false;
     public static bool[,] walls = new bool[0,0];
     private float size;
     private static int lenx = 0, leny = 0;
@@ -19,7 +20,7 @@ public class TilemapGenerator : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void StartGame()
+    public void StartGame()
     {
         
         LoadCurrentMap();
@@ -30,7 +31,12 @@ public class TilemapGenerator : MonoBehaviour
     //Loads the current map files. Does not replace the map currently loaded
     public void LoadCurrentMap()
     {
-        GameManager.WipeObjects();
+        GameObject[] walls = GameObject.FindGameObjectsWithTag("Wall");
+        foreach(GameObject i in walls)
+        {
+            Destroy(i);
+        }
+        assignid = new Dictionary<string, int>();
         string tiles = GameManager.GetMap(GameManager.GetMapName() + "tile.txt");
         string objects = GameManager.GetMap(GameManager.GetMapName() + "object.txt");
         string arts = GameManager.GetMap(GameManager.GetMapName() + "background.txt");
@@ -143,6 +149,7 @@ public class TilemapGenerator : MonoBehaviour
         }
         LoadArt(bin);
     }
+
 
     public string[,] GetMap()
     {
@@ -258,6 +265,12 @@ public class TilemapGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (started == false && GameManager.selection == 0)
+        {
+            GameManager.Init();
+            started = true;
+        }
         if(GameManager.selection == 1)
         {
             DialogueCommands.ResponseMenu();
@@ -275,6 +288,7 @@ public class TilemapGenerator : MonoBehaviour
                 }
                 GameManager.SetModule(f[selection]);
                 StartGame();
+                waittime = 1f;
                 GameManager.selection = 0;
             }
         }

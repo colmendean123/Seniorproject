@@ -1,0 +1,7 @@
+attack = 3
+slot = 1
+[ACTION:Eat Sword]
+$this.hp += 5
+PRINT "You ate the sword. It was spicy."
+PRINT "5 hp has been restored."
+TAKE sword

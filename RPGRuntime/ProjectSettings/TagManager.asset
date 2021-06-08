@@ -9,6 +9,7 @@ TagManager:
   - Console
   - Script
   - Manager
+  - Wall
   layers:
   - Default
   - TransparentFX

@@ -87,10 +87,12 @@ public static class GameManager
         turn = 0;
         path = Application.dataPath + "\\..\\modules\\" + moduleName;
         objects = new List<GameObject>();
-        foreach(GameObject i in GameObject.FindGameObjectsWithTag("Object"))
+        foreach (GameObject i in GameObject.FindGameObjectsWithTag("Object"))
         {
             objects.Add(i);
         }
+        
+        Debug(objects.Count.ToString());
         CalculateTurnOrder();
         NextTurn();
     }
@@ -136,6 +138,7 @@ public static class GameManager
         
         if (turn > objects.Count-1)
             turn = 0;
+        Debug(objects[turn].name);
         objects[turn].GetComponent<RPGObject>().BeginTurn();
         ++turn;
 
@@ -201,6 +204,7 @@ public static class GameManager
     {
         GameObject mapper = GameObject.FindGameObjectWithTag("Manager");
         mapName = mapname;
+        WipeObjects();
         mapper.GetComponent<TilemapGenerator>().LoadCurrentMap();
     }
 

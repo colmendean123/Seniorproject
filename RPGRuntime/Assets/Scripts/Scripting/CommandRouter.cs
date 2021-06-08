@@ -210,6 +210,10 @@ public class CommandRouter : MonoBehaviour
                 GameManager.LoadFromPlayer();
                 GameManager.LoadMap(map);
                 GameManager.SaveToPlayer();
+                GameObject mapper = GameObject.FindGameObjectWithTag("Manager");
+                mapper.GetComponent<TilemapGenerator>().started = false;
+                GameManager.Init();
+                
             }
             if (next.Equals("RUN"))
             {

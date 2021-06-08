@@ -14,7 +14,8 @@ public class PlayerMovement : RPGObject
     new void Start()
     {
         base.Start();
-        AddFunction(("ACTION:Inventory", new string[0]));
+        if(functions.ContainsKey("ACTIONS:Inventory"))
+            AddFunction(("ACTION:Inventory", new string[0]));
     }
 
 

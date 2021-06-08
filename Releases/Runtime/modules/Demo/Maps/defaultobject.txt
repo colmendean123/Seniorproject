@@ -1,1 +1,3 @@
 "Bumbo" X: 2 Y: 2 PLAYER
+"Knight" X: 5 Y: 2
+"DoorToMap2" X: 2 Y: 4

@@ -1,0 +1,2 @@
+"Bumbo" X: 3 Y: 7 PLAYER
+"Knight" X: 5 Y: 7

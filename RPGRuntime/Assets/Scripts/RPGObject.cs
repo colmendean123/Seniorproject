@@ -81,22 +81,26 @@ public class RPGObject : MonoBehaviour
     {
        
         string[] loadedattack = GameManager.LoadFile("Moves", filename);
-        attacknames.Add(loadedattack[0].Substring(2));
-        attacks.Add(loadedattack);
+        if (!attacknames.Contains(loadedattack[0].Substring(2)))
+        {
+            attacknames.Add(loadedattack[0].Substring(2));
+            attacks.Add(loadedattack);
+        }
     }
 
     public void RemoveMove(string filename)
     {
 
         string[] loadedattack = GameManager.LoadFile("Moves", filename);
-        attacknames.Remove(loadedattack[0].Substring(2));
-        attacks.Remove(loadedattack);
+        if (attacknames.Contains(loadedattack[0].Substring(2)))
+        {
+            attacknames.Remove(loadedattack[0].Substring(2));
+            attacks.Remove(loadedattack);
+        }
     }
 
     public void BeginTurn()
     {
-        //GameObject.FindGameObjectWithTag("Console").GetComponent<HUDScript>().GetSaved();
-        //GameObject.FindGameObjectWithTag("Console").GetComponent<HUDScript>().SetSaved();
         DoFunction("TURNSTART");
         turn = true;
     }
