@@ -340,7 +340,7 @@ public class RPGObject : MonoBehaviour
         ChangeInt("Y", posy);
         if (intvars.ContainsKey("HP"))
         {
-            if (GetInt("HP") < 0)
+            if (GetInt("HP") <= 0)
             {
 
                 DoFunction("ONDESTROY");

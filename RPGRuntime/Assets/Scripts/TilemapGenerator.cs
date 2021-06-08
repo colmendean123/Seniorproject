@@ -132,6 +132,7 @@ public class TilemapGenerator : MonoBehaviour
         inst.GetComponent<SpriteRenderer>().enabled = true;
         inst.GetComponent<RPGObject>().SetID(assign);
         inst.GetComponent<RPGObject>().Initialize(obj);
+        inst.GetComponent<RPGObject>().stringvars["FULLNAME"] = obj+assign.ToString();
     }
 
     private void ParseArt(string str)
@@ -269,6 +270,7 @@ public class TilemapGenerator : MonoBehaviour
         if (started == false && GameManager.selection == 0)
         {
             GameManager.Init();
+            GameManager.LoadFromPlayer();
             started = true;
         }
         if(GameManager.selection == 1)

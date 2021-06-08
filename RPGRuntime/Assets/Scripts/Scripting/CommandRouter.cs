@@ -199,10 +199,12 @@ public class CommandRouter : MonoBehaviour
             if (next.Equals("AGGRO"))
             {
                 this.gameObject.GetComponent<RPGObject>().target = RPGObject.FindWithName(token.GetNext());
+                Nextstep();
             }
             if (next.Equals("DEAGGRO"))
             {
                 this.gameObject.GetComponent<RPGObject>().target = null;
+                Nextstep();
             }
             if (next.Equals("SWITCHMAP"))
             {
@@ -228,7 +230,7 @@ public class CommandRouter : MonoBehaviour
                 string[] inputs = GameManager.LoadFile("Scripts", script);
                 cmd.Assign(inputs, this.gameObject);
                 cmd.ExecuteStep(0);
-
+                Nextstep();
             }
             if (next.Equals("GETRESPONSE"))
             {
@@ -262,12 +264,13 @@ public class CommandRouter : MonoBehaviour
             if (next.Equals("LOCK"))
             {
                 next = token.GetNext();
-                GameObject.Find(next).GetComponent<RPGObject>().Lock(true);
+                RPGObject.FindWithName(next).GetComponent<RPGObject>().Lock(true);
                 Nextstep();
             }
             if (next.Equals("UNLOCK"))
             {
-                GameObject.Find(token.GetNext()).GetComponent<RPGObject>().Lock(false);
+                next = token.GetNext();
+                RPGObject.FindWithName(next).GetComponent<RPGObject>().Lock(false);
                 Nextstep();
             }
             if (next.Equals("RAND"))
@@ -401,10 +404,12 @@ public class CommandRouter : MonoBehaviour
                 if (next.Equals("AGGRO"))
                 {
                     RPGObject.FindWithName(target).GetComponent<RPGObject>().target = RPGObject.FindWithName(token.GetNext());
+                    Nextstep();
                 }
                 if (next.Equals("DEAGGRO"))
                 {
                     RPGObject.FindWithName(target).GetComponent<RPGObject>().target = null;
+                    Nextstep();
                 }
                 //pass along the SAY command with the target for simple targeting.
                 if (command.Equals("SAY")){
@@ -418,6 +423,7 @@ public class CommandRouter : MonoBehaviour
                     int.TryParse(token.GetNext(), out y);
                     GameObject i = RPGObject.FindWithName(target);
                     i.GetComponent<RPGObject>().SetPosition(x, y);
+                    Nextstep();
                 }
                 if(command.Equals("=")){
                     string var = token.GetNext();
