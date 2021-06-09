@@ -1,0 +1,14 @@
+LOCK Bumbo
+NEWRESPONSE
+ADDRESPONSE "Hello there. Do you have any news?"
+ADDRESPONSE "We should be pals!"
+GETRESPONSE resp
+IF $resp IS 1:
+	$this SAY "HOLY CRAP, sure!"
+	$this SAY "Since we're friends, I want to give you this!"
+	PRINT "Recieved Edible Sword."
+	GIVE EdibleSword.txt
+IF $resp IS 0:
+	$this SAY "No, just that this whole thing took so long there was no way we were gonna have lore in the campaign."
+	PRINT "A shame, but the project goal was reached anyways."
+UNLOCK Bumbo

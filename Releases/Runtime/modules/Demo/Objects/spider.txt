@@ -1,0 +1,19 @@
+name = Spider
+sprite = spider.png
+hp = 10
+defense = 1
+attack = 2
+speed = 3
+[ONSTART]
+ADDMOVE Bite.txt
+[TURNSTART]
+$this DISTANCE Bumbo1 dist
+if ($dist) ISLESSTHAN 6 :
+	AGGRO Elrich
+[ONDESTROY]
+RAND 50:
+	PRINT "The spider drops a venom
+[ACTION:Examine]
+PRINT "This creature looks dumb, but every time it bites me it gets stronger."
+PRINT "I'd do well to avoid letting them cluster."
+ENDTURN

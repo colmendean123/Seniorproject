@@ -44,8 +44,14 @@ namespace Scripting{
 
         public static void MoveSelection(int i)
         {
-            if(selected + i > -1 && selected + i < responses.Count)
-            selected += i;
+            if (selected + i > -1 && selected + i < responses.Count)
+            {
+                selected += i;
+                if (selected > camera + 4)
+                    camera += 1;
+                if (selected < camera)
+                    camera -= 1;
+            }
         }
 
         public static void Clear()

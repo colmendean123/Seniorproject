@@ -1,0 +1,7 @@
+//Hype Up
+$value = $this.baseattack
+IF $value is less than 1 :
+	$value = 1
+$this.tempattack = 0
+$this.tempattack += $value
+PRINT "$this.name hypes himself up, strengthening his spirit!"

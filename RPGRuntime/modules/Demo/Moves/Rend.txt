@@ -1,0 +1,11 @@
+//Rend Armor
+$value = $this.attack - 2
+$target.defense -= 4
+IF $target.defense ISLESSTHAN 0:
+	$target.defense = 0
+$value = $this.attack - $target.defense
+IF $value is less than 1 :
+	$value = 1
+$this.tempattack += $value
+PRINT "$this.name rends the armor of $target.name !"
+PRINT "They take $value damage and lose 4 armor!!"

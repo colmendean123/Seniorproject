@@ -4,10 +4,17 @@ hp = 20
 level = 1
 defense = 3
 attack = 3
+baseattack = 3
+tempattack = 0
 speed = 3
 slots = 1
 [ONSTART]
 ADDMOVE BasicAttack.txt
+ADDMOVE Heal.txt
+[TURNSTART]
+$this.attack = ($this.baseattack + $this.tempattack)
+IF ($this.tempattack) ISGREATERTHAN 0:
+	$this.tempattack -= 1
 [ACTION:Check Yourself]
 PRINT "Bumbo has $this.hp / $this.MAXHP HP."
 PRINT "Defense: $this.defense"

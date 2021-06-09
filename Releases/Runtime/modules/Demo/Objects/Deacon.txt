@@ -1,0 +1,6 @@
+sprite = defender.png
+hp = 1000
+[TURNSTART]
+$this.hp = 1000
+[ACTION:Talk]
+RUN exampledialogue.txt

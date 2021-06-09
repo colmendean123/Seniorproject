@@ -24,7 +24,7 @@ public class PlayerMovement : RPGObject
     new void Update()
     {
         base.Update();
-        if(!locked && turn)
+        if (!locked && turn)
             Control();
         
     }

@@ -1,0 +1,7 @@
+//Noxious Goo
+$value = $this.attack - 2
+IF $value is less than 0 :
+	$value = 0
+$target.hp -= $value
+PRINT "$this,name spits noxious goo that melts through armor!"
+PRINT "$it burns for $value damage!"

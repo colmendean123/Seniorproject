@@ -4,7 +4,8 @@ hp = 10
 defense = 5
 attack = 2
 Faction = 4
-speed = 3
+speed = 1
+go = 0
 [ONSTART]
 ADDMOVE BasicAttack.txt
 [TURNSTART]
@@ -12,7 +13,7 @@ $this DISTANCE Bumbo dist
 if ($dist) ISLESSTHAN 4 :
 	AGGRO Bumbo
 [ACTION:Examine]
-PRINT "These knights ain't so tough!"
+PRINT "These knights ain't so tough! If I could just do in that armor..."
 if $this.hp > 5:
 	PRINT "Looks like he's fine."
 	ENDTURN

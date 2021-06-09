@@ -1,6 +1,6 @@
 name = GreenThing
 sprite = globert.png
-hp = 10
+hp = 100
 defense = 5
 attack = 4
 Faction = 4
@@ -16,6 +16,8 @@ if $this.calm IS 2:
 [TURNSTART]
 $this DISTANCE Bumbo dist
 if ($this.calm) IS 0 AND ($dist) ISLESSTHAN 3:
+	$Bumbo1.hp -= 1
+	PRINT "Its mere presence drains your health."
 	AGGRO Bumbo
 [ACTION:Examine]
 PRINT "What the heck is this thing?"

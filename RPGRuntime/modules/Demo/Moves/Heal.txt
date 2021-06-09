@@ -1,0 +1,6 @@
+//Healing Salve
+$value = $this.attack
+IF $value is less than 1 :
+	$value = 1
+$target.hp += $value
+PRINT "$this.name applies a healing paste, healing for $this.value"

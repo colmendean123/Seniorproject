@@ -6,6 +6,7 @@ public class Item
 {
     string name;
     public SortedDictionary<string, string[]> actions = new SortedDictionary<string, string[]>();
+    public SortedDictionary<string, string[]> functions = new SortedDictionary<string, string[]>();
     RPGObject player = GameManager.GetPlayer().GetComponent<RPGObject>();
     public bool equipped = false;
     public int slot = 0;
@@ -80,7 +81,7 @@ public class Item
         else
         {
             name = name.ToUpper();
-            actions.Add(name, function);
+            functions.Add(name, function);
         }
     }
 
@@ -97,6 +98,7 @@ public class Item
 
     public void Equip()
     {
+        GameManager.GetPlayer().GetComponent<RPGObject>().DoExtFunction(functions["ONEQUIP"]);
         int tryslot = 0;
         string[] parameters = GameManager.LoadFile("Items", name+".txt");
         foreach (string str in parameters)
@@ -160,6 +162,7 @@ public class Item
 
     public void UnEquip()
     {
+        GameManager.GetPlayer().GetComponent<RPGObject>().DoExtFunction(functions["ONUNEQUIP"]);
         int tryslot = 0;
         string[] parameters = GameManager.LoadFile("Items", name + ".txt");
         foreach (string str  in parameters)

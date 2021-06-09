@@ -1,0 +1,9 @@
+//Spider Bite
+$value = $this.attack
+$value -= $target.defense
+IF $value is less than 1 :
+	$value = 1
+$target.hp -= $value
+$this.attack += 2
+PRINT "$this.name bites you for $value damage!"
+PRINT "$this.name gains 1 attack point!"

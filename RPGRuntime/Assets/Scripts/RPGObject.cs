@@ -299,6 +299,11 @@ public class RPGObject : MonoBehaviour
                 tosearch.Add(i);
             }
             ++dist;
+            if(dist > 7)
+            {
+                targetfound = true;
+                continue;
+            }
            
         }
         //get the completed paths

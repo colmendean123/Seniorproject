@@ -1,0 +1,34 @@
+name = GreenThing
+sprite = globert.png
+hp = 10
+defense = 5
+attack = 4
+Faction = 4
+speed = 3
+calm = 0
+[ONSTART]
+ADDMOVE BasicAttack.txt
+[ONDESTROY]
+if $this.calm IS 1:
+	PRINT "You feel the cold sting of betrayal leaving your blade."
+if $this.calm IS 2:
+	PRINT "The odd fellow leaves."
+[TURNSTART]
+$this DISTANCE Bumbo dist
+if ($this.calm) IS 0 AND ($dist) ISLESSTHAN 3:
+	AGGRO Bumbo
+[ACTION:Examine]
+PRINT "What the heck is this thing?"
+[ACTION:Talk]
+if $this.calm IS 0:
+	LOCK Bumbo1
+	Bumbo1 SAY "Hey, pal! Can you stop hitting me?"
+	SAY "Oh, my apologies. I didn't realize you were sentient."
+	$this.calm = 1
+	$this.hp = 1
+	UNLOCK Bumbo1
+	DEAGGRO
+if $this.calm is 1:
+	SAY "Again, so sorry."
+	$this.calm = 2
+	DESTROY $this.fullname

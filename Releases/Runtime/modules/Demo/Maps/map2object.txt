@@ -1,2 +1,6 @@
 "Bumbo" X: 3 Y: 7 PLAYER
-"GreenThing" X: 5 Y: 7
+"spider" X: 5 Y: 7
+"spider" X: 9 Y: 8
+"spider" X: 36 Y: 4
+"spider" X: 41 Y: 4
+"GreenThing" X: 39 Y: 47

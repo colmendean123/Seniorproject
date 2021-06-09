@@ -15,6 +15,8 @@ public class ObjectAI : RPGObject
         base.Update();
         if (turn == true)
         {
+            if (target == null)
+                EndTurn();
             timer -= Time.deltaTime;
             if (timer < 0f)
             {
@@ -39,13 +41,13 @@ public class ObjectAI : RPGObject
                         Attack(attack, target.gameObject);
                     }
                     EndTurn();
-                    timer = 0.2f;
+                    timer = 0.1f;
 
                 }
                 else
                 {
                     EndTurn();
-                    timer = 0.2f;
+                    timer = 0.1f;
                 }
             }
         }
