@@ -17,22 +17,23 @@ if $this.calm IS 2:
 	PRINT "That's about it for the sample content."
 [TURNSTART]
 $this DISTANCE Bumbo dist
-if ($this.calm) IS 0 AND ($dist) ISLESSTHAN 3:
-	$Bumbo1.hp -= 1
-	PRINT "Its mere presence drains your health."
+if $this.dist ISLESSTHAN 3:
 	AGGRO Bumbo
+if $this.calm IS 1:
+	DEAGGRO Bumbo
+	PRINT "CALM"
 [ACTION:Examine]
 PRINT "What the heck is this thing?"
 [ACTION:Talk]
+if $this.calm is 1:
+	SAY "Again, so sorry."
+	$this.calm = 2
+	DESTROY $this.fullname
 if $this.calm IS 0:
+	REMOVEMOVE BasicAttack.txt
 	LOCK Bumbo1
 	Bumbo1 SAY "Hey, pal! Can you stop hitting me?"
 	SAY "Oh, my apologies. I didn't realize you were sentient."
 	$this.calm = 1
 	$this.hp = 1
 	UNLOCK Bumbo1
-	DEAGGRO
-if $this.calm is 1:
-	SAY "Again, so sorry."
-	$this.calm = 2
-	DESTROY $this.fullname

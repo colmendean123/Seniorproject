@@ -4,7 +4,7 @@ slot = 1
 $this.hp += 5
 PRINT "You ate the sword. It was spicy."
 PRINT "5 hp has been restored."
-TAKE sword
+TAKE EdibleSword
 [ONEQUIP]
 $this.attack = $this.baseattack + $this.tempattack
 ADDMOVE Rend.txt

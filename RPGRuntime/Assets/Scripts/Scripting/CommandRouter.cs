@@ -105,6 +105,7 @@ public class CommandRouter : MonoBehaviour
             logicdepth = depth;
         if (logicdepth != depth)
         {
+            GameManager.PrintPerm("NEXT");
             Nextstep();
             return;
         }
@@ -203,7 +204,7 @@ public class CommandRouter : MonoBehaviour
             }
             if (next.Equals("DEAGGRO"))
             {
-                this.gameObject.GetComponent<RPGObject>().target = null;
+                this.gameObject.GetComponent<RPGObject>().target = RPGObject.FindWithName(null);
                 Nextstep();
             }
             if (next.Equals("SWITCHMAP"))
@@ -408,7 +409,7 @@ public class CommandRouter : MonoBehaviour
                 }
                 if (command.Equals("DEAGGRO"))
                 {
-                    RPGObject.FindWithName(target).GetComponent<RPGObject>().target = null;
+                    RPGObject.FindWithName(target).GetComponent<RPGObject>().target = RPGObject.FindWithName(null);
                     Nextstep();
                 }
                 //pass along the SAY command with the target for simple targeting.
