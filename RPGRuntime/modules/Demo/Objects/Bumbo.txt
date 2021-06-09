@@ -8,6 +8,7 @@ baseattack = 3
 tempattack = 0
 speed = 3
 slots = 1
+saveup = 0
 [ONSTART]
 ADDMOVE BasicAttack.txt
 ADDMOVE Heal.txt

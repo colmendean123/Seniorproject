@@ -98,7 +98,7 @@ public class Item
 
     public void Equip()
     {
-        GameManager.GetPlayer().GetComponent<RPGObject>().DoExtFunction(functions["ONEQUIP"]);
+        
         int tryslot = 0;
         string[] parameters = GameManager.LoadFile("Items", name+".txt");
         foreach (string str in parameters)
@@ -158,11 +158,12 @@ public class Item
                 player.ChangeString(key, value);
             }
         }
+        GameManager.GetPlayer().GetComponent<RPGObject>().DoExtFunction(functions["ONEQUIP"]);
     }
 
     public void UnEquip()
     {
-        GameManager.GetPlayer().GetComponent<RPGObject>().DoExtFunction(functions["ONUNEQUIP"]);
+        
         int tryslot = 0;
         string[] parameters = GameManager.LoadFile("Items", name + ".txt");
         foreach (string str  in parameters)
@@ -211,5 +212,6 @@ public class Item
                 player.ChangeString(key, value);
             }
         }
+        GameManager.GetPlayer().GetComponent<RPGObject>().DoExtFunction(functions["ONUNEQUIP"]);
     }
 }

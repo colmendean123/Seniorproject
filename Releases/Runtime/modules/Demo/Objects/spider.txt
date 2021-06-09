@@ -9,10 +9,14 @@ ADDMOVE Bite.txt
 [TURNSTART]
 $this DISTANCE Bumbo1 dist
 if ($dist) ISLESSTHAN 6 :
-	AGGRO Elrich
+	AGGRO Bumbo1
 [ONDESTROY]
+$Bumbo1.killed += 1
+PRINT "The spider withers away."
 RAND 50:
-	PRINT "The spider drops a venom
+	PRINT "The spider drops an egg sack!"
+	PRINT "It will heal you, for some reason."
+	GIVE HealingVenom.txt
 [ACTION:Examine]
 PRINT "This creature looks dumb, but every time it bites me it gets stronger."
 PRINT "I'd do well to avoid letting them cluster."

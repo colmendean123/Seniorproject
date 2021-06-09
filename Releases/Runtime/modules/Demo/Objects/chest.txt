@@ -4,9 +4,11 @@ opened = 0
 [TURNSTART]
 $this.hp = 1000
 [ACTION:Open]
+if $this.opened is 1:
+	PRINT "You've already opened this, you greedy fiend!"
 if $this.opened is 0:
 	$this.opened = 1
 	PRINT "You find a sword. It looks delicious."
 	GIVE EdibleSword.txt
-if $this.opened is 1:
-	PRINT "You've already opened this, you greedy fiend!"
+	PRINT "You also find Plated Armor. Not so tasty."
+	GIVE PlateArmor.txt

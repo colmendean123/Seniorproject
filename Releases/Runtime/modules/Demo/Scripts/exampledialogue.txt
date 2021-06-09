@@ -1,4 +1,4 @@
-LOCK Bumbo1
+LOCK Bumbo
 NEWRESPONSE
 ADDRESPONSE "Hello there. Do you have any news?"
 ADDRESPONSE "We should be pals!"
@@ -6,10 +6,11 @@ GETRESPONSE resp
 IF $resp IS 1:
 	$this SAY "HOLY CRAP, sure!"
 	$this SAY "Since we're friends, I want to teach you something."
-	$this SAY "Focus your energy to double your strength! It dissapates over time."
+	$this SAY "Focus your energy to double your strength!"
+	$this SAY "Of course, it won't last forever."
 	PRINT "Learned Hype Up."
-	ADDMOVE Hype.txt
+	Bumbo ADDMOVE Hype.txt
 IF $resp IS 0:
-	$this SAY "No, just that this whole thing took so long there was no way we were gonna have lore in the campaign."
+	$this SAY "Nah, I'm just a test NPC."
 	PRINT "A shame, but the project goal was reached anyways."
-UNLOCK Bumbo1
+UNLOCK Bumbo

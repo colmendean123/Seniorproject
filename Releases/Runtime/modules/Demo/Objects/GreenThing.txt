@@ -11,8 +11,10 @@ ADDMOVE BasicAttack.txt
 [ONDESTROY]
 if $this.calm IS 1:
 	PRINT "You feel the cold sting of betrayal leaving your blade."
+	$Bumbo1.killed += 1
 if $this.calm IS 2:
 	PRINT "The odd fellow leaves."
+	PRINT "That's about it for the sample content."
 [TURNSTART]
 $this DISTANCE Bumbo dist
 if ($this.calm) IS 0 AND ($dist) ISLESSTHAN 3:

@@ -138,7 +138,6 @@ public static class GameManager
         
         if (turn > objects.Count-1)
             turn = 0;
-        Debug(objects[turn].name);
         objects[turn].GetComponent<RPGObject>().BeginTurn();
         ++turn;
 
@@ -204,8 +203,9 @@ public static class GameManager
     {
         GameObject mapper = GameObject.FindGameObjectWithTag("Manager");
         mapName = mapname;
+        Debug("MAP: " + mapname);
         WipeObjects();
-        mapper.GetComponent<TilemapGenerator>().LoadCurrentMap();
+        mapper.GetComponent<TilemapGenerator>().LoadCurrentMap(mapname);
     }
 
     //Loading for sprites

@@ -1,0 +1,7 @@
+slot = 0
+[ACTION:Eat]
+$this.maxhp += 5
+$this.hp += 10
+PRINT "You ate the venom. It patched you up better than new!"
+PRINT "10 hp has been restored. Max HP increased by 5"
+TAKE HealingVenom

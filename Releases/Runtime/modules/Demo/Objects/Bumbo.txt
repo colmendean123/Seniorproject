@@ -3,15 +3,22 @@ sprite = bumbo.png
 hp = 20
 level = 1
 defense = 3
-attack = 3
+attack = 5
 baseattack = 3
+basedefense = 3
 tempattack = 0
 speed = 3
-slots = 1
+slots = 2
+killed = 0
 [ONSTART]
 ADDMOVE BasicAttack.txt
 ADDMOVE Heal.txt
+[ONDESTROY]
+PRINT "Alas, poor Bumbo. He only killed $this.killed creatures."
+PRINT "Exit the game and try again!"
 [TURNSTART]
+if $this.defense ISLESSTHAN $this.basedefense:
+	$this.defense += 1
 $this.attack = ($this.baseattack + $this.tempattack)
 IF ($this.tempattack) ISGREATERTHAN 0:
 	$this.tempattack -= 1
@@ -20,3 +27,4 @@ PRINT "Bumbo has $this.hp / $this.MAXHP HP."
 PRINT "Defense: $this.defense"
 PRINT "Attack: $this.attack"
 PRINT "Speed: $this.speed"
+PRINT "Your position is X: $this.x Y: $this.y"

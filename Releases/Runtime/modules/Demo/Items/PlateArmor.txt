@@ -1,0 +1,6 @@
+basedefense = 5
+slot = 2
+[ACTION:Shine Armor]
+PRINT "You shined your armor, just for fun."
+[ONEQUIP]
+$this.defense = $this.basedefense

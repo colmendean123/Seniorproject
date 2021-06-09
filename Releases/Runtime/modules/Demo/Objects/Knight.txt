@@ -5,7 +5,11 @@ defense = 5
 attack = 2
 Faction = 4
 speed = 1
-go = 0
+[ONDESTROY]
+PRINT "The knight falls before you."
+$Bumbo1.killed += 1
+RAND 10:
+	PRINT "Congrats."
 [ONSTART]
 ADDMOVE BasicAttack.txt
 [TURNSTART]

@@ -387,26 +387,26 @@ public class CommandRouter : MonoBehaviour
                     Set("$"+targetvar, change);
                     Nextstep();
                 }
-                if (next.Equals("ADDMOVE"))
+                if (command.Equals("ADDMOVE"))
                 {
                     string var = token.GetNext();
                     RPGObject.FindWithName(target).GetComponent<RPGObject>().AddMove(var);
 
                     Nextstep();
                 }
-                if (next.Equals("ADDMOVE"))
+                if (command.Equals("REMOVEMOVE"))
                 {
                     string var = token.GetNext();
                     RPGObject.FindWithName(target).GetComponent<RPGObject>().RemoveMove(var);
 
                     Nextstep();
                 }
-                if (next.Equals("AGGRO"))
+                if (command.Equals("AGGRO"))
                 {
                     RPGObject.FindWithName(target).GetComponent<RPGObject>().target = RPGObject.FindWithName(token.GetNext());
                     Nextstep();
                 }
-                if (next.Equals("DEAGGRO"))
+                if (command.Equals("DEAGGRO"))
                 {
                     RPGObject.FindWithName(target).GetComponent<RPGObject>().target = null;
                     Nextstep();

@@ -23,13 +23,13 @@ public class TilemapGenerator : MonoBehaviour
     public void StartGame()
     {
         
-        LoadCurrentMap();
+        LoadCurrentMap(GameManager.GetMapName());
         GameManager.Init();
     }
 
     
     //Loads the current map files. Does not replace the map currently loaded
-    public void LoadCurrentMap()
+    public void LoadCurrentMap(string mapname)
     {
         GameObject[] walls = GameObject.FindGameObjectsWithTag("Wall");
         foreach(GameObject i in walls)
@@ -37,9 +37,12 @@ public class TilemapGenerator : MonoBehaviour
             Destroy(i);
         }
         assignid = new Dictionary<string, int>();
-        string tiles = GameManager.GetMap(GameManager.GetMapName() + "tile.txt");
-        string objects = GameManager.GetMap(GameManager.GetMapName() + "object.txt");
-        string arts = GameManager.GetMap(GameManager.GetMapName() + "background.txt");
+        string tiles = GameManager.GetMap(mapname + "tile.txt");
+        Debug.Log(GameManager.GetMapName() + "background.txt");
+        string objects = GameManager.GetMap(mapname + "object.txt");
+        Debug.Log(GameManager.GetMapName() + "background.txt");
+        string arts = GameManager.GetMap(mapname + "background.txt");
+        Debug.Log(GameManager.GetMapName() + "background.txt");
         size = defsize;
 
         ParseCollision(tiles);
@@ -213,6 +216,7 @@ public class TilemapGenerator : MonoBehaviour
 
     private void LoadArt(string[] map)
     {
+        //foreach(GameObject i in GameObject.FindGameObjectsWith())
         //map out the objects that place the black collision tiles into the game
         Dictionary<string, Texture2D> spritedict = new Dictionary<string, Texture2D>();
         float posx = 0f;
@@ -269,6 +273,7 @@ public class TilemapGenerator : MonoBehaviour
 
         if (started == false && GameManager.selection == 0)
         {
+            Debug.Log("Trigger!");
             GameManager.Init();
             GameManager.LoadFromPlayer();
             started = true;
